@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateTurmasTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('turmas', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->string('codigo');
+
+            $table->uuid('grade_id');
+            $table->foreign('grade_id')->references('id')->on('grades');
+
+            $table->timestamps();
+            $table->softDeletes();
+            $table->primary('id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('turmas');
+    }
+}

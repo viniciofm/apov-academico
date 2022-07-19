@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateCidadeTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('cidades', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->string('nome',100);
+            $table->integer('codigo_ibge');
+            $table->uuid('estado_id');
+            $table->foreign('estado_id')->references('id')->on('estados');
+
+            $table->timestamps();
+            $table->softDeletes();
+            $table->primary('id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('cidades');
+    }
+}

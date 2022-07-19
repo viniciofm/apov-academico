@@ -1,0 +1,9 @@
+{
+    "Student": true,
+    "Course": true,
+    "User": true,
+    "Company": true,
+    "Instituition": true,
+    "Content": true,
+    "Teacher": true
+}
