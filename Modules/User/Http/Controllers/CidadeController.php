@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Content\Http\Controllers;
+namespace Modules\User\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ContentController extends Controller
+class CidadeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ContentController extends Controller
      */
     public function index()
     {
-        return view('content::index');
+        return view('user::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class ContentController extends Controller
      */
     public function create()
     {
-        return view('content::create');
+        return view('user::create');
     }
 
     /**
@@ -43,7 +43,7 @@ class ContentController extends Controller
      */
     public function show($id)
     {
-        return view('content::show');
+        return view('user::show');
     }
 
     /**
@@ -53,7 +53,7 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
-        return view('content::edit');
+        return view('user::edit');
     }
 
     /**

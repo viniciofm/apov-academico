@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Teacher\Http\Controllers;
+namespace Modules\Content\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
-class TeacherController extends Controller
+class AulaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('teacher::index');
+        return view('content::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('teacher::create');
+        return view('content::create');
     }
 
     /**
@@ -43,7 +43,7 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        return view('teacher::show');
+        return view('content::show');
     }
 
     /**
@@ -53,7 +53,7 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        return view('teacher::edit');
+        return view('content::edit');
     }
 
     /**

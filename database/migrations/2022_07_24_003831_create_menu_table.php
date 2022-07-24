@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateMenuTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('name');
-            $table->string('cpf_cnpj',14);
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->integer('posicao');
+            $table->string('nome');
+            $table->string('url');
+            $table->string('icon');
 
-            $table->boolean('blocked')->default(false);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->uuid('tipo_usuario_id');
+            $table->foreign('tipo_usuario_id')->references('id')->on('tipo_usuarios');
+
             $table->timestamps();
             $table->softDeletes();
-
             $table->primary('id');
         });
     }
@@ -37,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('menus');
     }
 }

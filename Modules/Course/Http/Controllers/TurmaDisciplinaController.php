@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Student\Http\Controllers;
+namespace Modules\Course\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class StudentController extends Controller
+class TurmaDisciplinaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('student::index');
+        return view('course::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('student::create');
+        return view('course::create');
     }
 
     /**
@@ -43,7 +43,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return view('student::show');
+        return view('course::show');
     }
 
     /**
@@ -53,7 +53,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        return view('student::edit');
+        return view('course::edit');
     }
 
     /**

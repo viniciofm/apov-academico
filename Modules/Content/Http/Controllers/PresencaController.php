@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Instituition\Http\Controllers;
+namespace Modules\Content\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
-class InstituitionController extends Controller
+class PresencaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class InstituitionController extends Controller
      */
     public function index()
     {
-        return view('instituition::index');
+        return view('company::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class InstituitionController extends Controller
      */
     public function create()
     {
-        return view('instituition::create');
+        return view('company::create');
     }
 
     /**
@@ -43,7 +43,7 @@ class InstituitionController extends Controller
      */
     public function show($id)
     {
-        return view('instituition::show');
+        return view('company::show');
     }
 
     /**
@@ -53,7 +53,7 @@ class InstituitionController extends Controller
      */
     public function edit($id)
     {
-        return view('instituition::edit');
+        return view('company::edit');
     }
 
     /**
