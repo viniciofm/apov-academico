@@ -21,7 +21,10 @@ class Curso extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'sigla',
+        'nome',
+        'instituicao_id'
     ];
 
     protected $casts = [

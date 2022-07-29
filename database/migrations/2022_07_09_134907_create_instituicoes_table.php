@@ -21,9 +21,9 @@ class CreateInstituicoesTable extends Migration
             $table->string('telefone_contato',15);
             $table->string('cpf_cnpj', 14);
             $table->string('tipo_documento',4);
-            $table->string('logomarca');
+            $table->string('logomarca')->nullable();
 
-            $table->uuid('endereco_id');
+            $table->uuid('endereco_id')->nullable();
             $table->foreign('endereco_id')->references('id')->on('enderecos');
 
             $table->timestamps();

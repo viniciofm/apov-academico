@@ -21,7 +21,16 @@ class Empresa extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'nome',
+        'email',
+        'responsavel',
+        'telefone_contato',
+        'cpf_cnpj',
+        'tipo_documento',
+        'logomarca',
+        'user_id',
+        'ativo'
     ];
 
     protected $casts = [

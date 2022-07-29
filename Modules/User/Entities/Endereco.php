@@ -21,11 +21,17 @@ class Endereco extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'rua',
+        'numero',
+        'bairro',
+        'complemento',
+        'cep',
+        'cidade_id'
     ];
 
     protected $casts = [
-
+        'numero' => 'int',
     ];
 
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use App\Scopes\BlockedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,10 +24,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
+        'tipo_usuario_id',
+        'instituicao_id',
         'name',
         'cpf_cnpj',
+        'tipo_documento',
         'email',
+        'endereco_id',
         'password',
+        'blocked',
+        'email_verified_at',
+        'remember_token'
     ];
 
     /**
@@ -46,5 +55,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'blocker' => 'boolean',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new BlockedScope());
+    }
 }

@@ -21,7 +21,9 @@ class Cidade extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'nome',
+        'estado_id'
     ];
 
     protected $casts = [

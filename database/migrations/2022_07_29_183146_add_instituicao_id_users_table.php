@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTipoDocumentoUsersTable extends Migration
+class AddInstituicaoIdUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddTipoDocumentoUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('tipo_documento',4)->after('cpf_cnpj');
+            $table->uuid('instituicao_id')->after('tipo_usuario_id');
+            $table->foreign('instituicao_id')->references('id')->on('instituicoes');
         });
     }
 
@@ -25,8 +26,8 @@ class AddTipoDocumentoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->removeColumn('tipo_documento');
+        Schema::table('instituicoes', function (Blueprint $table) {
+            $table->removeColumn('instituicao_id');
         });
     }
 }

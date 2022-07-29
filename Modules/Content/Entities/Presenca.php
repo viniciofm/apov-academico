@@ -21,7 +21,10 @@ class Presenca extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'presente',
+        'matricula_id',
+        'aula_id'
     ];
 
     protected $casts = [

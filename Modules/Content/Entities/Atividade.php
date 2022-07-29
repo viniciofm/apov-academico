@@ -21,7 +21,11 @@ class Atividade extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'titulo',
+        'descricao',
+        'data',
+        'turma_disciplina_id'
     ];
 
     protected $casts = [

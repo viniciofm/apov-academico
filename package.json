@@ -16,6 +16,6 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
-        "vue": "^3.2.37"
+        "vue": "^2"
     }
 }

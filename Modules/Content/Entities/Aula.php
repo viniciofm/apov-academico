@@ -21,7 +21,10 @@ class Aula extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'data',
+        'conteudo',
+        'turma_disciplina_id'
     ];
 
     protected $casts = [

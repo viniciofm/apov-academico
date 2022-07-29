@@ -21,7 +21,10 @@ class TurmaDisciplina extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'turma_id',
+        'professor_id',
+        'disciplina_id'
     ];
 
     protected $casts = [

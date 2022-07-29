@@ -21,11 +21,15 @@ class Aluno extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'matricula',
+        'cpf',
+        'telefone',
+        'user_id'
     ];
 
     protected $casts = [
-
+        'matricula' => 'int',
     ];
 
 }

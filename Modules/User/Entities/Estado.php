@@ -21,7 +21,9 @@ class Estado extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'nome',
+        'sigla'
     ];
 
     protected $casts = [

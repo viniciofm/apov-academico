@@ -21,7 +21,9 @@ class Turma extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'codigo',
+        'grade_id'
     ];
 
     protected $casts = [

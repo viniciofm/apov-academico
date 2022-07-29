@@ -21,7 +21,11 @@ class Grade extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'ano',
+        'periodo',
+        'codigo',
+        'curso_id'
     ];
 
     protected $casts = [

@@ -21,7 +21,14 @@ class Matricula extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'curso_id',
+        'turma_id',
+        'empresa_id',
+        'aluno_id',
+        'nota_final',
+        'status',
+        'conceito'
     ];
 
     protected $casts = [

@@ -21,7 +21,11 @@ class Disciplina extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'sigla',
+        'nome',
+        'carga_horaria',
+        'grade_id'
     ];
 
     protected $casts = [

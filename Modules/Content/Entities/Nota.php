@@ -21,7 +21,10 @@ class Nota extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'nota',
+        'matricula_id',
+        'atividade_id'
     ];
 
     protected $casts = [

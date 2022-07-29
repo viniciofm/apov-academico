@@ -2,6 +2,7 @@
 
 namespace Modules\Teacher\Entities;
 
+use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,11 +22,20 @@ class Professor extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'matricula',
+        'ativo',
+        'user_id'
     ];
 
     protected $casts = [
-
+        'ativo' => 'boolean',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActivedScope());
+    }
 }

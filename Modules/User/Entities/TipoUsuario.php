@@ -21,7 +21,8 @@ class TipoUsuario extends Model
      * @var array
      */
     protected $fillable = [
-
+        'id',
+        'nome'
     ];
 
     protected $casts = [

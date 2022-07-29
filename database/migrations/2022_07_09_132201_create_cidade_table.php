@@ -16,7 +16,6 @@ class CreateCidadeTable extends Migration
         Schema::create('cidades', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('nome',100);
-            $table->integer('codigo_ibge');
             $table->uuid('estado_id');
             $table->foreign('estado_id')->references('id')->on('estados');
 
