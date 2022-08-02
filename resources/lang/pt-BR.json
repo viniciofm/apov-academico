@@ -92,5 +92,7 @@
   "insert a valid ticket": "Insira um cupom válido.",
   "this ticket does not belong to any cart event": "este cupom não pertence a nenhum evento de carrinho.",
   "ticket was not found": "Cupom não foi encontrado.",
-  "invalid coupon": "Cupom inválido."
+  "invalid coupon": "Cupom inválido.",
+  "Sign in to your account to continue": "Faça o login para acessar a sua conta.",
+  "Whoops! Something went wrong.": "Oops! Encontramos alguns erros:"
 }
