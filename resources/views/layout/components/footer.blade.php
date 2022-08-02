@@ -25,7 +25,7 @@
             </div>
             <div class="col-4 text-end">
                 <p class="mb-0">
-                    <i class="fab fa-rebel"></i> {{now()->year}} - <a href="https://github.com/VinicioFragosoMendes" target="_blank" class="text-muted">Desenvolvido por VFMENDES</a>
+                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/VinicioFragosoMendes" target="_blank" class="text-muted">Desenvolvido por VFMENDES</a>
                 </p>
             </div>
         </div>

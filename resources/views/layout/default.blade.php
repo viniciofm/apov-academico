@@ -7,7 +7,7 @@
         <title>Laravel</title>
 
         <link href="{{ asset("css/modern.css")}}" rel="stylesheet">
-        <link href="{{ asset("css/fontawesome_v5.7.2.css")}}" rel="stylesheet">
+        <link href="{{ asset("css/fontawesome/all.css")}}" rel="stylesheet">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
