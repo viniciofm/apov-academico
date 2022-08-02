@@ -2,6 +2,7 @@
 
 namespace Modules\Company\Entities;
 
+use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,5 +37,12 @@ class Empresa extends Model
     protected $casts = [
 
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ActivedScope());
+    }
 
 }

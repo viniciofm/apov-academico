@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +12,19 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+\Illuminate\Support\Facades\Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
-});
-//
-//Route::group(['middleware' => 'web'], function () {
-//    Route::get('/', [HomeController::class,'index'])->name('home');
-//});
+})->middleware(['auth']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('content')->group(function() {
-    Route::get('/', 'ContentController@index');
-});
+//Route::prefix('content')->group(function() {
+//    Route::get('/', 'ContentController@index');
+//});

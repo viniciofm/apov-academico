@@ -36,11 +36,4 @@ class Instituicao extends Model
     protected $casts = [
 
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new ActivedScope());
-    }
 }

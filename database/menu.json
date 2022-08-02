@@ -1,0 +1,167 @@
+[
+    {
+        "posicao":1,
+        "nome": "Professor",
+        "url": "#",
+        "icon": "fa-person-chalkboard",
+        "tipo_usuario": "professor",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Minhas disciplinas",
+                "url": "/professor",
+                "icon": "",
+                "tipo_usuario": "professor"
+            }
+        ]
+    },
+    {
+        "posicao":1,
+        "nome": "Aluno",
+        "url": "#",
+        "icon": "fa-user-graduate",
+        "tipo_usuario": "aluno",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Minhas disciplinas",
+                "url": "/aluno",
+                "icon": "",
+                "tipo_usuario": "aluno"
+            }
+        ]
+    },
+    {
+        "posicao":1,
+        "nome": "Empresa",
+        "url": "#",
+        "icon": "fa-building",
+        "tipo_usuario": "empresa",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Alunos",
+                "url": "/empresa/alunos",
+                "icon": "",
+                "tipo_usuario": "empresa"
+            },
+            {
+                "posicao":2,
+                "nome": "Perfil da empresa",
+                "url": "/empresa",
+                "icon": "",
+                "tipo_usuario": "empresa"
+            }
+        ]
+    },
+    {
+        "posicao":1,
+        "nome": "Aluno",
+        "url": "#",
+        "icon": "fa-user-graduate",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Alunos",
+                "url": "/admin/alunos",
+                "icon": "",
+                "tipo_usuario": "admin"
+            },
+            {
+                "posicao":2,
+                "nome": "Matrícula",
+                "url": "/admin/matricula",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    },
+    {
+        "posicao":2,
+        "nome": "Curso",
+        "url": "#",
+        "icon": "fa-graduation-cap",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Cursos",
+                "url": "/admin/cursos",
+                "icon": "",
+                "tipo_usuario": "admin"
+            },
+            {
+                "posicao":2,
+                "nome": "Turmas",
+                "url": "/admin/turmas",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    },
+    {
+        "posicao":3,
+        "nome": "Professores",
+        "url": "#",
+        "icon": "fa-person-chalkboard",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Gerenciamento de Professores",
+                "url": "/admin/professores",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    },
+    {
+        "posicao":4,
+        "nome": "Instituição",
+        "url": "#",
+        "icon": "fa-building",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Dados da Instituição",
+                "url": "/admin/instituicao",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    },
+    {
+        "posicao":5,
+        "nome": "Empresa",
+        "url": "#",
+        "icon": "fa-building",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Gerenciamento de Empresas",
+                "url": "/admin/empresas",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    },
+    {
+        "posicao":6,
+        "nome": "Usuários",
+        "url": "#",
+        "icon": "fa-users",
+        "tipo_usuario": "admin",
+        "submenus": [
+            {
+                "posicao":1,
+                "nome": "Gerenciamento de Usuários",
+                "url": "/admin/usuarios",
+                "icon": "",
+                "tipo_usuario": "admin"
+            }
+        ]
+    }
+]

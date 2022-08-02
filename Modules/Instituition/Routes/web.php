@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('instituition')->group(function() {
-    Route::get('/', 'InstituitionController@index');
-});
+//Route::prefix('instituition')->group(function() {
+//    Route::get('/', 'InstituitionController@index');
+//});

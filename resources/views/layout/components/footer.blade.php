@@ -17,15 +17,13 @@
                     </li>
 
                     <li class="list-inline-item">
-
                         <a class="text-muted text-italic" href="https://www.ducortech.com.br/category/grosafety/" title="Veja as alterações realizadas" target="_blank"> Versão: 23/06/2022 - 15:00:00  </a>
-
                     </li>
                 </ul>
             </div>
             <div class="col-4 text-end">
                 <p class="mb-0">
-                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/VinicioFragosoMendes" target="_blank" class="text-muted">Desenvolvido por VFMENDES</a>
+                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/VinicioFragosoMendes" target="_blank" class="text-muted">Desenvolvido por Vinício F. Mendes</a>
                 </p>
             </div>
         </div>
