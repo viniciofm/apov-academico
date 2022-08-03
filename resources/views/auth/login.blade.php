@@ -19,7 +19,7 @@
     <link href="{{ asset("css/modern.css")}}" rel="stylesheet">
     <link href="{{ asset("css/fontawesome/all.css")}}" rel="stylesheet">
 
-<body class="theme-blue">
+<body class="theme-blue" style="background-color: #bac1cb;">
 <div class="splash">
     <div class="splash-icon"></div>
 </div>
@@ -30,16 +30,20 @@
             <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
                 <div class="d-table-cell align-middle">
                     <div class="container-login100">
-                        <div class="alert alert-primary alert-dismissible" role="alert">
-                            <div class="alert-message">
-                                <!-- Session Status -->
-                                <x-auth-session-status class="mb-4" :status="session('status')" />
-
-                                <!-- Validation Errors -->
-                                <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                            </div>
-                        </div>
                         <div class="wrap-login100">
+                            @if($errors->any())
+                                <div class="alert alert-primary alert-outline alert-dismissible" role="alert" style="width:100%;padding: 1px">
+                                    <div class="alert-icon">
+                                        <i class="far fa-fw fa-bell"></i>
+                                    </div>
+                                    <div class="alert-message">
+                                        <!-- Validation Errors -->
+                                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                                    </div>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
                             <form class="login100-form validate-form" method="POST">
                                 @csrf
 
@@ -61,7 +65,7 @@
                                 </div>
 
                                 <div class="wrap-input100 validate-input mb-1" data-validate="Informe sua senha">
-                                    <input class="input100" type="password" id="senha" name="senha" placeholder="Senha">
+                                    <input class="input100" type="password" id="password" name="password" placeholder="Senha">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa-solid fa-lock"></i>
