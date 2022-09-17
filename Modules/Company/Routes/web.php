@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('company')->group(function() {
-    Route::get('/', 'EmpresaController@index');
+Route::prefix('admin/empresa')->name('admin.empresa.')->middleware(['auth'])->group(function() {
+    Route::get('/', 'EmpresaController@index')->name('index');
 });

@@ -9,7 +9,7 @@
             {
                 "posicao":1,
                 "nome": "Minhas disciplinas",
-                "url": "/professor",
+                "url": "professor",
                 "icon": "",
                 "tipo_usuario": "professor"
             }
@@ -25,7 +25,7 @@
             {
                 "posicao":1,
                 "nome": "Minhas disciplinas",
-                "url": "/aluno",
+                "url": "aluno",
                 "icon": "",
                 "tipo_usuario": "aluno"
             }
@@ -41,14 +41,14 @@
             {
                 "posicao":1,
                 "nome": "Alunos",
-                "url": "/empresa/alunos",
+                "url": "empresa/alunos",
                 "icon": "",
                 "tipo_usuario": "empresa"
             },
             {
                 "posicao":2,
                 "nome": "Perfil da empresa",
-                "url": "/empresa",
+                "url": "empresa",
                 "icon": "",
                 "tipo_usuario": "empresa"
             }
@@ -64,14 +64,14 @@
             {
                 "posicao":1,
                 "nome": "Alunos",
-                "url": "/admin/alunos",
+                "url": "admin/aluno",
                 "icon": "",
                 "tipo_usuario": "admin"
             },
             {
                 "posicao":2,
                 "nome": "Matrícula",
-                "url": "/admin/matricula",
+                "url": "admin/matricula",
                 "icon": "",
                 "tipo_usuario": "admin"
             }
@@ -87,14 +87,14 @@
             {
                 "posicao":1,
                 "nome": "Cursos",
-                "url": "/admin/cursos",
+                "url": "admin/curso",
                 "icon": "",
                 "tipo_usuario": "admin"
             },
             {
                 "posicao":2,
                 "nome": "Turmas",
-                "url": "/admin/turmas",
+                "url": "admin/turma",
                 "icon": "",
                 "tipo_usuario": "admin"
             }
@@ -110,7 +110,7 @@
             {
                 "posicao":1,
                 "nome": "Gerenciamento de Professores",
-                "url": "/admin/professores",
+                "url": "admin/professor",
                 "icon": "",
                 "tipo_usuario": "admin"
             }
@@ -126,7 +126,7 @@
             {
                 "posicao":1,
                 "nome": "Dados da Instituição",
-                "url": "/admin/instituicao",
+                "url": "admin/instituicao",
                 "icon": "",
                 "tipo_usuario": "admin"
             }
@@ -142,7 +142,7 @@
             {
                 "posicao":1,
                 "nome": "Gerenciamento de Empresas",
-                "url": "/admin/empresas",
+                "url": "admin/empresa",
                 "icon": "",
                 "tipo_usuario": "admin"
             }
@@ -158,7 +158,7 @@
             {
                 "posicao":1,
                 "nome": "Gerenciamento de Usuários",
-                "url": "/admin/usuarios",
+                "url": "admin/usuario",
                 "icon": "",
                 "tipo_usuario": "admin"
             }

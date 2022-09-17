@@ -1,8 +1,9 @@
 [
     {
         "nome":"APOV",
-        "email":"administrativo@aspuv.org.br",
+        "email":"administrativo@apov.org.br",
         "cpf_cnpj": "26121087000149",
-        "tipo_documento": "cnpj"
+        "tipo_documento": "cnpj",
+        "genero": "Não declarado"
     }
 ]

@@ -11,9 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.copy('resources/assets/css', 'public/css')
-    .copy('resources/assets/js', 'public/js')
+const CSS_PATH = 'public/dist/css';
+const JS_PATH = 'public/dist/js';
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+mix.copy('resources/assets/js/app.js', `public/js`).vue();
+mix.js('resources/assets/js/modules/empresa/main.js', `${JS_PATH}/empresa`).vue();
+
+mix.sass('resources/sass/app.scss', `${CSS_PATH}`);
+
+mix.disableNotifications()

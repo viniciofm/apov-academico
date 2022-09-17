@@ -22,7 +22,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        dd($this->service->all());
+        return view('welcome');
     }
 }

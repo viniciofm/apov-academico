@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CidadeEstadoSeeder::class,
             TipoUsuariosSeeder::class,
             InstituicaoSeeder::class,
+            GeneroSeeder::class,
             UserSeeder::class,
             MenuSeeder::class
         ]);

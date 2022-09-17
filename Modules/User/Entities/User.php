@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Instituition\Entities\Instituicao;
 
 class User extends Authenticatable
 {
@@ -58,6 +59,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'blocker' => 'boolean',
     ];
+
+    public function instituicao()
+    {
+        return $this->belongsTo(Instituicao::class);
+    }
+
+    public function genero()
+    {
+        return $this->belongsTo(Genero::class);
+    }
 
     protected static function boot()
     {

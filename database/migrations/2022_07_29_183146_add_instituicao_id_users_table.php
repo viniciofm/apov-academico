@@ -26,7 +26,7 @@ class AddInstituicaoIdUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('instituicoes', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->removeColumn('instituicao_id');
         });
     }

@@ -5,16 +5,29 @@ namespace Modules\Company\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Modules\Company\Http\Repositories\EmpresaRepository;
 
 class EmpresaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var EmpresaRepository $repository
+     */
+    protected $repository;
+
+    /**
+     * @param  EmpresaRepository  $empresaRepository
+     */
+    public function __construct(EmpresaRepository $empresaRepository)
+    {
+        $this->repository = $empresaRepository;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        return view('company::index');
+        return view('modules.empresa.index');
     }
 
     /**

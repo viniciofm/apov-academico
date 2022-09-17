@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e15721deb3c0f78a689668cf83410242",
+    "content-hash": "e0d981e4f72274ca4645312dc7f9dc9a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1950,6 +1950,64 @@
                 }
             ],
             "time": "2022-02-10T20:30:19+00:00"
+        },
+        {
+            "name": "olimarferraz/laravel-meta-tags",
+            "version": "v3.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/olimarferraz/laravel-meta-tags.git",
+                "reference": "4ceeb6bd24a34c6bad386db9e387444441f73e14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/olimarferraz/laravel-meta-tags/zipball/4ceeb6bd24a34c6bad386db9e387444441f73e14",
+                "reference": "4ceeb6bd24a34c6bad386db9e387444441f73e14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Eusonlito\\LaravelMeta\\MetaServiceProvider"
+                    ],
+                    "aliases": {
+                        "Meta": "Eusonlito\\LaravelMeta\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Eusonlito\\LaravelMeta\\": "src/Eusonlito/LaravelMeta/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lito",
+                    "email": "lito@eordes.com"
+                }
+            ],
+            "description": "A package to manage Header Meta Tags",
+            "keywords": [
+                "head",
+                "laravel",
+                "meta",
+                "tags"
+            ],
+            "support": {
+                "source": "https://github.com/olimarferraz/laravel-meta-tags/tree/v3.1.6"
+            },
+            "time": "2018-05-19T15:25:38+00:00"
         },
         {
             "name": "opis/closure",
@@ -7801,5 +7859,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

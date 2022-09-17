@@ -14,12 +14,11 @@
         }
     </style>
 
-    <script src="{{ asset("js/app.js")}}"></script>
     <link href="{{ asset("css/login/main.css")}}" rel="stylesheet">
     <link href="{{ asset("css/modern.css")}}" rel="stylesheet">
     <link href="{{ asset("css/fontawesome/all.css")}}" rel="stylesheet">
 
-<body class="theme-blue" style="background-color: #bac1cb;">
+<body class="theme-blue" style="background-color: #06309d;">
 <div class="splash">
     <div class="splash-icon"></div>
 </div>
@@ -103,7 +102,6 @@
 </main>
 
 <script src="js/app.js"></script>
-
 
 <svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1"
      xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Instituition\Entities\Instituicao;
+use Modules\User\Entities\Genero;
 use Modules\User\Entities\TipoUsuario;
 
 class UserSeeder extends Seeder
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
                 'id' => (string) Str::uuid(),
                 'tipo_usuario_id' => TipoUsuario::where('nome','admin')->first()->id,
                 'instituicao_id' => Instituicao::where('cpf_cnpj',$value['cpf_cnpj'])->first()->id,
+                'genero_id' => Genero::where('nome',$value['genero'])->first()->id,
                 'name' => $value['nome'],
                 'email' => $value['email'],
                 'password' => Hash::make('12345678'),

@@ -94,5 +94,6 @@
   "ticket was not found": "Cupom não foi encontrado.",
   "invalid coupon": "Cupom inválido.",
   "Sign in to your account to continue": "Faça o login para acessar a sua conta.",
-  "Whoops! Something went wrong.": "Oops! Encontramos alguns erros:"
+  "Whoops! Something went wrong.": "Oops! Encontramos alguns erros:",
+  "module_company": "Empresas"
 }
