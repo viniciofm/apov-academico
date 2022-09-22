@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 
+use App\Scopes\ActivedScope;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -16,6 +17,7 @@ class Repository
             $params['with'],
             $params['page'],
             $params['perPage'],
+            $params['column'],
             $params['search'],
             $params['paginate']
         );
@@ -130,8 +132,8 @@ class Repository
         array $columns = ['*']
     )
     {
-        $query = $this->entity->with($with)->orderBy('created_at', 'DESC');
-        if ($column)
+        $query = $this->entity->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('created_at', 'DESC');
+        if ($search && $column)
         {
             $query->where($column, 'ilike', '%'.$search.'%');
         }

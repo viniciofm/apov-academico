@@ -66,6 +66,17 @@ class Service
     }
 
     /**
+     * @param  string  $attr
+     * @param  string  $op
+     * @param $value
+     * @return mixed
+     */
+    public function where(string $attr, string $op, $value)
+    {
+        return $this->repository->where($attr, $op, $value);
+    }
+
+    /**
      * @param  array  $attributes
      * @return mixed
      * @throws Exception

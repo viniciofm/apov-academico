@@ -14,7 +14,8 @@ const mix = require('laravel-mix');
 const CSS_PATH = 'public/dist/css';
 const JS_PATH = 'public/dist/js';
 
-mix.copy('resources/assets/js/app.js', `public/js`).vue();
+mix.copy('resources/assets/js/app.js', `public/js`);
+mix.copy('resources/js', `public/js`);
 mix.js('resources/assets/js/modules/empresa/main.js', `${JS_PATH}/empresa`).vue();
 
 mix.sass('resources/sass/app.scss', `${CSS_PATH}`);

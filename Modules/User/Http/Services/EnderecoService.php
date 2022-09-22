@@ -11,4 +11,16 @@ class EnderecoService extends Service
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @param  array  $attributes
+     * @return mixed
+     * @throws Exception
+     */
+    public function create(array $attributes)
+    {
+        $attributes['numero'] = (int)$attributes['numero'];
+
+        return $this->repository->create($attributes);
+    }
 }

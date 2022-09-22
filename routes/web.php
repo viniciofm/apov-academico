@@ -21,4 +21,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::prefix('api')->name('api.')->namespace('App\Http\Controllers')->middleware(['auth'])->group(function() {
+    Route::get('/cidades/get', 'ApiController@getCidades')->name('cidades.get');
+});
+
 require __DIR__.'/auth.php';

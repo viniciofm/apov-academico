@@ -30,6 +30,10 @@
                 margin-top: 0
             }
 
+            .text-right{
+                text-align: right !important;
+            }
+
             @media only screen and (max-width: 500px) {
                 .logoProfile {
                     width: 130px;
@@ -59,6 +63,8 @@
             }
         </style>
         @stack('stylesheet')
+
+        @routes
     </head>
     <body class="antialiased">
     <div class="wrapper">
@@ -148,6 +154,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('js/pace.min.js') }}"></script>
     <script src="{{ asset("js/app.js")}}"></script>
     @stack('scripts')
     </body>

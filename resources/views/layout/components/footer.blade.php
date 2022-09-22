@@ -7,7 +7,7 @@
                         <a class="text-muted" href="<?php echo env('APP_URL'); ?>#contato" target="_blank">Suporte Técnico</a>
                     </li>
                     <li class="list-inline-item">
-                        <a class="text-muted" href="<?php echo env('APP_URL'); ?>public/files/politica-de-privacidade.pdf" target="_blank">Politica de Uso</a>
+                        <a class="text-muted" href="<?php echo env('APP_URL'); ?>public/files/politica-de-privacidade.pdf" target="_blank">Política de Uso</a>
                     </li>
                     <li class="list-inline-item">
                         <a class="text-muted" href="<?php echo env('APP_URL'); ?>public/files/termo-de-uso.pdf" target="_blank">Termos de Privacidade</a>

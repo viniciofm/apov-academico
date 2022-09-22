@@ -34,10 +34,18 @@ class User extends Authenticatable
         'tipo_documento',
         'email',
         'endereco_id',
+        'genero_id',
         'password',
         'blocked',
         'email_verified_at',
         'remember_token'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'blocked' => false
     ];
 
     /**

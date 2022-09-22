@@ -12,4 +12,11 @@ class EstadoRepository extends Repository
     {
         $this->entity = $entity;
     }
+
+    public function allWithCities()
+    {
+        return $this->entity->orderBy('nome')->with(['cidades' => function ($query){
+            $query->orderBy('nome')->select('id', 'nome', 'estado_id');
+        }])->select('id', 'nome')->limit(5)->get()->keyBy('id');
+    }
 }

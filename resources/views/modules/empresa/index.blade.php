@@ -3,8 +3,8 @@
 @section('title', __('module_company'))
 
 @section('content')
-    <div id="vue-empresa">
-        <main-teste></main-teste>
+    <div id="component-content-empresa">
+
     </div>
 @endsection
 

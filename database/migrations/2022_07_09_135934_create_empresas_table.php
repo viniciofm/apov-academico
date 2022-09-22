@@ -18,10 +18,10 @@ class CreateEmpresasTable extends Migration
             $table->string('nome',100);
             $table->string('email',100);
             $table->string('responsavel',100);
-            $table->string('telefone_contato',15);
+            $table->string('telefone_contato',15)->nullable();
             $table->string('cpf_cnpj', 14);
             $table->string('tipo_documento',4);
-            $table->string('logomarca');
+            $table->string('logomarca')->nullable();
 
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');

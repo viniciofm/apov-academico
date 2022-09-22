@@ -4,22 +4,25 @@ namespace Modules\Company\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\Company\Http\Repositories\EmpresaRepository;
+use Modules\Company\Entities\Empresa;
+use Modules\Company\Http\Requests\EmpresaRequestValidator;
+use Modules\Company\Http\Services\EmpresaService;
 
 class EmpresaController extends Controller
 {
     /**
-     * @var EmpresaRepository $repository
+     * @var EmpresaService
      */
-    protected $repository;
+    protected $service;
 
     /**
      * @param  EmpresaRepository  $empresaRepository
      */
-    public function __construct(EmpresaRepository $empresaRepository)
+    public function __construct(EmpresaService $service)
     {
-        $this->repository = $empresaRepository;
+        $this->service = $service;
     }
 
     /**
@@ -40,23 +43,46 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  EmpresaRequestValidator  $request
+     * @return void
      */
-    public function store(Request $request)
+    public function store(EmpresaRequestValidator $request)
     {
-        //
+        try {
+            $data = $this->service->create($request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json([$e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Empresa cadastrada!'
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function show($id)
+    public function get(Request $request): JsonResponse
     {
-        return view('company::show');
+        try {
+            $data = $this->service->get([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'column' => 'nome',
+                'search' => $request['search'],
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -70,12 +96,11 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param  EmpresaRequestValidator  $request
+     * @param $id
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function update(EmpresaRequestValidator $request, $id)
     {
         //
     }

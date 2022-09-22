@@ -1,42 +1,32 @@
+'use strict';
+
+import router from './router';
+
+require('../../bootstrap.js');
 import Vue from 'vue';
-import moment from 'moment';
-// import router from './router';
-import Component from './Test';
-import VeeValidate, {Validator} from 'vee-validate'
-import msgBR from '../../lang/vee-validate/pt_BR'
-import VueCurrencyFilter from "vue-currency-filter";
 
-moment.locale('pt-BR');
+window.Vue = Vue;
 
-Vue.filter('dateFormat', (date) => {
-    return moment(date).format('DD/MM/YYYY')
-});
-
-Vue.component('pagination', () => import('laravel-vue-pagination'));
+/* validate */
+import VeeValidate, { Validator } from 'vee-validate';
+import msgBR from '../../lang/vee-validate/pt_BR';
+import Content from "../Content";
 
 Validator.localize('pt_BR', msgBR);
 
 Vue.use(VeeValidate, {
-    locale: 'pt_BR'
+    locale: 'pt_BR',
+    useConstraintAttrs: false
 });
 
-Vue.use(VueCurrencyFilter,
-    {
-        symbol: 'R$',
-        thousandsSeparator: '.',
-        fractionCount: 2,
-        fractionSeparator: ',',
-        symbolPosition: 'front',
-        symbolSpacing: true
-    }
-);
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask);
 
-Vue.component('main-teste', Component);
+Vue.component('pagination', require('laravel-vue-pagination'))
 
-new Vue({
-    el: '#vue-empresa',
-    name: 'empresa',
-    components: {
-        'vue-empresa': Component
-    },
-});
+if (document.querySelector('#component-content-empresa')) {
+    new Vue({
+        router,
+        render: h => h(Content)
+    }).$mount('#component-content-empresa');
+}

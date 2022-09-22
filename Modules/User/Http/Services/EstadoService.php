@@ -11,4 +11,9 @@ class EstadoService extends Service
     {
         $this->repository = $repository;
     }
+
+    public function allWithCities()
+    {
+        return $this->repository->allWithCities();
+    }
 }
