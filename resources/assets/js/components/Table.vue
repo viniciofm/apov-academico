@@ -1,7 +1,7 @@
 <template>
     <div class="table-responsive">
-        <table class="table table-hover" :class="classes">
-            <thead class="bg-blue text-white">
+        <table class="table table-striped table-hover" :class="classes">
+            <thead>
                 <tr v-if="custom">
                     <th v-for="(column, key) in columns" :style="column.style" :key="key">{{ column.name }}</th>
                 </tr>

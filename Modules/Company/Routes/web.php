@@ -15,4 +15,7 @@ Route::prefix('admin/empresa')->name('admin.empresa.')->middleware(['auth'])->gr
     Route::get('/', 'EmpresaController@index')->name('index');
     Route::post('/store', 'EmpresaController@store')->name('store');
     Route::post('/get', 'EmpresaController@get')->name('get');
+    Route::get('/edit/{empresa}', 'EmpresaController@edit')->name('edit');
+    Route::post('/update/{empresa}', 'EmpresaController@update')->name('update');
+    Route::get('/active/{empresa}/{active}', 'EmpresaController@active')->name('active');
 });

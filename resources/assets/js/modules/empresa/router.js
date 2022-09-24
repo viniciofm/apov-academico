@@ -15,6 +15,12 @@ const routes = [
         name: 'empresa.create',
         component: Empresa,
     },
+    {
+        path: '/editar/:id',
+        name: 'empresa.edit',
+        component: Empresa,
+        props: true
+    },
 ]
 
 const router = new VueRouter({

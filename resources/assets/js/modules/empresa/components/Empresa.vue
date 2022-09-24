@@ -31,7 +31,7 @@
                             <select class="form-control" data-bs-toggle="select2" v-model="payload.tipo_documento" name="tipo_documento" id="tipo_documento" required="required"
                                     v-validate="'required'"
                                     data-vv-as="'Tipo do Documento'">
-                                <option value="" disabled selected>Nenhum</option>
+                                <option value="" disabled selected>Não selecionado</option>
                                 <option value="cnpj">CNPJ</option>
                                 <option value="cpf">CPF</option>
                             </select>
@@ -52,11 +52,23 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="responsavel">Responsável*</label>
+                            <label for="responsavel">Responsável</label>
                             <input class="form-control" v-model="payload.responsavel" id='responsavel' name="responsavel" maxlength="150" value="" type="text" placeholder="" required="required"
                                    v-validate="'required'"
                                    data-vv-as="'Reponsável'">
                             <div v-show="errors.has('responsavel')" class="text-danger" style="">{{ errors.first('responsavel') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="responsavel">Logomarca*</label>
+                            <input type="file" name="logomarca" id="logomarca" ref="image"
+                                   v-validate="'ext:png,jpg,jpeg'"
+                                   v-on:change="handleFileUpload()"
+                                   class="form-control custom-file-input"
+                                   data-vv-as="'Logomarca'">
+                            <small class="form-text d-block text-muted">Extensões suportadas: <strong>jpg, jpeg ou png</strong></small>
+                            <div v-show="errors.has('logomarca')" class="text-danger" style="">{{ errors.first('logomarca') }}</div>
+                            <div v-if="payload.old_logomarca">Imagem anterior: <span class="badge rounded-pill bg-success"><a class="text-white" :href="payload.old_logomarca" target="_blank">Clique para visualizar</a></span></div>
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
@@ -97,6 +109,7 @@
 
 <script>
 import {submit} from "../../../common/send-form";
+import http from '../../../api/http'
 import SubHeader from "../../../components/SubHeader"
 import CardTable from "../../../components/CardTable"
 import Endereco from "../../../components/Endereco"
@@ -121,13 +134,14 @@ export default {
             'endereco': {
                 'id': null,
                 'rua': '',
-                'numero': null,
+                'numero': '',
                 'bairro': '',
                 'complemento': '',
                 'cep': '',
                 'cidade_id': null,
                 'estado_id': null
-            }
+            },
+            old_logomarca: ''
         }
     }),
     props: [
@@ -135,7 +149,9 @@ export default {
         'title'
     ],
     created() {
-        // this.getCertificate();
+        if (this.id) {
+            this.getData();
+        }
     },
     components: {
         CardTable,
@@ -143,42 +159,50 @@ export default {
         Endereco
     },
     methods: {
+        handleFileUpload() {
+            this.payload.logomarca = this.$refs.image.files[0];
+        },
         save(){
             this.$validator.validateAll().then(
                 res => {
                     if (res) {
                         let me = this
 
-                        let payload = {...me.payload}
-                        if(!payload.logomarca){
-                            delete payload.logomarca
-                        }
+                        let formData = new FormData();
+
+                        if (this.payload.logomarca && this.payload.old_logomarca != this.payload.logomarca)
+                            formData.append('logomarca', this.payload.logomarca);
+                        formData.append('nome', this.payload.nome);
+                        formData.append('email', this.payload.email);
+                        formData.append('responsavel', this.payload.responsavel);
+                        formData.append('telefone_contato', this.payload.telefone_contato ? this.payload.telefone_contato : '');
+                        formData.append('cpf_cnpj', this.payload.cpf_cnpj);
+                        formData.append('tipo_documento', this.payload.tipo_documento);
+                        formData.append('user_id', this.payload.user_id);
+                        formData.append('ativo', this.payload.ativo ? 1 : 0);
+                        formData.append('endereco' , JSON.stringify(this.payload.endereco));
 
                         let url = route(me.id ? 'admin.empresa.update' : 'admin.empresa.store', me.id);
                         me.loading = true;
-                        submit(url, payload, 'POST').then(
-                            data => {
-                                Swal.fire(
-                                    'Sucesso!',
-                                    data.message,
-                                    'success'
-                                )
 
-                                setTimeout(function(){
-                                    me.loading = false;
-                                    me.$router.push({ path: `/` });
-                                }, 1000);
+                        http.post(url, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
                             }
-                        ).catch(
-                            error => {
-                                Swal.fire(
-                                    'Oops...',
-                                    error.response.data.message,
-                                    'error'
-                                )
+                        }).then(data => {
+                            Swal.fire(
+                                'Sucesso!',
+                                data.data.message,
+                                'success'
+                            )
+                            setTimeout(function(){
                                 me.loading = false;
-                            }
-                        )
+                                me.$router.push({ path: `/` });
+                            }, 1000);
+                        }).catch(error => {
+                            this.$emit('showError', error)
+                            me.loading = false;
+                        });
                     }else{
                         Swal.fire(
                             'Oops...',
@@ -198,7 +222,23 @@ export default {
             return date.toLocaleDateString();
         },
         getData() {
-
+            submit(route('admin.empresa.edit', this.id), {},'GET').then(
+                data => {
+                    this.payload = data.empresa;
+                    if(this.id){
+                        this.payload.old_logomarca = data.empresa.logomarca
+                    }
+                }
+            ).then(() => {
+                this.isLoading = false
+            }).catch(error => {
+                Swal.fire(
+                    'Erro!',
+                    'Encontramos um erro ao consultar os dados!',
+                    'error'
+                )
+                this.isLoading = false;
+            });
         }
     }
 }

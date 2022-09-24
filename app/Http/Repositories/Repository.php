@@ -122,6 +122,22 @@ class Repository
         return $item->delete();
     }
 
+    /**
+     * @param $object
+     * @param  bool  $active
+     * @return bool
+     */
+    public function activeObject($object,bool $active): bool
+    {
+        try {
+            $object->ativo = $active;
+            $object->save();
+            return true;
+        } catch ( \Exception $e ){
+            return false;
+        }
+    }
+
     private function searchWithPagination(
         array $with = [],
         $page = 1,

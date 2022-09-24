@@ -30,6 +30,19 @@ class Endereco extends Model
         'cidade_id'
     ];
 
+    protected $appends = [
+        'estado_id'
+    ];
+
+    public function getEstadoIdAttribute(){
+        return $this->cidade ? $this->cidade->estado_id : NULL;
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class);
+    }
+
     protected $casts = [
         'numero' => 'int',
     ];

@@ -11,4 +11,14 @@ class UserService extends Service
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @param  array  $request
+     * @param  string  $nomeTipoUsuario
+     * @return bool
+     */
+    public function canRegisterCadastro(array $request, string $nomeTipoUsuario, string $userIdUpdate = NULL) : bool
+    {
+        return $this->repository->canRegisterCadastro($request, $nomeTipoUsuario, $userIdUpdate);
+    }
 }

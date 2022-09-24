@@ -21,7 +21,6 @@ class EmpresaRepository extends Repository
             $params['with'],
             $params['page'],
             $params['perPage'],
-            $params['column'],
             $params['search'],
             $params['paginate']
         );
@@ -31,8 +30,7 @@ class EmpresaRepository extends Repository
         array $with = [],
         $page = 1,
         $perPage = 10,
-        $column = null,
-        $search = '',
+        $search = null,
         bool $paginate = false,
         array $columns = ['*']
     ) {
@@ -40,9 +38,9 @@ class EmpresaRepository extends Repository
             ->whereHas('usuario', function($q){
                 $q->where('instituicao_id', '=', Auth::user()->instituicao_id);
             })
-            ->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('created_at', 'DESC');
-        if ($search && $column) {
-            $query->where($column, 'ilike', '%'.$search.'%');
+            ->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('nome', 'ASC')->orderBy('created_at', 'DESC');
+        if ($search && isset($search['nome']) && isset($search['cpf_cnpj'])) {
+            $query->where('nome', 'like', '%'.$search['nome'].'%')->where('cpf_cnpj', 'like', '%'.$search['cpf_cnpj'].'%');
         }
 
         if ($paginate) {

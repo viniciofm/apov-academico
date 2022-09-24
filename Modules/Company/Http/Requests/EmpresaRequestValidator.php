@@ -5,6 +5,7 @@ namespace Modules\Company\Http\Requests;
 
 
 use App\Http\Requests\AbstractGenericFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EmpresaRequestValidator extends AbstractGenericFormRequest
 {
@@ -24,11 +25,11 @@ class EmpresaRequestValidator extends AbstractGenericFormRequest
             'cpf_cnpj' => 'required|string',
             'tipo_documento' => 'required|string',
             'logomarca' => 'mimes:jpeg,png,jpg|max:2048',
-            'ativo' => 'required|string',
+            'ativo' => 'required|int',
             'endereco' => 'array',
             'endereco.id' => 'uuid|nullable',
             'endereco.rua' => 'string|nullable',
-            'endereco.numero' => 'string|nullable',
+            'endereco.numero' => 'int|nullable',
             'endereco.bairro' => 'string|nullable',
             'endereco.complemento' => 'string|nullable',
             'endereco.cep' => 'string|nullable',

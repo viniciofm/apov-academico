@@ -19,7 +19,7 @@ class CreateInstituicoesTable extends Migration
             $table->string('email',100);
             $table->string('responsavel',100);
             $table->string('telefone_contato',15);
-            $table->string('cpf_cnpj', 14);
+            $table->string('cpf_cnpj', 18);
             $table->string('tipo_documento',4);
             $table->string('logomarca')->nullable();
 

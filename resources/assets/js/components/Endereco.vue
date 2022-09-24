@@ -36,7 +36,7 @@
                 <div class="mb-3 col-lg-2 col-md-2 col-sm-12">
                     <label for="estado_id">Estado</label>
                     <select class="form-control" v-on:change="resetCidade()" data-bs-toggle="select2" v-model="endereco.estado_id" name="estado_id" id="estado_id">
-                        <option value="" disabled selected>Nenhum</option>
+                        <option value="" disabled selected>Não selecionado</option>
                         <option v-for="(estado, estado_id) in estados" :value="estado.id">{{estado.nome}}</option>
                     </select>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="cidade_id">Cidade</label>
                     <select class="form-control" data-bs-toggle="select2" v-model="endereco.cidade_id" name="cidade_id" id="cidade_id">
-                        <option value="" disabled selected>Nenhum</option>
+                        <option value="" disabled selected>Não selecionado</option>
                         <option v-if="endereco.estado_id != '' && estados[endereco.estado_id]" v-for="cidade in cidades" :value="cidade.id">{{cidade.nome}}</option>
                     </select>
                 </div>
@@ -72,9 +72,16 @@ export default {
         'endereco'
     ],
     computed: {
-        // uma função "getter" computada (computed getter)
         cidades: function () {
-            return this.endereco.estado_id ? this.estados[this.endereco.estado_id].cidades : {}
+            return this.endereco.estado_id && this.estados[this.endereco.estado_id] ? this.estados[this.endereco.estado_id].cidades : {}
+        }
+    },
+    watch: {
+        endereco: function () {
+            if(!this.endereco.cidade_id) {
+                this.endereco.estado_id = '';
+                this.endereco.cidade_id = '';
+            }
         }
     },
     mounted() {

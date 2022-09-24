@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Modules\Company\Entities\Empresa;
 use Modules\Company\Http\Requests\EmpresaRequestValidator;
 use Modules\Company\Http\Services\EmpresaService;
+use Modules\User\Http\Services\UserService;
 
 class EmpresaController extends Controller
 {
@@ -18,11 +19,17 @@ class EmpresaController extends Controller
     protected $service;
 
     /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
      * @param  EmpresaRepository  $empresaRepository
      */
-    public function __construct(EmpresaService $service)
+    public function __construct(EmpresaService $service, UserService $userService)
     {
         $this->service = $service;
+        $this->userService = $userService;
     }
 
     /**
@@ -44,18 +51,26 @@ class EmpresaController extends Controller
 
     /**
      * @param  EmpresaRequestValidator  $request
-     * @return void
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function store(EmpresaRequestValidator $request)
     {
+        $r = $request->all();
+        //validar cadastro
+        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa');
+        if (!$canRegister){
+            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+        }
+
         try {
-            $data = $this->service->create($request->all());
+            $data = $this->service->create($request);
 
             if (!$data) {
                 throw new \Exception('Não foi possível registrar o novo item!');
             }
         } catch (\Exception $e) {
-            return \response()->json([$e->getMessage()], 500);
+            return \response()->json(['message' => $e->getMessage()], 500);
         }
         return \response()->json([
             'success' => true,
@@ -75,8 +90,7 @@ class EmpresaController extends Controller
                 'paginate' => $request['paginate'] === "true",
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],
-                'column' => 'nome',
-                'search' => $request['search'],
+                'search' => json_decode($request['search'], true),
             ]);
 
             return \response()->json($data, 200);
@@ -86,13 +100,15 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Empresa  $empresa
+     * @return void
      */
-    public function edit($id)
+    public function edit(Empresa $empresa)
     {
-        return view('company::edit');
+        $empresa->endereco = $empresa->endereco;
+        return \response()->json([
+            'empresa' => $empresa,
+        ], 201);
     }
 
     /**
@@ -102,16 +118,49 @@ class EmpresaController extends Controller
      */
     public function update(EmpresaRequestValidator $request, $id)
     {
-        //
+        $r = $request->all();
+        //validar atualização
+        $empresa = $this->service->find($id);
+        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa', $empresa->user_id);
+        if (!$canRegister){
+            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+        }
+
+        try {
+            $data = $this->service->update($id, $request);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Empresa atualizada!'
+        ], 201);
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * @param ObjectId $providerId
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function active(Empresa $empresa,bool $active) : JsonResponse
     {
-        //
+
+        try{
+            $data = $this->service->activeObject($empresa, $active);
+            if (!$data) {
+                throw new \Exception('Não foi possível '.($active?'ativar':'desativar').' a empresa');
+            }
+        } catch (\Exception $e){
+            return \response()->json(['message' => $e->getMessage()], $e->getCode() !== 0 ? $e->getCode() : 500 );
+        }
+        return \response()->json([
+            'data' => [
+                'success' => true,
+                'message' => 'Empresa '.($active ? 'ativada' : 'desativada').' com sucesso!'
+            ]
+        ], 201);
     }
 }

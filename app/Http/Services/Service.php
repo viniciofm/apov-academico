@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class Service
 {
@@ -102,6 +103,16 @@ class Service
     public function active()
     {
         return $this->repository->where('active', '=', true);
+    }
+
+    /**
+     * @param $object
+     * @param  bool  $active
+     * @return bool
+     */
+    public function activeObject($object, bool $active) : bool
+    {
+        return $this->repository->activeObject($object,$active);
     }
 
     /**

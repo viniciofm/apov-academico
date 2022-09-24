@@ -5,6 +5,7 @@ namespace Modules\Company\Entities;
 use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Endereco;
 use Modules\User\Entities\User;
 
 class Empresa extends Model
@@ -45,11 +46,16 @@ class Empresa extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new ActivedScope());
+//        static::addGlobalScope(new ActivedScope());
     }
 
 }

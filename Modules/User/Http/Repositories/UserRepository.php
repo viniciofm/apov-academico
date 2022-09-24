@@ -4,12 +4,49 @@ namespace Modules\User\Http\Repositories;
 
 
 use App\Http\Repositories\Repository;
+use Illuminate\Support\Facades\Auth;
 use Modules\User\Entities\User;
+use Modules\User\Http\Services\TipoUsuarioService;
 
 class UserRepository extends Repository
 {
-    public function __construct(User $entity)
+    /**
+     * @var TipoUsuarioService
+     */
+    protected $tipoUsuarioService;
+
+    public function __construct(User $entity, TipoUsuarioService $tipoUsuarioService)
     {
         $this->entity = $entity;
+        $this->tipoUsuarioService = $tipoUsuarioService;
+    }
+
+    /**
+     * @param  array  $request
+     * @param  string  $nomeTipoUsuario
+     * @return bool
+     */
+    public function canRegisterCadastro(array $request, string $nomeTipoUsuario, string $userIdUpdate = NULL) : bool
+    {
+        $tipoUsuario = $this->tipoUsuarioService->where('nome', '=', $nomeTipoUsuario);
+        if($tipoUsuario){
+            $usuario = $this->entity
+                ->where(function($query) use ($request) {
+                    $query->where('instituicao_id', Auth::user()->instituicao_id);
+                })
+                ->where(function($query) use ($request) {
+                    $query->where('email', $request['email'])->orWhere('cpf_cnpj', $request['cpf_cnpj']);
+                });
+            if ($userIdUpdate){
+                $usuario = $usuario->where('id', '!=', $userIdUpdate);
+            }
+            $usuario = $usuario->first();
+
+            if($usuario){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

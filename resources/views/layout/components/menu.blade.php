@@ -28,7 +28,7 @@
                     @foreach($menu as $itemsubmenu)
                         @if($itemsubmenu['menu_id'] == $itemmenu['id'])
                             <li class="sidebar-item @if($activeMenu) active @endif">
-                                <a class="sidebar-link" href="{{ env('APP_URL') }}<?php echo $itemsubmenu["url"]; ?>"><?php echo $itemsubmenu["nome"]; ?></a>
+                                <a class="sidebar-link" href="{{ env('APP_URL') }}/<?php echo $itemsubmenu["url"]; ?>"><?php echo $itemsubmenu["nome"]; ?></a>
                             </li>
                         @endif
                     @endforeach
@@ -36,7 +36,7 @@
             @else
                 @if(empty($itemmenu['menu_id']))
                     <li class="sidebar-item">
-                        <a class="sidebar-link @if($activeMenu) active @endif" href="{{ env('APP_URL') }}<?php echo $itemmenu["url"]; ?>"><i class="align-middle me-2 fas fa-fw <?php echo $itemmenu["icon"]; ?>"></i><?php echo $itemmenu["nome"]; ?></a>
+                        <a class="sidebar-link @if($activeMenu) active @endif" href="{{ env('APP_URL') }}/<?php echo $itemmenu["url"]; ?>"><i class="align-middle me-2 fas fa-fw <?php echo $itemmenu["icon"]; ?>"></i><?php echo $itemmenu["nome"]; ?></a>
                     </li>
                 @endif
             @endif

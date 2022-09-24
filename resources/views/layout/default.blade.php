@@ -102,10 +102,10 @@
                                 <i class="align-middle fas fa-cog"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ env('APP_URL') }}meus-dados/"><i class="align-middle me-1 fas fa-fw fa-user"></i> Meus Dados</a>
-                                <a class="dropdown-item" href="{{ env('APP_URL') }}mudar-senha/"><i class="align-middle me-1 fas fa-fw fa-key"></i> Trocar Senha</a>
-                                <a class="dropdown-item" href="{{ env('APP_URL') }}contato"><i class="align-middle me-1 fas fa-fw fa-comments"></i> Contato</a>
-                                <a class="dropdown-item" href="{{ env('APP_URL') }}configuracao/"><i class="align-middle me-1 fas fa-fw fa-cogs"></i> Configurações do Sistema</a>
+                                <a class="dropdown-item" href="{{ env('APP_URL') }}/meus-dados/"><i class="align-middle me-1 fas fa-fw fa-user"></i> Meus Dados</a>
+                                <a class="dropdown-item" href="{{ env('APP_URL') }}/mudar-senha/"><i class="align-middle me-1 fas fa-fw fa-key"></i> Trocar Senha</a>
+                                <a class="dropdown-item" href="{{ env('APP_URL') }}/contato"><i class="align-middle me-1 fas fa-fw fa-comments"></i> Contato</a>
+                                <a class="dropdown-item" href="{{ env('APP_URL') }}/configuracao/"><i class="align-middle me-1 fas fa-fw fa-cogs"></i> Configurações do Sistema</a>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout')  }}">
                                     {!! csrf_field() !!}

@@ -7,10 +7,10 @@
                     <form action="">
                         <div class="row">
                             <div class="row">
-                                <slot name="header-card"/>
+                                <slot name="header-card"></slot>
 
                                 <div style="text-align: right;" class="col-md-6">
-                                    <button class="btn btn-primary dropdown-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filtro" aria-expanded="false" aria-controls="filtro"><i class="fa fa-filter" aria-hidden="true"></i>
+                                    <button v-if="withFilters" class="btn btn-primary dropdown-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filtro" aria-expanded="false" aria-controls="filtro"><i class="fa fa-filter" aria-hidden="true"></i>
                                         Filtrar
                                     </button>
 
@@ -21,56 +21,21 @@
                                             <span>Adicionar Novo</span>
                                         </span>
                                     </router-link>
-
-                                    <div class="collapse" id="filtro" style="">
-                                        <div class="col-md-12 mt-3 row">
-                                            <slot name="filters"/>
-
-                                            <div class="form-group col-lg-1 col-md-1 col-sm-6">
-                                                <button class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i>Buscar</button>
-                                            </div>
+                                </div>
+                                <div class="collapse" id="filtro" style="">
+                                    <div class="col-md-12 mt-3 row">
+                                        <slot name="filters"></slot>
+                                        <div class="form-group col-lg-1 col-md-1 col-sm-6">
+                                            <span>&nbsp;</span>
+                                            <button @click.prevent="getData" class="btn btn-primary">
+                                                <i class="fa fa-search" aria-hidden="true"></i>Buscar
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </template>
-
-                <template v-if="withFilters">
-                    <div class="m-accordion m-accordion--default m-accordion--section m-accordion--toggle-arrow"
-                         id="m_accordion_7" role="tablist">
-                        <!--begin::Item-->
-                        <div class="m-accordion__item">
-                            <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_1_head"
-                                 data-toggle="collapse" href="#m_accordion_7_item_1_body" aria-expanded="false">
-                                <span class="m-accordion__item-icon text-blue">
-                                    <i class="fa fa-filter"></i>
-                                </span>
-                                <span class="m-accordion__item-title">
-                                <!-- Title -->
-                                </span>
-                                <span class="m-accordion__item-mode text-blue"></span>
-                            </div>
-                            <div class="m-accordion__item-body collapse" id="m_accordion_7_item_1_body" role="tabpanel"
-                                 aria-labelledby="m_accordion_7_item_1_head" data-parent="#m_accordion_7">
-                                <div class="m-accordion__item-content">
-                                    <slot name="filters"></slot>
-                                    <div class="d-flex justify-content-end col btn-group">
-                                        <button class="m-btn btn btn-blue m-btn--pill" title="Buscar"
-                                                @click.prevent="getData">
-                                            <i class="fa fa-search" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="m-btn btn btn-secondary m-btn--pill" title="Limpar"
-                                                @click.prevent="resetSearch" :disabled="!allowSearch">
-                                            <i class="fa fa-eraser" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end::Item-->
-                    </div>
                 </template>
 
                 <template v-if="Object.keys(dataPaginate).length === 0">
@@ -89,7 +54,7 @@
                 </template>
                 <template v-else>
                     <Table v-if="dataPaginate.total > 0" :custom="custom" :columns="columns" :styles="styles">
-                        <slot name="table-body"/>
+                        <slot name="table-body"></slot>
                     </Table>
 
                     <div v-else class="d-flex flex-column align-items-center my-4">
@@ -168,12 +133,9 @@
                     @pagination-change-page="getData"
                     :limit="limit"
                     class="mt-4"
-                    align="center"/>
-
+                    align="center">teste000000</pagination>
 
                 <slot name="modal"/>
-
-
             </div>
         </div>
     </div>
@@ -201,7 +163,6 @@ export default {
         showModal: false
     }),
     methods: {
-
         getData(page) {
             this.$emit('getData', page);
             this.resized()
