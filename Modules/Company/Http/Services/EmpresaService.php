@@ -110,6 +110,9 @@ class EmpresaService extends Service
             if(!$attributes['endereco']['cidade_id']){
                 $attributes['endereco']['cidade_id'] = NULL;
             }
+            if(!$attributes['endereco']['numero']){
+                $attributes['endereco']['numero'] = NULL;
+            }
 
             //save image
             if ($request->hasFile('logomarca')) {

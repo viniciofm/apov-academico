@@ -5,6 +5,7 @@ namespace Modules\Instituition\Entities;
 use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Endereco;
 
 class Instituicao extends Model
 {
@@ -36,4 +37,9 @@ class Instituicao extends Model
     protected $casts = [
 
     ];
+
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class);
+    }
 }

@@ -9,7 +9,7 @@
         {!! Meta::tags() !!}
         {!! Meta::tag('csrf-token', csrf_token()) !!}
 
-        <link href="{{ asset("img/logomarca/logo_apov_flavicon.png") }}" rel="shortcut icon" type="image/x-icon">
+        <link href="{{ asset("img/logomarca/logo_flavicon.png") }}" rel="shortcut icon" type="image/x-icon">
 
         <link href="{{ asset("css/modern.css")}}" rel="stylesheet">
         <link href="{{ asset("css/fontawesome/all.css")}}" rel="stylesheet">

@@ -1,14 +1,14 @@
 <template>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :title="title ? title : (id ? 'Atualização' : 'Cadastro')"></sub-header>
+            <sub-header :links="subHeaderLinks" :title="title ? title : ('Dados da Instituição')"></sub-header>
 
             <div class="card mb-3">
                 <div class="card-header">
-                    <h5 class="mb-2">Formulário de {{ (id ? 'Atualização' : 'Cadastro') }} de Empresa</h5>
+                    <h5 class="mb-2">Formulário de Atualização da Instituição</h5>
                 </div>
                 <div class="card-body">
-                    <h5 class="mb-0">Dados da Empresa</h5>
+                    <h5 class="mb-0">Dados da Instituição</h5>
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="razaoSocial">Nome*</label>
@@ -70,14 +70,6 @@
                             <div v-show="errors.has('logomarca')" class="text-danger" style="">{{ errors.first('logomarca') }}</div>
                             <div v-if="payload.old_logomarca">Imagem anterior: <span class="badge rounded-pill bg-success"><a class="text-white" :href="payload.old_logomarca" target="_blank">Clique para visualizar</a></span></div>
                         </div>
-
-                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="razaoSocial">Ativo</label>
-                            <div class="form-check form-switch mt-1">
-                                <input class="form-check-input" type="checkbox" id="ativo" v-model="payload.ativo">
-                                <label class="form-check-label" for="ativo">{{payload.ativo ? 'Sim' : 'Não'}}</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -90,13 +82,13 @@
                     <div class="row">
                         <div class="row">
                             <div class="text-right">
-                                <button @click="$router.go(-1)"
+                                <a :href="routeHome"
                                         class="btn btn-warning mr-2">
-                                    <span>Voltar</span>
-                                </button>
+                                    <span>Cancelar</span>
+                                </a>
                                 <button @click="save()"
                                         class="btn btn-primary">
-                                    <span>{{ id ? 'Atualizar' : 'Salvar' }}</span>
+                                    <span>Atualizar</span>
                                 </button>
                             </div>
                         </div>
@@ -116,12 +108,14 @@ import Endereco from "../../../components/Endereco"
 import Swal from "sweetalert2";
 
 export default {
-    name: "Empresa",
+    name: "Instituicao",
     data: () => ({
-        subHeaderLinks:[['empresa', 'Empresas']],
+        routeHome: route('home'),
+        subHeaderLinks:[],
         search: '',
         dataPaginate: {},
         payload:{
+            'id': '',
             'nome': '',
             'email': '',
             'responsavel': '',
@@ -129,8 +123,6 @@ export default {
             'cpf_cnpj': '',
             'tipo_documento': '',
             'logomarca': '',
-            'user_id': null,
-            'ativo': true,
             'endereco': {
                 'id': null,
                 'rua': '',
@@ -149,9 +141,7 @@ export default {
         'title'
     ],
     created() {
-        if (this.id) {
-            this.getData();
-        }
+        this.getInstituicao();
     },
     components: {
         CardTable,
@@ -162,71 +152,13 @@ export default {
         handleFileUpload() {
             this.payload.logomarca = this.$refs.image.files[0];
         },
-        save(){
-            this.$validator.validateAll().then(
-                res => {
-                    if (res) {
-                        let me = this
-
-                        let formData = new FormData();
-
-                        if (this.payload.logomarca && this.payload.old_logomarca != this.payload.logomarca)
-                            formData.append('logomarca', this.payload.logomarca);
-                        formData.append('nome', this.payload.nome);
-                        formData.append('email', this.payload.email);
-                        formData.append('responsavel', this.payload.responsavel);
-                        formData.append('telefone_contato', this.payload.telefone_contato ? this.payload.telefone_contato : '');
-                        formData.append('cpf_cnpj', this.payload.cpf_cnpj);
-                        formData.append('tipo_documento', this.payload.tipo_documento);
-                        formData.append('user_id', this.payload.user_id);
-                        formData.append('ativo', this.payload.ativo ? 1 : 0);
-                        formData.append('endereco' , JSON.stringify(this.payload.endereco));
-
-                        let url = route(me.id ? 'admin.empresa.update' : 'admin.empresa.store', me.id);
-                        me.loading = true;
-
-                        http.post(url, formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }).then(data => {
-                            Swal.fire(
-                                'Sucesso!',
-                                data.data.message,
-                                'success'
-                            )
-                            setTimeout(function(){
-                                me.loading = false;
-                                me.$router.push({ path: `/` });
-                            }, 1000);
-                        }).catch(error => {
-                            this.$emit('showError', error)
-                            me.loading = false;
-                        });
-                    }else{
-                        Swal.fire(
-                            'Oops...',
-                            'Para continuar você deve antes resolver os erros presentes no formulário.',
-                            'error'
-                        )
-                    }
-                })
-        },
-        resetSearch() {
-            this.search = '';
-
-            this.getData();
-        },
-        dateFormat(value) {
-            let date = new Date(value);
-            return date.toLocaleDateString();
-        },
-        getData() {
-            submit(route('admin.empresa.edit', this.id), {},'GET').then(
+        getInstituicao(){
+            submit(route('admin.instituicao.get-by-user'), {},'GET').then(
                 data => {
-                    this.payload = data.empresa;
-                    if(this.id){
-                        this.payload.old_logomarca = data.empresa.logomarca;
+                    this.payload = data;
+                    this.payload.old_logomarca = data.logomarca;
+                    if(!data.endereco){
+                        this.payload.endereco = {'estado_id' : '', 'cidade_id' : ''};
                     }
                 }
             ).then(() => {

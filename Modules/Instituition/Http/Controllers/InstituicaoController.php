@@ -5,75 +5,43 @@ namespace Modules\Instituition\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\Instituition\Http\Services\InstituicaoService;
 
 class InstituicaoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var InstituicaoService $service
      */
-    public function index()
+    private $service;
+
+    /**
+     * @param  InstituicaoService  $service
+     */
+    public function __construct(InstituicaoService $service)
     {
-        return view('instituition::index');
+        $this->service = $service;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create()
+    public function edit()
     {
-        return view('instituition::create');
+        return view('modules.instituicao.edit');
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function store(Request $request)
+    public function getByUser()
     {
-        //
-    }
+        try {
+            $data = $this->service->getByUser();
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('instituition::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('instituition::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

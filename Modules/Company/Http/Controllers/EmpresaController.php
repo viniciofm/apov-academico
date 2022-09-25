@@ -41,15 +41,6 @@ class EmpresaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('company::create');
-    }
-
-    /**
      * @param  EmpresaRequestValidator  $request
      * @return JsonResponse
      * @throws \Exception
@@ -147,7 +138,6 @@ class EmpresaController extends Controller
      */
     public function active(Empresa $empresa,bool $active) : JsonResponse
     {
-
         try{
             $data = $this->service->activeObject($empresa, $active);
             if (!$data) {

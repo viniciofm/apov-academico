@@ -3,9 +3,7 @@
 @section('title', __('module_company'))
 
 @section('content')
-    <div id="component-content-empresa">
-
-    </div>
+    <div id="component-content-empresa"></div>
 @endsection
 
 @push('scripts')
