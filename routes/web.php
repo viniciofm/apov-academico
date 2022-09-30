@@ -23,6 +23,7 @@ Route::get('/dashboard', function () {
 
 Route::prefix('api')->name('api.')->namespace('App\Http\Controllers')->middleware(['auth'])->group(function() {
     Route::get('/cidades/get', 'ApiController@getCidades')->name('cidades.get');
+    Route::get('/generos/get', 'ApiController@getGeneros')->name('generos.get');
 });
 
 require __DIR__.'/auth.php';

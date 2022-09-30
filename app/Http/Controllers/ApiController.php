@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use Modules\User\Http\Services\CidadeService;
 use Modules\User\Http\Services\EstadoService;
+use Modules\User\Http\Services\GeneroService;
 
 class ApiController extends Controller
 {
     /**
-     * @var CidadeService
+     * @var EstadoService
      */
-    private $service;
+    private $estadoService;
 
-    public function __construct(EstadoService $service)
+    /**
+     * @var GeneroService
+     */
+    private $generoService;
+
+    public function __construct(EstadoService $estadoService, GeneroService $generoService)
     {
-        $this->service = $service;
+        $this->estadoService = $estadoService;
+        $this->generoService = $generoService;
     }
 
     /**
@@ -23,7 +30,27 @@ class ApiController extends Controller
     public function getCidades()
     {
         try {
-            $data = $this->service->allWithCities();
+            $data = $this->estadoService->allWithCities();
+            $message = __('Operation performed successfully');
+            $code = 200;
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $code = $e->getCode();
+        }
+
+        return response()->json([
+            'message' => $message,
+            'data' => isset($data) ? $data : null
+        ], $code);
+    }
+
+    /**
+     * @return void
+     */
+    public function getGeneros()
+    {
+        try {
+            $data = $this->generoService->all('nome');
             $message = __('Operation performed successfully');
             $code = 200;
         } catch (\Exception $e) {

@@ -25,6 +25,7 @@ class Aluno extends Model
         'matricula',
         'cpf',
         'telefone',
+        'ativo',
         'user_id'
     ];
 

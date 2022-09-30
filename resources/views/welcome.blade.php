@@ -5,7 +5,7 @@
 @section('content')
     <div class="header">
         <h1 class="header-title">
-            {{ $saudacaoUser }}, {{ $currentUser->name }}!
+            {{ $saudacaoUser }}, {{ $currentUser->nome }}!
         </h1>
         <p class="header-subtitle"></p>
     </div>

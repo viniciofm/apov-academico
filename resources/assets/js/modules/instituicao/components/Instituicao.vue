@@ -11,7 +11,7 @@
                     <h5 class="mb-0">Dados da Instituição</h5>
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="razaoSocial">Nome*</label>
+                            <label for="nome">Nome*</label>
                             <input class="form-control" v-model="payload.nome" id="nome" name="nome" maxlength="150" value="" type="text" placeholder="" required="required"
                                    v-validate="'required'"
                                    data-vv-as="'Nome'">
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="razaoSocial">Telefone</label>
+                            <label for="telefone_contato">Telefone</label>
                             <input class="form-control" v-model="payload.telefone_contato" v-mask="['(##) ####-####', '(##) #####-####']" id='telefone_contato' name="telefone_contato" maxlength="150" value="" type="text" placeholder="" required="required">
                         </div>
 
@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="responsavel">Logomarca*</label>
+                            <label for="logomarca">Logomarca*</label>
                             <input type="file" name="logomarca" id="logomarca" ref="image"
                                    v-validate="'ext:png,jpg,jpeg'"
                                    v-on:change="handleFileUpload()"
@@ -96,16 +96,22 @@
                 </div>
             </div>
         </section>
+
+        <loading :active.sync="isLoading"
+                 :can-cancel="false"
+                 :is-full-page="true"/>
     </div>
 </template>
 
 <script>
-import {submit} from "../../../common/send-form";
+import {submit, toSeek} from "../../../common/send-form";
 import http from '../../../api/http'
 import SubHeader from "../../../components/SubHeader"
 import CardTable from "../../../components/CardTable"
 import Endereco from "../../../components/Endereco"
 import Swal from "sweetalert2";
+import Loading from "vue-loading-overlay";
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
     name: "Instituicao",
@@ -134,7 +140,8 @@ export default {
                 'estado_id': null
             },
             old_logomarca: ''
-        }
+        },
+        isLoading: false,
     }),
     props: [
         'id',
@@ -146,13 +153,78 @@ export default {
     components: {
         CardTable,
         SubHeader,
-        Endereco
+        Endereco,
+        Loading
     },
     methods: {
         handleFileUpload() {
             this.payload.logomarca = this.$refs.image.files[0];
         },
+        save(){
+            this.$validator.validateAll().then(
+                res => {
+                    if (res) {
+                        let me = this
+
+                        let formData = new FormData();
+
+                        if (this.payload.logomarca && this.payload.old_logomarca != this.payload.logomarca)
+                            formData.append('logomarca', this.payload.logomarca);
+                        formData.append('nome', this.payload.nome);
+                        formData.append('email', this.payload.email);
+                        formData.append('responsavel', this.payload.responsavel);
+                        formData.append('telefone_contato', this.payload.telefone_contato ? this.payload.telefone_contato : '');
+                        formData.append('cpf_cnpj', this.payload.cpf_cnpj);
+                        formData.append('tipo_documento', this.payload.tipo_documento);
+                        formData.append('user_id', this.payload.user_id);
+                        formData.append('endereco' , JSON.stringify(this.payload.endereco));
+
+                        let url = route('admin.instituicao.update', me.payload.id);
+                        me.loading = true;
+
+                        http.post(url, formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }).then(data => {
+                            Swal.fire({
+                                icon: 'question',
+                                title: 'Sucesso!',
+                                html: (data.data.message + '<br>Deseja ir para a página inicial?'),
+                                showCancelButton: true,
+                                confirmButtonText: 'Sim',
+                                cancelButtonText: 'Não',
+                                allowOutsideClick: false,
+                                showLoaderOnConfirm: true,
+                                allowEscapeKey: false,
+                                preConfirm: () => {
+                                    return new Promise(() => {
+                                        window.location.href = me.routeHome;
+                                    })
+                                },
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.cancel) {
+                                    location.reload();
+                                }
+                            });
+                            setTimeout(function(){
+                                me.loading = false;
+                            }, 1000);
+                        }).catch(error => {
+                            this.$emit('showError', error)
+                            me.loading = false;
+                        });
+                    }else{
+                        Swal.fire(
+                            'Oops...',
+                            'Para continuar você deve antes resolver os erros presentes no formulário.',
+                            'error'
+                        )
+                    }
+                })
+        },
         getInstituicao(){
+            this.isLoading = true;
             submit(route('admin.instituicao.get-by-user'), {},'GET').then(
                 data => {
                     this.payload = data;
@@ -162,7 +234,7 @@ export default {
                     }
                 }
             ).then(() => {
-                this.isLoading = false
+                this.isLoading = false;
             }).catch(error => {
                 Swal.fire(
                     'Erro!',

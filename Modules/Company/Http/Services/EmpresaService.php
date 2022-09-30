@@ -38,6 +38,9 @@ class EmpresaService extends Service
     /**
      * @param  EmpresaRepository  $repository
      * @param  EnderecoService  $enderecoService
+     * @param  UserService  $usuarioService
+     * @param  TipoUsuarioService  $tipoUsuarioService
+     * @param  GeneroService  $generoService
      */
     public function __construct(EmpresaRepository $repository, EnderecoService $enderecoService,
         UserService $usuarioService, TipoUsuarioService $tipoUsuarioService, GeneroService $generoService)
@@ -65,7 +68,7 @@ class EmpresaService extends Service
             }
             $endereco = $this->enderecoService->create($attributes['endereco']);
             //criar usuário
-            $dadosUsuario = Arr::only($attributes, ['email', 'tipo_documento', 'cpf_cnpj']);
+            $dadosUsuario = Arr::only($attributes, ['nome', 'email', 'tipo_documento', 'cpf_cnpj']);
             $dadosUsuario['password'] = \Hash::make((int) filter_var($attributes['cpf_cnpj'],
                 FILTER_SANITIZE_NUMBER_INT));
             $tipoUsuario = $this->tipoUsuarioService->where('nome', '=', 'empresa');
@@ -73,7 +76,6 @@ class EmpresaService extends Service
             $dadosUsuario['tipo_usuario_id'] = count($tipoUsuario) > 0 ? $tipoUsuario[0]->id : null;
             $dadosUsuario['genero_id'] = count($genero) > 0 ? $genero[0]->id : null;
             $dadosUsuario['instituicao_id'] = Auth::user()->instituicao_id;
-            $dadosUsuario['name'] = $attributes['nome'];
             $usuario = $this->usuarioService->create($dadosUsuario);
 
             //save image

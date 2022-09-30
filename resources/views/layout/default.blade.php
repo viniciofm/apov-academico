@@ -76,7 +76,7 @@
             <div class="sidebar-content">
                 <div class="sidebar-user">
                     <i class="align-middle fas fa-fw fa-user-circle" style="font-size: 80px;"></i>
-                    <div class="fw-bold">{{ $currentUser->name }}</div>
+                    <div class="fw-bold">{{ $currentUser->nome }}</div>
                     <small> {{ $currentUser->email }} <br />
 
                     </small>

@@ -14,17 +14,18 @@ use Modules\User\Http\Services\UserService;
 class EmpresaController extends Controller
 {
     /**
-     * @var EmpresaService
+     * @var EmpresaService $service
      */
     protected $service;
 
     /**
-     * @var UserService
+     * @var UserService $userService
      */
     protected $userService;
 
     /**
-     * @param  EmpresaRepository  $empresaRepository
+     * @param  EmpresaService  $service
+     * @param  UserService  $userService
      */
     public function __construct(EmpresaService $service, UserService $userService)
     {
@@ -98,21 +99,22 @@ class EmpresaController extends Controller
     {
         $empresa->endereco = $empresa->endereco;
         return \response()->json([
-            'empresa' => $empresa,
+            'registro' => $empresa,
         ], 201);
     }
 
     /**
      * @param  EmpresaRequestValidator  $request
      * @param $id
-     * @return void
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function update(EmpresaRequestValidator $request, $id)
     {
         $r = $request->all();
         //validar atualização
-        $empresa = $this->service->find($id);
-        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa', $empresa->user_id);
+        $registro = $this->service->find($id);
+        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa', $registro->user_id);
         if (!$canRegister){
             throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
         }

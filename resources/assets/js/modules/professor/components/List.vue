@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :title="'Empresas'"></sub-header>
+            <sub-header :links="subHeaderLinks" :title="'Professores'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -16,13 +16,13 @@
                             :withFilters="true">
                             <template v-slot:header-card>
                                 <div class="col-md-6">
-                                    <h4 class="card-title">EMPRESAS CADASTRADAS</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para ver suas empresas cadastradas ou então editar e excluí-las.</h6>
+                                    <h4 class="card-title">PROFESSORES CADASTRADOS</h4>
+                                    <h6 class="card-subtitle text-muted">Utilize o módulo para ver os professores cadastrados ou então editar e excluí-los.</h6>
                                 </div>
                             </template>
 
                             <template v-slot:filters>
-                                <div class="form-group col-lg-7 col-md-7 col-sm-6">
+                                <div class="form-group col-lg-4 col-md-4 col-sm-6">
                                     <label for="nome">Nome</label>
                                     <input class="form-control"
                                            v-model="search.nome"
@@ -30,31 +30,29 @@
                                 </div>
 
                                 <div class="form-group col-lg-3 col-md-3 col-sm-6">
-                                    <label for="cnpj">CPF/CNPJ</label>
+                                    <label for="cpf_cnpj">CPF/CNPJ</label>
                                     <input class="form-control"
                                            v-mask="['###.###.###-##', '##.###.###/####-##']" v-model="search.cpf_cnpj"
                                            id="cpf_cnpj" name="cpf_cnpj" maxlength="20" type="text" placeholder="">
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="matricula">Matrícula</label>
+                                    <input class="form-control"
+                                           v-model="search.matricula"
+                                           id="matricula" name="matricula" maxlength="200" type="text" placeholder="">
                                 </div>
                             </template>
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.nome }}
+                                        {{ item.matricula }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.email }}
+                                        {{ item.usuario.nome }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.responsavel }}
-                                    </td>
-                                    <td scope="col">
-                                        {{ item.telefone_contato ?  item.telefone_contato : '-' }}
-                                    </td>
-                                    <td scope="col">
-                                        {{ item.cpf_cnpj }}
-                                    </td>
-                                    <td scope="col">
-                                        <span :class="'badge ' + (item.tipo_documento == 'cpf' ? 'bg-info' : 'bg-primary')">{{ item.tipo_documento == 'cpf' ? 'CPF' : 'CNPJ' }}</span>
+                                        {{ item.usuario.email }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
@@ -92,14 +90,14 @@ import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    name: "ListEmpresas",
+    name: "ListProfessores",
     data: () => ({
         subHeaderLinks:[],
-        search: {nome: '', cpf_cnpj:''},
+        search: {name: '', cpf_cnpj:'', matricula:''},
         dataPaginate: {},
-        columns: ['Nome', 'E-mail', 'Responsável', 'Contato', 'CPF/CNPJ','Tipo', 'Ações'],
+        columns: ['Matrícula', 'Nome', 'E-mail', 'Ações'],
         isLoading: false,
-        routeCreate:'empresa'
+        routeCreate:'professor'
     }),
     mounted() {
         this.getData();
@@ -118,7 +116,7 @@ export default {
             Swal.fire({
                 icon: 'question',
                 title: 'Confirmação',
-                html: ('Deseja realmente alterar o status da empresa ' + item.nome + ' para ' + (ativo ? 'ativo' : 'inativo') + '?'),
+                html: ('Deseja realmente alterar o status do professor ' + item.usuario.nome + ' para ' + (ativo ? 'ativo' : 'inativo') + '?'),
                 showCancelButton: true,
                 confirmButtonText: 'Sim',
                 cancelButtonText: 'Não',
@@ -128,7 +126,7 @@ export default {
                 preConfirm: () => {
                     return new Promise(() => {
                         me.loading = true;
-                        toSeek(route('admin.empresa.active', {'empresa': item.id, 'active': ativo})).then(
+                        toSeek(route('admin.professor.active', {'professor': item.id, 'active': ativo})).then(
                             data => {
                                 if(data.success){
                                     me.$emit('showMessage', data.message)
@@ -153,7 +151,7 @@ export default {
         getData(page = 1) {
             this.isLoading = true;
 
-            submit(route('admin.empresa.get'), {
+            submit(route('admin.professor.get'), {
                 page: Number.isInteger(page) ? page : 1,
                 perPage: 10,
                 paginate: true,

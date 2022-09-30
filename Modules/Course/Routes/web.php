@@ -11,6 +11,11 @@
 |
 */
 
-Route::prefix('course')->group(function() {
-    Route::get('/', 'CourseController@index');
+Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(function() {
+    Route::get('/', 'CursoController@index')->name('index');
+    Route::post('/store', 'CursoController@store')->name('store');
+    Route::post('/get', 'CursoController@get')->name('get');
+    Route::get('/edit/{curso}', 'CursoController@edit')->name('edit');
+    Route::post('/update/{curso}', 'CursoController@update')->name('update');
+    Route::get('/active/{curso}/{active}', 'CursoController@active')->name('active');
 });

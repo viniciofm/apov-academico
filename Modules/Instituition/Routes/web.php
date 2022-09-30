@@ -14,5 +14,6 @@
 Route::prefix('admin/instituicao')->name('admin.instituicao.')->middleware(['auth'])->group(function() {
     Route::get('/', 'InstituicaoController@edit')->name('index');
     Route::get('/get-by-user', 'InstituicaoController@getByUser')->name('get-by-user');
+    Route::post('/update/{instituicao}', 'InstituicaoController@update')->name('update');
 });
 

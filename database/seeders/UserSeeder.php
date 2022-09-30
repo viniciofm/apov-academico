@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
                 'tipo_usuario_id' => TipoUsuario::where('nome','admin')->first()->id,
                 'instituicao_id' => Instituicao::where('cpf_cnpj',$value['cpf_cnpj'])->first()->id,
                 'genero_id' => Genero::where('nome',$value['genero'])->first()->id,
-                'name' => $value['nome'],
+                'nome' => $value['nome'],
                 'email' => $value['email'],
                 'password' => Hash::make('12345678'),
                 'cpf_cnpj' => $value['cpf_cnpj'],

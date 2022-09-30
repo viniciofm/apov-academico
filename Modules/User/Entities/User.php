@@ -29,7 +29,7 @@ class User extends Authenticatable
         'id',
         'tipo_usuario_id',
         'instituicao_id',
-        'name',
+        'nome',
         'cpf_cnpj',
         'tipo_documento',
         'email',

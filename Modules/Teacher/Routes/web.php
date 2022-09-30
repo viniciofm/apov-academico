@@ -11,6 +11,11 @@
 |
 */
 
-//Route::prefix('teacher')->group(function() {
-//    Route::get('/', 'TeacherController@index');
-//});
+Route::prefix('admin/professor')->name('admin.professor.')->middleware(['auth'])->group(function() {
+    Route::get('/', 'ProfessorController@index')->name('index');
+    Route::post('/store', 'ProfessorController@store')->name('store');
+    Route::post('/get', 'ProfessorController@get')->name('get');
+    Route::get('/edit/{professor}', 'ProfessorController@edit')->name('edit');
+    Route::post('/update/{professor}', 'ProfessorController@update')->name('update');
+    Route::get('/active/{professor}/{active}', 'ProfessorController@active')->name('active');
+});

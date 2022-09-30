@@ -24,6 +24,7 @@ class Curso extends Model
         'id',
         'sigla',
         'nome',
+        'ativo',
         'instituicao_id'
     ];
 

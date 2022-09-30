@@ -17,18 +17,23 @@ class Repository
             $params['with'],
             $params['page'],
             $params['perPage'],
-            $params['column'],
+            $params['column'] ?? null,
             $params['search'],
             $params['paginate']
         );
     }
 
     /**
+     * @param  string|null  $sortBy
      * @return mixed
      */
-    public function all()
+    public function all(string $sortBy = NULL)
     {
-        return $this->entity::all();
+        if ($sortBy){
+            return $this->entity::orderBy($sortBy)->get();
+        }else{
+            return $this->entity::all();
+        }
     }
 
     /**
@@ -143,15 +148,17 @@ class Repository
         $page = 1,
         $perPage = 10,
         $column = null,
-        $search = '',
+        $search = [],
         bool $paginate = false,
         array $columns = ['*']
     )
     {
         $query = $this->entity->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('created_at', 'DESC');
-        if ($search && $column)
+        if ($search)
         {
-            $query->where($column, 'ilike', '%'.$search.'%');
+            foreach($search as $col => $s){
+                $query->where($col, 'like', '%'.$s.'%');
+            }
         }
 
         if ($paginate) {

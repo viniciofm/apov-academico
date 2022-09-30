@@ -6,7 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Instituition\Http\Requests\InstituicaoRequestValidator;
 use Modules\Instituition\Http\Services\InstituicaoService;
+use Modules\User\Http\Services\EnderecoService;
 
 class InstituicaoController extends Controller
 {
@@ -29,6 +31,28 @@ class InstituicaoController extends Controller
     public function edit()
     {
         return view('modules.instituicao.edit');
+    }
+
+    /**
+     * @param  InstituicaoRequestValidator  $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(InstituicaoRequestValidator $request, $id)
+    {
+        try {
+            $data = $this->service->update($id, $request);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Instituição atualizada!'
+        ], 201);
     }
 
     /**
