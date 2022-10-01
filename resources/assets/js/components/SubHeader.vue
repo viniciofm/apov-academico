@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="header">
             <h1 class="header-title">
-                Empresas
+                Gerenciamento de {{ module }}
             </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -23,7 +23,8 @@
     export default {
         props: {
             links: {},
-            title: ''
+            title: '',
+            module: ''
         }
     }
 </script>

@@ -16,8 +16,7 @@ class CreateAlunosTable extends Migration
         Schema::create('alunos', function (Blueprint $table) {
             $table->uuid('id');
             $table->integer('matricula');
-            $table->string('cpf',11);
-            $table->string('telefone',11);
+            $table->string('telefone',15)->nullable();
 
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');

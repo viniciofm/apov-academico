@@ -4,6 +4,8 @@ namespace Modules\Student\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Endereco;
+use Modules\User\Entities\User;
 
 class Aluno extends Model
 {
@@ -23,7 +25,6 @@ class Aluno extends Model
     protected $fillable = [
         'id',
         'matricula',
-        'cpf',
         'telefone',
         'ativo',
         'user_id'
@@ -31,6 +32,24 @@ class Aluno extends Model
 
     protected $casts = [
         'matricula' => 'int',
+        'ativo' => 'boolean',
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function endereco()
+    {
+        return $this->usuario->belongsTo(Endereco::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::addGlobalScope(new ActivedScope());
+    }
 
 }

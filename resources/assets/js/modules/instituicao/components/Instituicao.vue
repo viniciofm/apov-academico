@@ -1,7 +1,7 @@
 <template>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :title="title ? title : ('Dados da Instituição')"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'dados da Instituição'" :title="title ? title : ('Dados da Instituição')"></sub-header>
 
             <div class="card mb-3">
                 <div class="card-header">

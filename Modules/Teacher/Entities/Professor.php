@@ -31,6 +31,7 @@ class Professor extends Model
     ];
 
     protected $casts = [
+        'matricula' => 'int',
         'ativo' => 'boolean',
     ];
 

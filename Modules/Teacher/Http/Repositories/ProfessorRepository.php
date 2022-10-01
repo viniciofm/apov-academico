@@ -43,6 +43,7 @@ class ProfessorRepository extends Repository
             })
             ->withoutGlobalScope(ActivedScope::class)->with($with)
             ->join('users as usuario', 'usuario.id', '=', 'professores.user_id')
+            ->select('usuario.*', 'professores.*')
             ->orderBy('usuario.nome','ASC');
 
         if ($search && isset($search['matricula'])) {

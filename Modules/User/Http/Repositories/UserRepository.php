@@ -37,6 +37,9 @@ class UserRepository extends Repository
                 ->where(function($query) use ($request) {
                     $query->where('email', $request['email'])->orWhere('cpf_cnpj', $request['cpf_cnpj']);
                 });
+
+            $usuario->where('tipo_usuario_id', $tipoUsuario->first()->id);
+
             if ($userIdUpdate){
                 $usuario = $usuario->where('id', '!=', $userIdUpdate);
             }

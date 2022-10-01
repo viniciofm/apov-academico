@@ -1,7 +1,7 @@
 <template>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :title="title ? title : (id ? 'Atualização' : 'Cadastro')"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Professores'" :title="title ? title : (id ? 'Atualização' : 'Cadastro')"></sub-header>
 
             <div class="card mb-3">
                 <div class="card-header">
@@ -135,8 +135,8 @@ export default {
                 'bairro': '',
                 'complemento': '',
                 'cep': '',
-                'cidade_id': null,
-                'estado_id': null
+                'cidade_id': '',
+                'estado_id': ''
             },
             old_logomarca: ''
         },

@@ -13,8 +13,9 @@ class EmpresaRepository extends Repository
     public function __construct(Empresa $entity)
     {
         $this->entity = $entity;
+    }
 
-        public function get(array $params)
+    public function get(array $params)
     {
         return $this->searchWithPagination(
             $params['with'],
@@ -25,7 +26,7 @@ class EmpresaRepository extends Repository
         );
     }
 
-        private function searchWithPagination(
+    private function searchWithPagination(
         array $with = [],
         $page = 1,
         $perPage = 10,
@@ -52,6 +53,5 @@ class EmpresaRepository extends Repository
         }
 
         return $query->get($columns);
-    }
     }
 }

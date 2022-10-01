@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :title="'Cursos'"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Cursos'" :title="'Cursos'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -121,8 +121,9 @@ export default {
                                 if(data.success){
                                     me.$emit('showMessage', data.message)
                                     me.getData();
+                                }else{
+                                    me.isLoading = false
                                 }
-                                me.isLoading = false
                             }
                         ).then(() => {
                             me.isLoading = false
