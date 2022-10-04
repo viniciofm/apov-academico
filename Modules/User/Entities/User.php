@@ -78,6 +78,11 @@ class User extends Authenticatable
         return $this->belongsTo(Genero::class);
     }
 
+    public function tipo_usuario()
+    {
+        return $this->belongsTo(TipoUsuario::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

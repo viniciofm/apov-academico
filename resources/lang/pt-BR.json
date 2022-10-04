@@ -99,5 +99,6 @@
   "module_teacher": "Professores",
   "module_course": "Gestão de Cursos",
   "module_aluno": "Alunos",
+  "module_usuario": "Usuários",
   "data_instituition": "Dados da Instituição"
 }

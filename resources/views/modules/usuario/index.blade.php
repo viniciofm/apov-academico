@@ -1,9 +1,11 @@
-@extends('user::layouts.master')
+@extends('layout.default')
+
+@section('title', __('module_usuario'))
 
 @section('content')
-    <h1>Hello World</h1>
-
-    <p>
-        This view is loaded from module: {!! config('user.name') !!}
-    </p>
+    <div id="component-content-usuario"></div>
 @endsection
+
+@push('scripts')
+    <script src="{{ mix("/dist/js/usuario/main.js") }}"></script>
+@endpush

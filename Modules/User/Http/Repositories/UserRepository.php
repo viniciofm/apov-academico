@@ -52,4 +52,52 @@ class UserRepository extends Repository
 
         return true;
     }
+
+    public function get(array $params)
+    {
+        return $this->searchWithPagination(
+            $params['with'],
+            $params['page'],
+            $params['perPage'],
+            $params['column'] ?? null,
+            $params['search'],
+            $params['paginate']
+        );
+    }
+
+    private function searchWithPagination(
+        array $with = [],
+        $page = 1,
+        $perPage = 10,
+        $column = null,
+        $search = [],
+        bool $paginate = false,
+        array $columns = ['*']
+    )
+    {
+        $query = $this->entity->with($with)->orderBy('nome');
+        if ($search)
+        {
+            foreach($search as $col => $s){
+                if($col != 'tipo_usuario'){
+                    $query->where($col, 'like', '%'.$s.'%');
+                }else{
+                    $query->whereHas('tipo_usuario', function($q) use ($s) {
+                        $q->where('nome', 'like', '%'.$s.'%');
+                    });
+                }
+            }
+        }
+
+        if ($paginate) {
+            return $query->paginate(
+                $perPage,
+                ['*'],
+                'page',
+                $page
+            );
+        }
+
+        return $query->get($columns);
+    }
 }

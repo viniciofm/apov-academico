@@ -39,8 +39,12 @@ class EmpresaRepository extends Repository
                 $q->where('instituicao_id', '=', Auth::user()->instituicao_id);
             })
             ->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('nome', 'ASC')->orderBy('created_at', 'DESC');
-        if ($search && isset($search['nome']) && isset($search['cpf_cnpj'])) {
-            $query->where('nome', 'like', '%'.$search['nome'].'%')->where('cpf_cnpj', 'like', '%'.$search['cpf_cnpj'].'%');
+
+        if ($search)
+        {
+            foreach($search as $col => $s){
+                $query->where($col, 'like', '%'.$s.'%');
+            }
         }
 
         if ($paginate) {
