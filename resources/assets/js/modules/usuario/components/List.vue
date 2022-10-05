@@ -46,7 +46,7 @@
                                 <div class="form-group col-lg-5 col-md-5 col-sm-6">
                                     <label for="tipo_usuario">Tipo</label>
                                     <select class="form-control" data-bs-toggle="select2" v-model="search.tipo_usuario" name="tipo_usuario" id="tipo_usuario">
-                                        <option value="" disabled selected>Não selecionado</option>
+                                        <option value="" selected>Não selecionado</option>
                                         <option value="admin">Administrativo</option>
                                         <option value="aluno">Aluno</option>
                                         <option value="empresa">Empresa</option>
@@ -159,7 +159,7 @@ export default {
                 preConfirm: () => {
                     return new Promise(() => {
                         me.loading = true;
-                        toSeek(route('admin.curso.active', {'curso': item.id, 'active': ativo})).then(
+                        toSeek(route('admin.usuario.block', {'user': item.id, 'block': blocked})).then(
                             data => {
                                 if(data.success){
                                     me.$emit('showMessage', data.message)

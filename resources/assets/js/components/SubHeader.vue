@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="header">
             <h1 class="header-title">
-                Gerenciamento de {{ module }}
+                {{ headerTitle ? headerTitle : (`Gerenciamento de ${module}`)}}
             </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -24,7 +24,8 @@
         props: {
             links: {},
             title: '',
-            module: ''
+            module: '',
+            headerTitle: '',
         }
     }
 </script>

@@ -11,6 +11,8 @@ window.Vue = Vue;
 import VeeValidate, { Validator } from 'vee-validate';
 import msgBR from '../../lang/vee-validate/pt_BR';
 import Content from "../Content";
+import Usuario from "./components/Usuario";
+import EditarSenha from "./components/EditarSenha";
 
 Validator.localize('pt_BR', msgBR);
 
@@ -29,4 +31,20 @@ if (document.querySelector('#component-content-usuario')) {
         router,
         render: h => h(Content)
     }).$mount('#component-content-usuario');
+}
+
+if (document.querySelector('#component-content-usuario-edit')) {
+    Vue.component('Usuario', Usuario);
+
+    new Vue({
+        el: '#component-content-usuario-edit'
+    });
+}
+
+if (document.querySelector('#component-content-senha')) {
+    Vue.component('EditarSenha', EditarSenha);
+
+    new Vue({
+        el: '#component-content-senha'
+    });
 }

@@ -116,7 +116,17 @@ class Service
      */
     public function activeObject($object, bool $active) : bool
     {
-        return $this->repository->activeObject($object,$active);
+        return $this->repository->activeObject($object, $active);
+    }
+
+    /**
+     * @param $object
+     * @param  bool  $block
+     * @return bool
+     */
+    public function blockObject($object, bool $block) : bool
+    {
+        return $this->repository->blockObject($object, $block);
     }
 
     /**

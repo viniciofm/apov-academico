@@ -4,6 +4,7 @@ namespace Modules\User\Http\Repositories;
 
 
 use App\Http\Repositories\Repository;
+use App\Scopes\BlockedScope;
 use Illuminate\Support\Facades\Auth;
 use Modules\User\Entities\User;
 use Modules\User\Http\Services\TipoUsuarioService;
@@ -75,7 +76,7 @@ class UserRepository extends Repository
         array $columns = ['*']
     )
     {
-        $query = $this->entity->with($with)->orderBy('nome');
+        $query = $this->entity->withoutGlobalScope(BlockedScope::class)->with($with)->orderBy('blocked')->orderBy('nome');
         if ($search)
         {
             foreach($search as $col => $s){

@@ -63,20 +63,26 @@
 						            </span>
                                 </div>
 
-                                <div class="wrap-input100 validate-input mb-1" data-validate="Informe sua senha">
+                                <div class="wrap-input100 validate-input mb-3" data-validate="Informe sua senha">
                                     <input class="input100" type="password" id="password" name="password" placeholder="Senha">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa-solid fa-lock"></i>
                                     </span>
                                 </div>
-                                <label class="container">
-                                    <span class="txt2" for="salvarCredencial">
-                                        Mantenha-me conectado
+
+                                <div class="wrap-input100 validate-input mb-1" data-validate="Informe sua senha">
+                                    <span class="focus-input100"></span>
+                                    <select class="input100" style="border-color: white;" name="tipo_usuario_id" id="tipo_usuario_id" required="required">
+                                        <option value="" disabled selected>Não selecionado</option>
+                                        @foreach($tipos as $tipo)
+                                            <option value="{{$tipo->id}}">{{ __($tipo->nome) }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="symbol-input100">
+                                        <i class="fa-solid fa-users-line"></i>
                                     </span>
-                                    <input type="checkbox" checked="checked" id="salvarCredencial">
-                                    <span class="checkmark"></span>
-                                </label>
+                                </div>
 
                                 <div class="container-login100-form-btn" data-tilt="">
                                     <button class="login100-form-btn" type="submit">

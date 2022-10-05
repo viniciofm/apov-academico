@@ -16,6 +16,13 @@ Route::prefix('admin/usuario')->name('admin.usuario.')->middleware(['auth'])->gr
     Route::post('/store', 'UserController@store')->name('store');
     Route::post('/get', 'UserController@get')->name('get');
     Route::get('/edit/{user}', 'UserController@edit')->name('edit');
+    Route::get('/edit-user', 'UserController@editUser')->name('edit-user');
     Route::post('/update/{user}', 'UserController@update')->name('update');
-    Route::get('/active/{user}/{active}', 'UserController@active')->name('active');
+    Route::get('/block/{user}/{block}', 'UserController@block')->name('block');
+});
+
+Route::prefix('/')->name('usuario.')->middleware(['auth'])->group(function() {
+    Route::get('/meus-dados', 'UserController@meusDados')->middleware(['auth'])->name('meus-dados');
+    Route::get('/mudar-senha', 'UserController@editarSenha')->middleware(['auth'])->name('mudar-senha');
+    Route::post('/update-password', 'UserController@updatePassword')->middleware(['auth'])->name('update-password');
 });

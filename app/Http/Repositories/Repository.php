@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 
 use App\Scopes\ActivedScope;
+use App\Scopes\BlockedScope;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -42,7 +43,7 @@ class Repository
      */
     public function find(string $id)
     {
-        return $this->entity::findOrFail($id);
+        return $this->entity::withoutGlobalScope(BlockedScope::class)->findOrFail($id);
     }
 
     /**
@@ -52,7 +53,7 @@ class Repository
      */
     public function findWith(string $id, $with)
     {
-        return $this->entity::with($with)->find($id);
+        return $this->entity::withoutGlobalScope(BlockedScope::class)->with($with)->find($id);
     }
 
     /**
@@ -136,6 +137,22 @@ class Repository
     {
         try {
             $object->ativo = $active;
+            $object->save();
+            return true;
+        } catch ( \Exception $e ){
+            return false;
+        }
+    }
+
+    /**
+     * @param $object
+     * @param  bool  $block
+     * @return bool
+     */
+    public function blockObject($object,bool $block): bool
+    {
+        try {
+            $object->blocked = $block;
             $object->save();
             return true;
         } catch ( \Exception $e ){

@@ -6,7 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\User\Entities\User;
+use Modules\User\Http\Requests\PasswordRequestValidator;
 use Modules\User\Http\Requests\UserRequestValidator;
 use Modules\User\Http\Services\UserService;
 
@@ -40,15 +42,15 @@ class UserController extends Controller
      */
     public function store(UserRequestValidator $request)
     {
-        $r = $request->all()['usuario'];
+        $r = $request->all();
         //validar cadastro
-        $canRegister = $this->service->canRegisterCadastro($r, 'usuario');
+        $canRegister = $this->service->canRegisterCadastro($r, 'admin');
         if (!$canRegister){
             throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
         }
 
         try {
-            $data = $this->service->create($request);
+            $data = $this->service->createUserAdmin($request);
 
             if (!$data) {
                 throw new \Exception('Não foi possível registrar o novo item!');
@@ -70,16 +72,16 @@ class UserController extends Controller
      */
     public function update(UserRequestValidator $request, $id)
     {
-        $r = $request->all()['usuario'];
+        $r = $request->all();
         //validar atualização
         $registro = $this->service->find($id);
-        $canRegister = $this->service->canRegisterCadastro($r, 'usuario', $registro->user_id);
+        $canRegister = $this->service->canRegisterCadastro($r, 'admin', $registro->id);
         if (!$canRegister){
             throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
         }
 
         try {
-            $data = $this->service->update($id, $request);
+            $data = $this->service->updateUserAdmin($id, $request);
 
             if (!$data) {
                 throw new \Exception('Não foi possível atualizar o item!');
@@ -90,6 +92,29 @@ class UserController extends Controller
         return \response()->json([
             'success' => true,
             'message' => 'Usuário atualizado!'
+        ], 201);
+    }
+
+    /**
+     * @param  UserRequestValidator  $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function updatePassword(PasswordRequestValidator $request)
+    {
+        try {
+            $data = $this->service->updatePassword($request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Senha do Usuário atualizada!'
         ], 201);
     }
 
@@ -115,26 +140,29 @@ class UserController extends Controller
     }
 
     /**
-     * @param  Aluno  $aluno
+     * @param  string  $user
      * @return JsonResponse
      */
-    public function edit(User $user)
+    public function edit(string $user)
     {
+        $user = $this->service->find($user);
         $user->endereco = $user->endereco;
+        $user->tipo_usuario = $user->tipo_usuario;
         return \response()->json([
             'registro' => $user,
         ], 201);
     }
 
     /**
-     * @param  User  $user
+     * @param  string  $user
      * @param  bool  $block
      * @return JsonResponse
      */
-    public function block(User $user,bool $block) : JsonResponse
+    public function block(string $user,bool $block) : JsonResponse
     {
+        $user = $this->service->find($user);
         try{
-            $data = $this->service->activeObject($user, $active);
+            $data = $this->service->blockObject($user, $block);
             if (!$data) {
                 throw new \Exception('Não foi possível '.($block ? 'bloquear':'desbloquear').' o usuário');
             }
@@ -144,8 +172,38 @@ class UserController extends Controller
         return \response()->json([
             'data' => [
                 'success' => true,
-                'message' => 'Aluno '.($block ? 'bloqueado' : 'desbloqueado').' com sucesso!'
+                'message' => 'Usuário '.($block ? 'bloqueado' : 'desbloqueado').' com sucesso!'
             ]
+        ], 201);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function meusDados()
+    {
+        return view('modules.usuario.meus-dados');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function editarSenha()
+    {
+        return view('modules.usuario.mudar-senha');
+    }
+
+    /**
+     * @param  string  $user
+     * @return JsonResponse
+     */
+    public function editUser()
+    {
+        $user = Auth::user();
+        $user->endereco = $user->endereco;
+        $user->tipo_usuario = $user->tipo_usuario;
+        return \response()->json([
+            'registro' => $user,
         ], 201);
     }
 }

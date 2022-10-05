@@ -68,8 +68,7 @@ class AlunoService extends Service
             $endereco = $this->enderecoService->create($attributes['endereco']);
             //criar usuário
             $dadosUsuario = Arr::only($attributes['usuario'], ['nome', 'genero_id', 'email', 'tipo_documento', 'cpf_cnpj']);
-            $dadosUsuario['password'] = \Hash::make((int) filter_var($attributes['usuario']['cpf_cnpj'],
-                FILTER_SANITIZE_NUMBER_INT));
+            $dadosUsuario['password'] = \Hash::make(preg_replace('/[^0-9]/', '', $attributes['usuario']['cpf_cnpj']));
             $tipoUsuario = $this->tipoUsuarioService->where('nome', '=', 'aluno');
             $dadosUsuario['tipo_usuario_id'] = count($tipoUsuario) > 0 ? $tipoUsuario[0]->id : null;
             $dadosUsuario['instituicao_id'] = $userAuth->instituicao_id;
@@ -109,7 +108,7 @@ class AlunoService extends Service
                 $attributes['endereco']['numero'] = NULL;
             }
 
-            $usuario = $this->usuarioService->update($registro->user_id, $attributes['usuario']);
+            $usuario = $this->usuarioService->update($registro->user_id, Arr::only($attributes['usuario'], ['nome', 'email', 'cpf_cnpj', 'tipo_documento', 'genero_id']));
             $endereco = $this->enderecoService->update($usuario->endereco_id, $attributes['endereco']);
             //atualiza registro
             $registro =  $this->repository->update($id ,$attributes);

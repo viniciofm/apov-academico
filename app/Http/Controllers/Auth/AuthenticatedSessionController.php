@@ -7,9 +7,25 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Modules\User\Http\Services\TipoUsuarioService;
 
 class AuthenticatedSessionController extends Controller
 {
+    /**
+     * @var TipoUsuarioService $tipoUsuarioService
+     */
+    protected $tipoUsuarioService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(TipoUsuarioService $tipoUsuarioService)
+    {
+        $this->tipoUsuarioService = $tipoUsuarioService;
+    }
+
     /**
      * Display the login view.
      *
@@ -17,14 +33,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        return view('auth.login')->with(['tipos' => $this->tipoUsuarioService->all('nome')]);
     }
 
     /**
-     * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @param  LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(LoginRequest $request)
     {

@@ -100,5 +100,10 @@
   "module_course": "Gestão de Cursos",
   "module_aluno": "Alunos",
   "module_usuario": "Usuários",
+  "admin": "Administração",
+  "professor": "Professor",
+  "aluno": "Aluno",
+  "empresa": "Empresa",
+  "user_data": "Dados do Usuário",
   "data_instituition": "Dados da Instituição"
 }

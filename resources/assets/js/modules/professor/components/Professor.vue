@@ -115,7 +115,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     name: "Professor",
     data: () => ({
-        subHeaderLinks:[['professor', 'Professores']],
+        subHeaderLinks:[['/', 'Professores']],
         search: '',
         dataPaginate: {},
         payload:{

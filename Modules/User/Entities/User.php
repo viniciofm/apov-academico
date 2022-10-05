@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->belongsTo(TipoUsuario::class);
     }
 
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

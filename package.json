@@ -75,7 +75,7 @@
         "vue-konva": "^2.1.1",
         "vue-loading-overlay": "3.0",
         "vue-multiselect": "^2.1.6",
-        "vue-password-strength-meter": "^1.7.1",
+        "vue-password-strength-meter": "^1.7.2",
         "vue-qart": "^2.2.0",
         "vue-recaptcha": "^1.2.0",
         "vue-router": "^3.1.5",

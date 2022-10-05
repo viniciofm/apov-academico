@@ -16,14 +16,13 @@ class UserRequestValidator extends AbstractGenericFormRequest
     public function rules() : array
     {
         return [
-            'id' => 'sometimes|required|uuid|exists:empresas,id',
-            'usuario' => 'array',
-            'usuario.nome' => 'required|string',
-            'usuario.email' => 'required|email|string',
-            'usuario.cpf_cnpj' => 'required|string',
-            'usuario.tipo_documento' => 'required|string',
-            'usuario.genero_id' => 'required|uuid|exists:generos,id',
-            'telefone' => '',
+            'id' => 'sometimes|required|uuid|exists:users,id',
+            'nome' => 'required|string',
+            'email' => 'required|email|string',
+            'cpf_cnpj' => 'required|string',
+            'tipo_documento' => 'required|string',
+            'genero_id' => 'required|uuid|exists:generos,id',
+            'password' => 'sometimes|required|string',
             'endereco' => 'array',
             'endereco.id' => 'uuid|nullable',
             'endereco.rua' => 'string|nullable',
@@ -39,8 +38,6 @@ class UserRequestValidator extends AbstractGenericFormRequest
     {
         $items = json_decode($this->request->get('endereco'),true);
         $this->request->set('endereco' , $items);
-        $items = json_decode($this->request->get('usuario'),true);
-        $this->request->set('usuario' , $items);
     }
 
     public function getValidatorInstance()
@@ -57,12 +54,12 @@ class UserRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'id' => 'ID',
-            'usuario.nome' => 'Nome',
-            'usuario.email' => 'E-mail',
-            'usuario.cpf_cnpj' => 'CPF/CNPJ',
-            'usuario.tipo_documento' => 'Tipo do Documento',
-            'usuario.genero_id' => 'Gênero',
-            'telefone' => 'Telefone',
+            'nome' => 'Nome',
+            'email' => 'E-mail',
+            'cpf_cnpj' => 'CPF/CNPJ',
+            'tipo_documento' => 'Tipo do Documento',
+            'genero_id' => 'Gênero',
+            'password' => 'Senha',
             'endereco' => 'Endereço',
             'endereco.id' => 'ID do Endereço',
             'endereco.rua' => 'Rua',

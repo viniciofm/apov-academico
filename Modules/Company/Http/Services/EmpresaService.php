@@ -69,8 +69,7 @@ class EmpresaService extends Service
             $endereco = $this->enderecoService->create($attributes['endereco']);
             //criar usuário
             $dadosUsuario = Arr::only($attributes, ['nome', 'email', 'tipo_documento', 'cpf_cnpj']);
-            $dadosUsuario['password'] = \Hash::make((int) filter_var($attributes['cpf_cnpj'],
-                FILTER_SANITIZE_NUMBER_INT));
+            $dadosUsuario['password'] = \Hash::make(preg_replace('/[^0-9]/', '', $attributes['cpf_cnpj']));
             $tipoUsuario = $this->tipoUsuarioService->where('nome', '=', 'empresa');
             $genero = $this->generoService->where('nome', 'like', '%Não%');
             $dadosUsuario['tipo_usuario_id'] = count($tipoUsuario) > 0 ? $tipoUsuario[0]->id : null;
@@ -121,6 +120,7 @@ class EmpresaService extends Service
                 $attributes['logomarca'] = $this->saveLogoMarca($request, $empresa);
             }
 
+            $usuario = $this->usuarioService->update($empresa->user_id, Arr::only($attributes, ['nome', 'email', 'cpf_cnpj', 'tipo_documento', 'genero_id']));
             $endereco = $this->enderecoService->update($empresa->endereco_id, $attributes['endereco']);
             //atualiza empresa
             $empresa =  $this->repository->update($id ,$attributes);
