@@ -8,9 +8,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">In&iacute;cio</a></li>
                     <li class="breadcrumb-item" v-for="link in links">
-                        <router-link :to="link[0]">
+                        <router-link :to="link[0]" v-if="link[0]">
                             <span class="m-nav__link-text">{{ link[1] }}</span>
                         </router-link>
+                        <span v-else class="breadcrumb-item active">{{ link[1] }}</span>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
                 </ol>

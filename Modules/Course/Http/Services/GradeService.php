@@ -11,4 +11,15 @@ class GradeService extends Service
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @param  string  $sigla
+     * @param  string  $grade_id
+     * @param  string|null  $idUpdate
+     * @return bool
+     */
+    public function canRegisterCadastro(string $sigla, string $grade_id, string $idUpdate = NULL) : bool
+    {
+        return $this->repository->canRegisterCadastro($sigla, $grade_id, $idUpdate);
+    }
 }

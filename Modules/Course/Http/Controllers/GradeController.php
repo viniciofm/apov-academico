@@ -3,77 +3,155 @@
 namespace Modules\Course\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Course\Entities\Curso;
+use Modules\Course\Entities\Grade;
+use Modules\Course\Http\Requests\CursoRequestValidator;
+use Modules\Course\Http\Requests\GradeRequestValidator;
+use Modules\Course\Http\Services\CursoService;
+use Modules\Course\Http\Services\GradeService;
+use Modules\User\Http\Services\UserService;
 
 class GradeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var GradeService
      */
-    public function index()
+    protected $service;
+
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * @param  GradeService  $service
+     * @param  UserService  $userService
+     */
+    public function __construct(GradeService $service, UserService $userService)
     {
-        return view('course::index');
+        $this->service = $service;
+        $this->userService = $userService;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @param  GradeRequestValidator  $request
+     * @return JsonResponse
      */
-    public function create()
+    public function store(GradeRequestValidator $request)
     {
-        return view('course::create');
+        try {
+            //validar cadastro
+            $canRegister = $this->service->canRegisterCadastro($request->get('codigo'));
+            if (!$canRegister){
+                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+            $data = $this->service->create($request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Grade cadastrada!'
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  GradeRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function update(GradeRequestValidator $request, $id)
     {
-        //
+        try {
+            //validar atualização
+            $canRegister = $this->service->canRegisterCadastro($request->get('codigo'), $id);
+            if (!$canRegister){
+                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+            $data = $this->service->update($id, $request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Grade atualizada!'
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function show($id)
+    public function get(Request $request): JsonResponse
     {
-        return view('course::show');
+        try {
+            $data = $this->service->get([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Curso  $curso
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+    public function getById(Grade $grade)
     {
-        return view('course::edit');
+        return \response()->json([
+            'registro' => ['grade' => $grade, 'curso' => $grade->curso],
+        ], 201);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param  Grade  $grade
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function edit(Grade $grade)
     {
-        //
+        return \response()->json([
+            'registro' => $grade,
+        ], 201);
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * @param  Grade  $grade
+     * @param  bool  $active
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function active(Grade $grade,bool $active) : JsonResponse
     {
-        //
+        try{
+            $data = $this->service->activeObject($grade, $active);
+            if (!$data) {
+                throw new \Exception('Não foi possível '.($active?'ativar':'desativar').' a grade');
+            }
+        } catch (\Exception $e){
+            return \response()->json(['message' => $e->getMessage()], $e->getCode() !== 0 ? $e->getCode() : 500 );
+        }
+        return \response()->json([
+            'data' => [
+                'success' => true,
+                'message' => 'Grade '.($active ? 'ativada' : 'desativada').' com sucesso!'
+            ]
+        ], 201);
     }
 }

@@ -13,4 +13,19 @@ class GradeRepository extends Repository
     {
         $this->entity = $entity;
     }
+
+    /**
+     * @param  string  $codigo
+     * @param  string|null  $idUpdate
+     * @return bool
+     */
+    public function canRegisterCadastro(string $codigo, string $idUpdate = NULL) : bool
+    {
+        $recorrente = $this->where('codigo', '=', $codigo)->first();
+        if ($recorrente && $recorrente->id != $idUpdate) {
+            return false;
+        }
+
+        return true;
+    }
 }

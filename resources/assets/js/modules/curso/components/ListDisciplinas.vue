@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :module="'Cursos'" :title="'Cursos'"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Cursos'" :title="'Disciplinas'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -13,44 +13,32 @@
                             :allow-search="true"
                             :routeCreate="routeCreate"
                             @getData="getData"
-                            :withFilters="true">
+                            :withFilters="false">
                             <template v-slot:header-card>
                                 <div class="col-md-6">
-                                    <h4 class="card-title">CURSOS CADASTRADOS</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar os cursos cadastrados.</h6>
+                                    <h4 class="card-title">DISCIPLINAS CADASTRADAS</h4>
+                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as disciplinas cadastradas na grade.</h6>
                                 </div>
                             </template>
 
-                            <template v-slot:filters>
-                                <div class="form-group col-lg-4 col-md-4 col-sm-6">
-                                    <label for="sigla">Sigla</label>
-                                    <input class="form-control"
-                                           v-model="search.sigla"
-                                           id="sigla" name="sigla" maxlength="200" type="text" placeholder="">
-                                </div>
-
-                                <div class="form-group col-lg-4 col-md-4 col-sm-6">
-                                    <label for="nome">Nome</label>
-                                    <input class="form-control"
-                                           v-model="search.nome"
-                                           id="nome" name="nome" maxlength="200" type="text" placeholder="">
-                                </div>
-                            </template>
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.sigla }}
+                                        {{ item.codigo }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.nome }}
+                                        {{ item.ano }}
+                                    </td>
+                                    <td scope="col">
+                                        {{ item.periodo }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-                                            <router-link :to="{name: `${routeCreate}.grids`, params: { 'curso_id': item.id }}"
-                                                         class="btn col-md-4" title="Grades">
-                                                <i class="align-middle text-secondary fas fa-fw fa-clipboard-list"></i>
+                                            <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'curso_id': curso_id, 'id': item.id }}"
+                                                         class="btn col-md-4" title="Disciplinas da Grade">
+                                                <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
                                             </router-link>
-                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'id': item.id }}"
+                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'curso_id': curso_id, 'id': item.id }}"
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
@@ -84,24 +72,33 @@ import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    name: "ListCursos",
+    name: "ListGrades",
     data: () => ({
-        subHeaderLinks:[],
-        search: {sigla: '', nome:''},
         dataPaginate: {},
-        columns: ['Sigla', 'Nome', 'Ações'],
+        columns: ['Código', 'Ano', 'Período', 'Ações'],
         isLoading: false,
-        routeCreate:'curso'
+        routeCreate:'curso.grids.disciplines',
+        curso: {},
+        grade: {}
     }),
+    computed: {
+        subHeaderLinks: function() {
+            return [['/', 'Cursos'], ['/' + this.curso.id + '/grades', 'Grades'], ['', this.grade.codigo]];
+        }
+    },
     mounted() {
         this.getData();
+        this.getGrade();
     },
     components: {
         CardTable,
         SubHeader,
         Loading
     },
-
+    props: [
+        'curso_id',
+        'grade_id',
+    ],
     methods: {
         updateStatus(item){
             let me = this;
@@ -110,7 +107,7 @@ export default {
             Swal.fire({
                 icon: 'question',
                 title: 'Confirmação',
-                html: ('Deseja realmente alterar o status do curso ' + item.nome + ' para ' + (ativo ? 'ativo' : 'inativo') + '?'),
+                html: ('Deseja realmente alterar o status da grade ' + item.codigo + ' para ' + (ativo ? 'ativa' : 'inativa') + '?'),
                 showCancelButton: true,
                 confirmButtonText: 'Sim',
                 cancelButtonText: 'Não',
@@ -120,7 +117,7 @@ export default {
                 preConfirm: () => {
                     return new Promise(() => {
                         me.loading = true;
-                        toSeek(route('admin.curso.active', {'curso': item.id, 'active': ativo})).then(
+                        toSeek(route('admin.curso.grade.active', {'grade': item.id, 'active': ativo})).then(
                             data => {
                                 if(data.success){
                                     me.$emit('showMessage', data.message)
@@ -145,12 +142,11 @@ export default {
         },
         getData(page = 1) {
             this.isLoading = true;
-
-            submit(route('admin.curso.get'), {
+            submit(route('admin.curso.grade.disciplina.get'), {
                 page: Number.isInteger(page) ? page : 1,
                 perPage: 10,
                 paginate: true,
-                search: this.search
+                search: {...this.search, ...{'grade_id': this.grade_id}},
             },'POST').then(
                 data => {
                     this.dataPaginate = data;
@@ -165,7 +161,27 @@ export default {
                 )
                 this.isLoading = false;
             });
-        }
+        },
+        getGrade(){
+            if(this.curso_id) {
+                this.isLoading = true;
+                submit(route('admin.curso.grade.get-by-id', this.grade_id), {}, 'GET').then(
+                    data => {
+                        this.curso = data.registro.curso;
+                        this.grade = data.registro.grade;
+                    }
+                ).then(() => {
+                    this.isLoading = false;
+                }).catch(error => {
+                    Swal.fire(
+                        'Erro!',
+                        'Encontramos um erro ao consultar os dados!',
+                        'error'
+                    )
+                    this.isLoading = false;
+                });
+            }
+        },
     }
 }
 </script>

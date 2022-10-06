@@ -105,6 +105,17 @@ class CursoController extends Controller
         }
     }
 
+    /**
+     * @param  Curso  $curso
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getById(Curso $curso)
+    {
+        return \response()->json([
+            'registro' => $curso,
+        ], 201);
+    }
+
 
     /**
      * @param  Curso  $curso

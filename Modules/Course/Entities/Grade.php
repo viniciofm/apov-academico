@@ -4,6 +4,7 @@ namespace Modules\Course\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Endereco;
 
 class Grade extends Model
 {
@@ -25,11 +26,16 @@ class Grade extends Model
         'ano',
         'periodo',
         'codigo',
+        'ativo',
         'curso_id'
     ];
 
     protected $casts = [
-
+        'ativo' => 'boolean',
     ];
 
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 }
