@@ -24,9 +24,9 @@ class Service
      * @param  string|null  $sortBy
      * @return mixed
      */
-    public function all(string $sortBy = NULL)
+    public function all(bool $activeAttribute = false, string $sortBy = NULL)
     {
-        return $this->repository->all($sortBy);
+        return $this->repository->all($activeAttribute, $sortBy);
     }
 
     /**

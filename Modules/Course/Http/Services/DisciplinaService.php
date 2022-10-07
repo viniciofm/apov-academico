@@ -17,8 +17,8 @@ class DisciplinaService extends Service
      * @param  string|null  $idUpdate
      * @return bool
      */
-    public function canRegisterCadastro(string $codigo, string $idUpdate = NULL) : bool
+    public function canRegisterCadastro(string $sigla, string $grade_id, string $idUpdate = NULL) : bool
     {
-        return $this->repository->canRegisterCadastro($codigo, $idUpdate);
+        return $this->repository->canRegisterCadastro($sigla, $grade_id , $idUpdate);
     }
 }

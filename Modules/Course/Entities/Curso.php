@@ -2,6 +2,7 @@
 
 namespace Modules\Course\Entities;
 
+use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,4 +33,10 @@ class Curso extends Model
 
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::addGlobalScope(new ActivedScope());
+    }
 }

@@ -20,21 +20,25 @@ class Repository
             $params['perPage'],
             $params['column'] ?? null,
             $params['search'],
-            $params['paginate']
+            $params['paginate'],
+            $params['columns'] ?? ['*'],
+            $params['orderBy'] ?? 'created_at',
+            $params['orderByOrder'] ?? 'desc'
         );
     }
 
     /**
+     * @param  bool  $activeAttribute
      * @param  string|null  $sortBy
      * @return mixed
      */
-    public function all(string $sortBy = NULL)
+    public function all(bool $activeAttribute = false,string $sortBy = NULL)
     {
-        if ($sortBy){
-            return $this->entity::orderBy($sortBy)->get();
-        }else{
-            return $this->entity::all();
+        $entity = !$activeAttribute ? $this->entity :  $this->entity::where('ativo', true);
+        if ($sortBy) {
+            $entity->orderBy($sortBy);
         }
+        return $entity->get();
     }
 
     /**
@@ -167,10 +171,12 @@ class Repository
         $column = null,
         $search = [],
         bool $paginate = false,
-        array $columns = ['*']
+        array $columns = ['*'],
+        $orderBy,
+        $orderByOrder
     )
     {
-        $query = $this->entity->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('created_at', 'DESC');
+        $query = $this->entity->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy($orderBy, $orderByOrder);
         if ($search)
         {
             foreach($search as $col => $s){

@@ -3,77 +3,131 @@
 namespace Modules\Course\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Course\Entities\Curso;
+use Modules\Course\Entities\Disciplina;
+use Modules\Course\Entities\Turma;
+use Modules\Course\Http\Requests\DisciplinaRequestValidator;
+use Modules\Course\Http\Requests\TurmaRequestValidator;
+use Modules\Course\Http\Services\DisciplinaService;
+use Modules\Course\Http\Services\TurmaService;
+use Modules\User\Http\Services\UserService;
 
 class TurmaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var TurmaService
+     */
+    protected $service;
+
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * @param  TurmaService  $service
+     * @param  UserService  $userService
+     */
+    public function __construct(TurmaService $service, UserService $userService)
+    {
+        $this->service = $service;
+        $this->userService = $userService;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        return view('course::index');
+        return view('modules.turma.index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @param  TurmaRequestValidator  $request
+     * @return JsonResponse
      */
-    public function create()
+    public function store(TurmaRequestValidator $request)
     {
-        return view('course::create');
+        try {
+            //validar cadastro
+            $canRegister = $this->service->canRegisterCadastro($request->get('codigo'));
+            if (!$canRegister){
+                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+            $data = $this->service->create($request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Turma cadastrada!'
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  TurmaRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function update(TurmaRequestValidator $request, $id)
     {
-        //
+        try {
+            //validar atualização
+            $canRegister = $this->service->canRegisterCadastro($request->get('codigo'), $id);
+            if (!$canRegister){
+                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+            $data = $this->service->update($id, $request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Turma atualizada!'
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function show($id)
+    public function get(Request $request): JsonResponse
     {
-        return view('course::show');
+        try {
+            $data = $this->service->get([
+                'with' => ['grade','grade.curso'],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true)
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Turma  $turma
+     * @return JsonResponse
      */
-    public function edit($id)
+    public function edit(Turma $turma)
     {
-        return view('course::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        $turma->grade->curso = $turma->grade->curso;
+        return \response()->json([
+            'registro' => $turma,
+        ], 201);
     }
 }

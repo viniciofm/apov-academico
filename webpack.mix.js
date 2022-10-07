@@ -20,6 +20,7 @@ mix.js('resources/assets/js/modules/empresa/main.js', `${JS_PATH}/empresa`).vue(
 mix.js('resources/assets/js/modules/instituicao/main.js', `${JS_PATH}/instituicao`).vue();
 mix.js('resources/assets/js/modules/professor/main.js', `${JS_PATH}/professor`).vue();
 mix.js('resources/assets/js/modules/curso/main.js', `${JS_PATH}/curso`).vue();
+mix.js('resources/assets/js/modules/turma/main.js', `${JS_PATH}/turma`).vue();
 mix.js('resources/assets/js/modules/aluno/main.js', `${JS_PATH}/aluno`).vue();
 mix.js('resources/assets/js/modules/usuario/main.js', `${JS_PATH}/usuario`).vue();
 

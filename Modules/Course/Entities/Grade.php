@@ -2,6 +2,7 @@
 
 namespace Modules\Course\Entities;
 
+use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\Endereco;
@@ -37,5 +38,12 @@ class Grade extends Model
     public function curso()
     {
         return $this->belongsTo(Curso::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::addGlobalScope(new ActivedScope());
     }
 }

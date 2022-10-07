@@ -111,6 +111,21 @@ class GradeController extends Controller
     }
 
     /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function all(Curso $curso): JsonResponse
+    {
+        try {
+            $data = $this->service->allByCurso($curso);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @param  Curso  $curso
      * @return \Illuminate\Http\JsonResponse
      */

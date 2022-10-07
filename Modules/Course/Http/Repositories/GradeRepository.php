@@ -15,6 +15,15 @@ class GradeRepository extends Repository
     }
 
     /**
+     * @param  Curso  $curso
+     * @return mixed
+     */
+    public function allByCurso(Curso $curso)
+    {
+        return $this->entity::where('curso_id', $curso->id)->where('ativo', true)->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
      * @param  string  $codigo
      * @param  string|null  $idUpdate
      * @return bool

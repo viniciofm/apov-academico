@@ -25,7 +25,6 @@ class CreateMatriculasTable extends Migration
             $table->uuid('aluno_id');
             $table->foreign('aluno_id')->references('id')->on('alunos');
 
-            $table->double('nota_final', 10, 2)->nullable();
             $table->string('status', 15);
             $table->string('conceito', 15);
 

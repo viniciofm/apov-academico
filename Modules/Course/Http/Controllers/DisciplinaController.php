@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
+use Modules\Course\Entities\Disciplina;
 use Modules\Course\Entities\Grade;
 use Modules\Course\Http\Requests\DisciplinaRequestValidator;
 use Modules\Course\Http\Requests\GradeRequestValidator;
@@ -103,6 +104,8 @@ class DisciplinaController extends Controller
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],
                 'search' => json_decode($request['search'], true),
+                'orderBy' => 'sigla',
+                'orderByOrder' => 'asc',
             ]);
 
             return \response()->json($data, 200);
@@ -112,24 +115,13 @@ class DisciplinaController extends Controller
     }
 
     /**
-     * @param  Grade  $grade
+     * @param  Disciplina  $disciplina
      * @return JsonResponse
      */
-    public function edit(Grade $grade)
+    public function edit(Disciplina $disciplina)
     {
         return \response()->json([
-            'registro' => $grade,
-        ], 201);
-    }
-
-    /**
-     * @param  Curso  $curso
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getById(Curso $curso)
-    {
-        return \response()->json([
-            'registro' => $curso,
+            'registro' => $disciplina,
         ], 201);
     }
 }

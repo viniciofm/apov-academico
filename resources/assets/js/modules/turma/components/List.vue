@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :module="'Cursos'" :title="'Disciplinas'"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Turmas'" :title="'Turmas'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -13,31 +13,56 @@
                             :allow-search="true"
                             :routeCreate="routeCreate"
                             @getData="getData"
-                            :withFilters="false">
+                            :withFilters="true">
                             <template v-slot:header-card>
                                 <div class="col-md-6">
-                                    <h4 class="card-title">DISCIPLINAS CADASTRADAS</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as disciplinas cadastradas na grade.</h6>
+                                    <h4 class="card-title">TURMAS CADASTRADAS</h4>
+                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as turmas cadastradas.</h6>
                                 </div>
                             </template>
 
+                            <template v-slot:filters>
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="codigo">Código</label>
+                                    <input class="form-control"
+                                           v-model="search.codigo"
+                                           id="codigo" name="codigo" maxlength="200" type="text" placeholder="">
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="codigo_grade">Grade</label>
+                                    <input class="form-control"
+                                           v-model="search.codigo_grade"
+                                           id="codigo_grade" name="codigo_grade" maxlength="200" type="text" placeholder="">
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="nome_curso">Curso</label>
+                                    <input class="form-control"
+                                           v-model="search.nome_curso"
+                                           id="nome_curso" name="nome_curso" maxlength="200" type="text" placeholder="">
+                                </div>
+                            </template>
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.sigla }}
+                                        {{ item.codigo }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.nome }}
+                                        {{ item.grade.codigo }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.carga_horaria }}
+                                        {{ item.grade.curso.nome }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'curso_id': curso_id, 'disciplina_id': item.id }}"
+<!--                                            <router-link :to="{name: `${routeCreate}.grids`, params: { 'curso_id': item.id }}"-->
+<!--                                                         class="btn col-md-4" title="Alunos">-->
+<!--                                                <i class="align-middle text-secondary fas fa-fw fa-clipboard-list"></i>-->
+<!--                                            </router-link>-->
+                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'id': item.id }}"
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
-                                            </router-link>
                                             </router-link>
                                         </div>
                                     </td>
@@ -65,33 +90,24 @@ import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
-    name: "ListGrades",
+    name: "ListTurmas",
     data: () => ({
+        subHeaderLinks:[],
+        search: {codigo: '', codigo_grade:'', nome_curso:''},
         dataPaginate: {},
-        columns: ['Sigla', 'Nome', 'CH (h)', 'Ações'],
+        columns: ['Código', 'Grade', 'Curso', 'Ações'],
         isLoading: false,
-        routeCreate:'curso.grids.disciplines',
-        curso: {},
-        grade: {}
+        routeCreate:'turma'
     }),
-    computed: {
-        subHeaderLinks: function() {
-            return [['/', 'Cursos'], ['/' + this.curso.id + '/grades', 'Grades'], ['', this.grade.codigo]];
-        }
-    },
     mounted() {
         this.getData();
-        this.getGrade();
     },
     components: {
         CardTable,
         SubHeader,
         Loading
     },
-    props: [
-        'curso_id',
-        'grade_id',
-    ],
+
     methods: {
         dateFormat(value) {
             let date = new Date(value);
@@ -99,11 +115,12 @@ export default {
         },
         getData(page = 1) {
             this.isLoading = true;
-            submit(route('admin.curso.grade.disciplina.get'), {
+
+            submit(route('admin.turma.get'), {
                 page: Number.isInteger(page) ? page : 1,
                 perPage: 10,
                 paginate: true,
-                search: {...this.search, ...{'grade_id': this.grade_id}},
+                search: this.search
             },'POST').then(
                 data => {
                     this.dataPaginate = data;
@@ -118,27 +135,7 @@ export default {
                 )
                 this.isLoading = false;
             });
-        },
-        getGrade(){
-            if(this.curso_id) {
-                this.isLoading = true;
-                submit(route('admin.curso.grade.get-by-id', this.grade_id), {}, 'GET').then(
-                    data => {
-                        this.curso = data.registro.curso;
-                        this.grade = data.registro.grade;
-                    }
-                ).then(() => {
-                    this.isLoading = false;
-                }).catch(error => {
-                    Swal.fire(
-                        'Erro!',
-                        'Encontramos um erro ao consultar os dados!',
-                        'error'
-                    )
-                    this.isLoading = false;
-                });
-            }
-        },
+        }
     }
 }
 </script>

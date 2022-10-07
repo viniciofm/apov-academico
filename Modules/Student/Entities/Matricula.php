@@ -26,7 +26,6 @@ class Matricula extends Model
         'turma_id',
         'empresa_id',
         'aluno_id',
-        'nota_final',
         'status',
         'conceito'
     ];

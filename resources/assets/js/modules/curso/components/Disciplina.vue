@@ -21,39 +21,27 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="codigo">Código*</label>
-                            <input class="form-control" v-model="payload.codigo" id="codigo" name="codigo" maxlength="20" value="" type="text" placeholder="" required="required"
-                                   v-validate="'required|alpha_num|max:15'"
-                                   data-vv-as="'Código'">
-                            <div v-show="errors.has('codigo')" class="text-danger" style="">{{ errors.first('codigo') }}</div>
+                            <label for="sigla">Sigla*</label>
+                            <input class="form-control" v-model="payload.sigla" id="sigla" name="sigla" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required|alpha_num|length:6'"
+                                   data-vv-as="'Sigla'">
+                            <div v-show="errors.has('sigla')" class="text-danger" style="">{{ errors.first('sigla') }}</div>
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="ano">Ano*</label>
-                            <input class="form-control" v-model="payload.ano" id="ano" name="ano" maxlength="4" value="" type="text" placeholder="" required="required"
-                                   v-validate="'required|numeric:0|length:4'"
-                                   data-vv-as="'Ano'">
-                            <div v-show="errors.has('ano')" class="text-danger" style="">{{ errors.first('ano') }}</div>
+                            <label for="nome">Nome*</label>
+                            <input class="form-control" v-model="payload.nome" id="nome" name="nome" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required|max:80'"
+                                   data-vv-as="'Nome'">
+                            <div v-show="errors.has('nome')" class="text-danger" style="">{{ errors.first('nome') }}</div>
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="periodo">Período*</label>
-                            <select class="form-control" data-bs-toggle="select2" v-model="payload.periodo" name="periodo" id="periodo" required="required"
-                                    v-validate="'required'"
-                                    data-vv-as="'Período'">
-                                <option value="" disabled selected>Não selecionado</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                            <div v-show="errors.has('periodo')" class="text-danger" style="">{{ errors.first('periodo') }}</div>
-                        </div>
-
-                        <div class="mb-3 col-lg-3 col-md-3 col-sm-12">
-                            <label for="ativo">Ativo</label>
-                            <div class="form-check form-switch mt-1">
-                                <input class="form-check-input" type="checkbox" id="ativo" v-model="payload.ativo">
-                                <label class="form-check-label" for="ativo">{{payload.ativo ? 'Sim' : 'Não'}}</label>
-                            </div>
+                            <label for="carga_horaria">Carga Horária (h)*</label>
+                            <input class="form-control" v-model="payload.carga_horaria" id="carga_horaria" name="carga_horaria" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required|numeric|max_value:200'"
+                                   data-vv-as="'Carga Horária'">
+                            <div v-show="errors.has('carga_horaria')" class="text-danger" style="">{{ errors.first('carga_horaria') }}</div>
                         </div>
                     </div>
                 </div>
@@ -97,14 +85,12 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     name: "Curso",
     data: () => ({
-        subHeaderLinks:[['/', 'Cursos']],
         search: '',
         dataPaginate: {},
         payload:{
-            'codigo': '',
-            'ano': '',
-            'periodo': '',
-            'ativo': true,
+            'sigla': '',
+            'nome': '',
+            'carga_horaria': ''
         },
         isLoading: false,
         curso: {},
@@ -116,12 +102,17 @@ export default {
         'disciplina_id',
         'title'
     ],
+    computed: {
+        subHeaderLinks: function() {
+            return [['/', 'Cursos'], ['/' + this.curso.id + '/grades', 'Grades'], ['', this.grade.codigo]];
+        }
+    },
     created() {
         this.getGrade();
 
-        // if (this.grade_id) {
-        //     this.getData();
-        // }
+        if (this.disciplina_id) {
+            this.getData();
+        }
     },
     components: {
         SubHeader,
@@ -157,12 +148,12 @@ export default {
                         let formData = new FormData();
 
                         formData.append('curso_id', this.curso_id);
-                        formData.append('codigo', this.payload.codigo);
-                        formData.append('ano', this.payload.ano);
-                        formData.append('periodo', this.payload.periodo);
-                        formData.append('ativo', this.payload.ativo ? 1 : 0);
+                        formData.append('grade_id', this.grade_id);
+                        formData.append('sigla', this.payload.sigla);
+                        formData.append('nome', this.payload.nome);
+                        formData.append('carga_horaria', this.payload.carga_horaria);
 
-                        let url = route(me.grade_id ? 'admin.curso.grade.update' : 'admin.curso.grade.store', me.grade_id);
+                        let url = route(me.disciplina_id ? 'admin.curso.grade.disciplina.update' : 'admin.curso.grade.disciplina.store', me.disciplina_id);
                         me.loading = true;
 
                         http.post(url, formData, {
@@ -177,7 +168,7 @@ export default {
                             )
                             setTimeout(function(){
                                 me.loading = false;
-                                me.$router.push({name: `curso.grids`, params: {'curso_id': me.curso_id}});
+                                me.$router.push({name: `curso.grids.disciplines`, params: {'curso_id': me.curso_id, 'grade_id': me.grade_id}});
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
@@ -194,7 +185,7 @@ export default {
         },
         getData() {
             this.isLoading = true;
-            submit(route('admin.curso.grade.edit', this.grade_id), {},'GET').then(
+            submit(route('admin.curso.grade.disciplina.edit', this.disciplina_id), {},'GET').then(
                 data => {
                     this.payload = data.registro;
                 }

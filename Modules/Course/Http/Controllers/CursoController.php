@@ -97,7 +97,24 @@ class CursoController extends Controller
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],
                 'search' => json_decode($request['search'], true),
+                'orderBy' => 'nome',
+                'orderByOrder' => 'asc',
             ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
+    {
+        try {
+            $data = $this->service->all(true, 'nome');
 
             return \response()->json($data, 200);
         } catch (\Exception $e) {

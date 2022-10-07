@@ -11,4 +11,14 @@ class TurmaService extends Service
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @param  string  $codigo
+     * @param  string|null  $idUpdate
+     * @return bool
+     */
+    public function canRegisterCadastro(string $codigo, string $idUpdate = NULL) : bool
+    {
+        return $this->repository->canRegisterCadastro($codigo, $idUpdate);
+    }
 }

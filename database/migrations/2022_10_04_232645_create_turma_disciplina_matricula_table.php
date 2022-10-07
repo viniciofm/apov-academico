@@ -21,6 +21,7 @@ class CreateTurmaDisciplinaMatriculaTable extends Migration
             $table->uuid('matricula_id');
             $table->foreign('matricula_id')->references('id')->on('matriculas');
             $table->string('status', 15);
+            $table->double('nota_final', 10, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
