@@ -56,13 +56,13 @@
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-<!--                                            <router-link :to="{name: `${routeCreate}.grids`, params: { 'curso_id': item.id }}"-->
-<!--                                                         class="btn col-md-4" title="Alunos">-->
-<!--                                                <i class="align-middle text-secondary fas fa-fw fa-clipboard-list"></i>-->
-<!--                                            </router-link>-->
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'turma_id': item.id }}"
                                                          class="btn col-md-4" title="Disciplinas da Turma">
                                                 <i class="align-middle fas fa-fw fa-list"></i>
+                                            </router-link>
+                                            <router-link :to="{name: `${routeCreate}.alunos`, params: { 'turma_id': item.id }}"
+                                                         class="btn col-md-4" title="Alunos da Turma">
+                                                <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
                                                          class="btn col-md-4" title="Editar">

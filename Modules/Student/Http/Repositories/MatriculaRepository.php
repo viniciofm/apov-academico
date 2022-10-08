@@ -36,14 +36,25 @@ class MatriculaRepository extends Repository
     ) {
         $query = $this->entity
             ->whereHas('aluno', function($q) use ($search){
-                $q->where('matricula', 'like', '%'.$search['matricula'].'%');
+                if(isset($search['matricula'])){
+                    $q->where('matricula', 'like', '%'.$search['matricula'].'%');
+                }
                 $q->whereHas('usuario', function($qq) use ($search){
                     $qq->where('instituicao_id', '=', Auth::user()->instituicao_id);
-                    $qq->where('nome', 'like', '%'.$search['nome_aluno'].'%');
+                    if(isset($search['nome_aluno'])){
+                        $qq->where('nome', 'like', '%'.$search['nome_aluno'].'%');
+                    }
                 });
             })->whereHas('curso', function($q) use ($search){
-                $q->where('nome', 'like', '%'.$search['nome_curso'].'%');
+                if(isset($search['nome_curso'])){
+                    $q->where('nome', 'like', '%'.$search['nome_curso'].'%');
+                }
+            })->whereHas('turma', function($q) use ($search){
+                if(isset($search['turma_id'])){
+                    $q->where('id', 'like', '%'.$search['turma_id'].'%');
+                }
             })
+            ->where('status', 'like', '%'.($search['status'] ?? '').'%')
             ->withoutGlobalScope(ActivedScope::class)->with($with);
 
         if ($paginate) {

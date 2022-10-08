@@ -133,7 +133,7 @@
                     @pagination-change-page="getData"
                     :limit="limit"
                     class="mt-4"
-                    align="center">teste000000</pagination>
+                    align="center"></pagination>
 
                 <slot name="modal"/>
             </div>

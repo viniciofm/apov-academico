@@ -22,7 +22,7 @@
                             </template>
 
                             <template v-slot:filters>
-                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                <div class="form-group col-lg-2 col-md-2 col-sm-6">
                                     <label for="matricula">Matrícula do Aluno</label>
                                     <input class="form-control"
                                            v-model="search.matricula"
@@ -42,6 +42,14 @@
                                            v-model="search.nome_curso"
                                            id="nome_curso" name="nome_curso" maxlength="200" type="text" placeholder="">
                                 </div>
+
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" data-bs-toggle="select2" v-model="search.status" name="status" id="status">
+                                        <option value="" selected>Não selecionado</option>
+                                        <option v-for="(item) in listStatus" :value="item.codigo">{{ item.nome }}</option>
+                                    </select>
+                                </div>
                             </template>
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
@@ -60,12 +68,19 @@
                                     <td scope="col">
                                         {{ item.curso.nome }}
                                     </td>
+                                    <td scope="col">
+                                        {{ item.empresa ? item.empresa.nome : '-' }}
+                                    </td>
+                                    <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-<!--                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'id': item.id }}"-->
-<!--                                                         class="btn col-md-4" title="Editar">-->
-<!--                                                <i class="align-middle fas fa-fw fa-pen"></i>-->
-<!--                                            </router-link>-->
+                                            <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'matricula_id': item.id }}"
+                                                         class="btn col-md-4" title="Disciplinas da matrícula">
+                                                <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
+                                            </router-link><router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
+                                                         class="btn col-md-4" title="Editar">
+                                                <i class="align-middle fas fa-fw fa-pen"></i>
+                                            </router-link>
                                         </div>
                                     </td>
                                 </tr>
@@ -95,11 +110,16 @@ export default {
     name: "ListTurmas",
     data: () => ({
         subHeaderLinks:[],
-        search: {matricula: '', nome_aluno:'', nome_curso:''},
+        search: {matricula: '', status: '', nome_aluno:'', nome_curso:''},
         dataPaginate: {},
-        columns: ['Matrícula', 'Aluno', 'Matriz', 'Turma', 'Curso', 'Ações'],
+        columns: ['Matrícula', 'Aluno', 'Matriz', 'Turma', 'Curso', 'Empresa',  'Status', 'Ações'],
         isLoading: false,
-        routeCreate:'matricula'
+        routeCreate:'matricula',
+        listStatus: {
+            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
+            'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'}
+        },
     }),
     mounted() {
         this.getData();
@@ -111,6 +131,9 @@ export default {
     },
 
     methods: {
+        translaterStatus(status){
+            return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
+        },
         dateFormat(value) {
             let date = new Date(value);
             return date.toLocaleDateString();

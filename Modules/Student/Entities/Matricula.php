@@ -37,23 +37,28 @@ class Matricula extends Model
 
     ];
 
-    public function curso()
+    public function curso(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Curso::class);
     }
 
-    public function turma()
+    public function turma(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Turma::class);
     }
 
-    public function empresa()
+    public function empresa(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Empresa::class);
     }
 
-    public function aluno()
+    public function aluno(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Aluno::class);
+    }
+
+    public function disciplinasMatricula(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TurmaDisciplinaMatricula::class);
     }
 }

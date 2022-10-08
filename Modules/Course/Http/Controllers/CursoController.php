@@ -2,7 +2,10 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -34,7 +37,7 @@ class CursoController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -43,9 +46,9 @@ class CursoController extends Controller
 
     /**
      * @param  CursoRequestValidator  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(CursoRequestValidator $request)
+    public function store(CursoRequestValidator $request): JsonResponse
     {
         try {
             $data = $this->service->create($request->all());
@@ -65,9 +68,9 @@ class CursoController extends Controller
     /**
      * @param  CursoRequestValidator  $request
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function update(CursoRequestValidator $request, $id)
+    public function update(CursoRequestValidator $request, $id): JsonResponse
     {
         try {
             $data = $this->service->update($id, $request->all());

@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :module="'Disciplinas da Turma'" :title="'Disciplinas'"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Alunos da Turma'" :title="'Alunos'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -15,33 +15,22 @@
                             :withFilters="false">
                             <template v-slot:header-card>
                                 <div class="col-md-6">
-                                    <h4 class="card-title">DISCIPLINAS NA TURMA</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as disciplinas cadastradas na turma selecionada.</h6>
+                                    <h4 class="card-title">ALUNOS NA TURMA </h4>
+                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar os alunos vinculados a turma selecionada.</h6>
                                 </div>
                             </template>
 
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.disciplina.sigla }}
+                                        {{ item.aluno.matricula }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.disciplina.nome }}
+                                        {{ item.aluno.usuario.nome }}
                                     </td>
-                                    <td scope="col">
-                                        {{ item.professor ? item.professor.usuario.nome : '-' }}
-                                    </td>
+                                    <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
-                                        <div class="row">
-                                            <router-link :to="{name: `${routeCreate}.alunos`, params: { 'turma_disciplina_id': item.id, 'turma_id': item.turma_id }}"
-                                                         class="btn col-md-4" title="Alunos da Disciplina">
-                                                <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
-                                            </router-link>
-                                            <button  v-on:click='openTheModalProfessor(item)'
-                                                         class="btn col-md-4" title="Editar Professor">
-                                                <i class="align-middle fas fa-fw fa-pen"></i>
-                                            </button>
-                                        </div>
+                                        -
                                     </td>
                                 </tr>
                             </template>
@@ -52,12 +41,6 @@
                 </div>
             </div>
         </section>
-
-        <modal-default :id_modal="'modalTurmaDisciplinaProfessor'" :title="'Professor para a disciplina '+(turmaDisciplina.disciplina ? turmaDisciplina.disciplina.sigla : '')" ref="modalTurmaDisciplinaProfessor" tabIndex="-1" id="modalTurmaDisciplinaProfessor" size='medium'>
-            <div slot="modal-body">
-                <turma-disciplina-professor :turma="turma" @getData="getData" :turma-disciplina="turmaDisciplina" v-on:close="closeTheModalProfessor"></turma-disciplina-professor>
-            </div>
-        </modal-default>
 
         <loading :active.sync="isLoading"
                  :can-cancel="false"
@@ -73,46 +56,44 @@ import CardTable from "../../../components/CardTable"
 import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 import ModalDefault from "../../../components/ModalDefault"
-import TurmaDisciplinaProfessor from "../components/TurmaDisciplinaProfessor"
 
 export default {
-    name: "ListTurmaDisciplina",
+    name: "ListTurmaAlunos",
     data: () => ({
         search: {},
         dataPaginate: {},
-        columns: ['Sigla', 'Disciplina', 'Professor', 'Ações'],
+        columns: ['Matrícula', 'Aluno', 'Status na Matrícula', 'Ações'],
         isLoading: false,
-        routeCreate:'turma.disciplines',
+        routeCreate:'turma.alunos',
         turma: {},
-        turmaDisciplina: {},
+        listStatus: {
+            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
+            'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'}
+        },
     }),
     props: [
         'turma_id'
     ],
     computed: {
         subHeaderLinks: function() {
-            return [['/', 'Turmas'], ['', this.turma.codigo]];
+            return [['/', 'Turmas'], ['', this.turma ? this.turma.codigo : '']];
         }
     },
     mounted() {
-        this.getData();
         this.getTurma();
+        this.getData();
     },
     components: {
         CardTable,
         SubHeader,
         Loading,
-        ModalDefault,
-        TurmaDisciplinaProfessor
+        ModalDefault
     },
 
     methods: {
-        openTheModalProfessor(turmaDisciplina) {
-            this.turmaDisciplina = turmaDisciplina;
-            this.$refs.modalTurmaDisciplinaProfessor.open();
-        },
-        closeTheModalProfessor(){
-            this.$refs.modalTurmaDisciplinaProfessor.close();
+        translaterStatus(status){
+            return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
         },
         dateFormat(value) {
             let date = new Date(value);
@@ -120,7 +101,7 @@ export default {
         },
         getData(page = 1) {
             this.isLoading = true;
-            submit(route('admin.turma.disciplina.get'), {
+            submit(route('admin.matricula.get'), {
                 page: Number.isInteger(page) ? page : 1,
                 perPage: 10,
                 paginate: true,

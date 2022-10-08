@@ -53,5 +53,6 @@ Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(
     Route::prefix('disciplina')->name('disciplina.')->group(function () {
         Route::post('/get', 'TurmaDisciplinaController@get')->name('get');
         Route::post('/update-professor/{turmaDisciplina}', 'TurmaDisciplinaController@updateProfessor')->name('update-professor');
+        Route::get('/get-by-id/{turmaDisciplina}', 'TurmaDisciplinaController@getById')->name('get-by-id');
     });
 });

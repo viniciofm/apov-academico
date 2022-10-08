@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Turma;
+use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Requests\TurmaDisciplinaProfessorRequestValidator;
 use Modules\Course\Http\Requests\TurmaRequestValidator;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
@@ -66,6 +67,19 @@ class TurmaDisciplinaController extends Controller
         return \response()->json([
             'success' => true,
             'message' => 'Professor atualizado!'
+        ], 201);
+    }
+
+    /**
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @return JsonResponse
+     */
+    public function getById(TurmaDisciplina $turmaDisciplina)
+    {
+        $turmaDisciplina->turma = $turmaDisciplina->turma;
+        $turmaDisciplina->disciplina = $turmaDisciplina->disciplina;
+        return \response()->json([
+            'registro' => $turmaDisciplina,
         ], 201);
     }
 }

@@ -26,4 +26,7 @@ Route::prefix('admin/matricula')->name('admin.matricula.')->middleware(['auth'])
     Route::post('/store', 'MatriculaController@store')->name('store');
     Route::post('/get', 'MatriculaController@get')->name('get');
     Route::post('/update/{matricula}', 'MatriculaController@update')->name('update');
+    Route::get('/get-by-id/{matricula}', 'MatriculaController@getById')->name('get-by-id');
+    Route::post('/get-disciplinas', 'MatriculaController@getDisciplinas')->name('get-disciplinas');
+    Route::post('/get-alunos', 'MatriculaController@getAlunos')->name('get-alunos');
 });

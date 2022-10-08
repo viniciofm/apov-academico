@@ -1,0 +1,46 @@
+<?php
+
+
+namespace Modules\Student\Http\Requests;
+
+use App\Http\Requests\AbstractGenericFormRequest;
+use Illuminate\Support\Facades\Auth;
+
+class UpdateMatriculaRequestValidator extends AbstractGenericFormRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules() : array
+    {
+        return [
+            'status' => 'required|string',
+            'empresa_id' => 'sometimes|uuid|exists:empresas,id|nullable'
+        ];
+    }
+
+    protected function formatItems()
+    {
+
+    }
+
+    public function getValidatorInstance(): \Illuminate\Contracts\Validation\Validator
+    {
+        $this->formatItems();
+
+        return parent::getValidatorInstance();
+    }
+
+    /**
+     * @return array
+     */
+    public function attributes(): array
+    {
+        return [
+            'status' => 'Status',
+            'empresa_id' => 'ID da Empresa'
+        ];
+    }
+}

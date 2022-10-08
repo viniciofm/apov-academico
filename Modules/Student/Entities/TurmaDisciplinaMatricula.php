@@ -4,6 +4,7 @@ namespace Modules\Student\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Course\Entities\TurmaDisciplina;
 
 class TurmaDisciplinaMatricula extends Model
 {
@@ -32,4 +33,13 @@ class TurmaDisciplinaMatricula extends Model
 
     ];
 
+    public function turmaDisciplina(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(TurmaDisciplina::class);
+    }
+
+    public function matricula(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Matricula::class);
+    }
 }
