@@ -50,7 +50,7 @@ class ApiController extends Controller
     public function getGeneros()
     {
         try {
-            $data = $this->generoService->all('nome');
+            $data = $this->generoService->all(false,'nome');
             $message = __('Operation performed successfully');
             $code = 200;
         } catch (\Exception $e) {

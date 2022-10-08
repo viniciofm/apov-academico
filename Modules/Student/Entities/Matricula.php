@@ -4,6 +4,9 @@ namespace Modules\Student\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Company\Entities\Empresa;
+use Modules\Course\Entities\Curso;
+use Modules\Course\Entities\Turma;
 
 class Matricula extends Model
 {
@@ -34,4 +37,23 @@ class Matricula extends Model
 
     ];
 
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
+
+    public function turma()
+    {
+        return $this->belongsTo(Turma::class);
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class);
+    }
+
+    public function aluno()
+    {
+        return $this->belongsTo(Aluno::class);
+    }
 }

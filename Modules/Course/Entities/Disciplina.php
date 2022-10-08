@@ -4,6 +4,7 @@ namespace Modules\Course\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 
 class Disciplina extends Model
 {
@@ -32,4 +33,8 @@ class Disciplina extends Model
 
     ];
 
+    public function turmaDisciplinas()
+    {
+        return $this->hasMany(TurmaDisciplina::class);
+    }
 }

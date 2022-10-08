@@ -63,6 +63,19 @@ class ProfessorRepository extends Repository
     }
 
     /**
+     * @param  bool  $activeAttribute
+     * @param  string|null  $sortBy
+     * @return mixed
+     */
+    public function all(bool $activeAttribute = false,string $sortBy = NULL)
+    {
+        $entity = !$activeAttribute ? $this->entity :  $this->entity::where('ativo', true);
+        $entity->with('usuario:id,nome');
+
+        return $entity->get()->sortBy('usuario.nome');
+    }
+
+    /**
      * @param  string  $instituicao_id
      * @return void
      */

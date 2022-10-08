@@ -80,6 +80,16 @@ class Service
     }
 
     /**
+     * @param $callback
+     * @param $with
+     * @return Collection
+     */
+    public function whereFunc($callback, $with = []): Collection
+    {
+        return $this->repository->whereFunc($callback, $with);
+    }
+
+    /**
      * @param  array  $attributes
      * @return mixed
      * @throws Exception

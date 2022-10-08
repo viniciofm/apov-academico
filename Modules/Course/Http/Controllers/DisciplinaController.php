@@ -9,33 +9,43 @@ use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
 use Modules\Course\Entities\Disciplina;
 use Modules\Course\Entities\Grade;
+use Modules\Course\Entities\Turma;
+use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Requests\DisciplinaRequestValidator;
 use Modules\Course\Http\Requests\GradeRequestValidator;
 use Modules\Course\Http\Services\DisciplinaService;
 use Modules\Course\Http\Services\GradeService;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\User\Http\Services\UserService;
 
 class DisciplinaController extends Controller
 {
 
     /**
-     * @var DisciplinaService
+     * @var DisciplinaService $service
      */
     protected $service;
 
     /**
-     * @var UserService
+     * @var UserService $userService
      */
     protected $userService;
 
     /**
+     * @var TurmaDisciplinaService $turmaDisciplinaService
+     */
+    protected $turmaDisciplinaService;
+
+    /**
      * @param  DisciplinaService  $service
      * @param  UserService  $userService
+     * @param  TurmaDisciplinaService  $turmaDisciplinaService
      */
-    public function __construct(DisciplinaService $service, UserService $userService)
+    public function __construct(DisciplinaService $service, UserService $userService, TurmaDisciplinaService $turmaDisciplinaService)
     {
         $this->service = $service;
         $this->userService = $userService;
+        $this->turmaDisciplinaService = $turmaDisciplinaService;
     }
 
     /**
@@ -123,5 +133,24 @@ class DisciplinaController extends Controller
         return \response()->json([
             'registro' => $disciplina,
         ], 201);
+    }
+
+    /**
+     * @param  Turma  $turma
+     * @return JsonResponse
+     */
+    public function allByTurma(Turma $turma)
+    {
+        try {
+            $data = $this->service->whereFunc(function($q) use ($turma) {
+                $q->whereHas('turmaDisciplinas', function($qq) use ($turma) {
+                    $qq->where('turma_id', $turma->id);
+                });
+            });
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 }

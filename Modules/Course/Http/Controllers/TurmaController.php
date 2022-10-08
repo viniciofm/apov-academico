@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
 use Modules\Course\Entities\Disciplina;
+use Modules\Course\Entities\Grade;
 use Modules\Course\Entities\Turma;
 use Modules\Course\Http\Requests\DisciplinaRequestValidator;
 use Modules\Course\Http\Requests\TurmaRequestValidator;
@@ -110,7 +111,9 @@ class TurmaController extends Controller
                 'paginate' => $request['paginate'] === "true",
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],
-                'search' => json_decode($request['search'], true)
+                'search' => json_decode($request['search'], true),
+                'orderBy' => 'codigo',
+                'orderByOrder' => 'asc',
             ]);
 
             return \response()->json($data, 200);
@@ -129,5 +132,32 @@ class TurmaController extends Controller
         return \response()->json([
             'registro' => $turma,
         ], 201);
+    }
+
+    /**
+     * @param  Turma  $turma
+     * @return JsonResponse
+     */
+    public function getById(Turma $turma)
+    {
+        return \response()->json([
+            'registro' => $turma,
+        ], 201);
+    }
+
+    /**
+     * @param  Grade  $grade
+     * @return JsonResponse
+     *
+     */
+    public function allByGrade(Grade $grade)
+    {
+        try {
+            $data = $this->service->where('grade_id','=' , $grade->id);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 }

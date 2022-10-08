@@ -5,6 +5,7 @@ namespace Modules\Company\Http\Repositories;
 
 use App\Http\Repositories\Repository;
 use App\Scopes\ActivedScope;
+use App\Scopes\BlockedScope;
 use Illuminate\Support\Facades\Auth;
 use Modules\Company\Entities\Empresa;
 
@@ -36,9 +37,9 @@ class EmpresaRepository extends Repository
     ) {
         $query = $this->entity
             ->whereHas('usuario', function($q){
-                $q->where('instituicao_id', '=', Auth::user()->instituicao_id);
+                $q->withoutGlobalScope(BlockedScope::class)->where('instituicao_id', '=', Auth::user()->instituicao_id);
             })
-            ->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('nome', 'ASC')->orderBy('created_at', 'DESC');
+            ->withoutGlobalScope(ActivedScope::class)->with($with)->orderBy('ativo', 'DESC')->orderBy('nome', 'ASC')->orderBy('created_at', 'DESC');
 
         if ($search)
         {

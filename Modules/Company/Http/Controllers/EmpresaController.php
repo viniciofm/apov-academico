@@ -42,6 +42,21 @@ class EmpresaController extends Controller
     }
 
     /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
+    {
+        try {
+            $data = $this->service->all(true, 'nome');
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @param  EmpresaRequestValidator  $request
      * @return JsonResponse
      * @throws \Exception

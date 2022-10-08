@@ -18,7 +18,7 @@ class CreateTurmaDisciplinasTable extends Migration
 
             $table->uuid('turma_id');
             $table->foreign('turma_id')->references('id')->on('turmas');
-            $table->uuid('professor_id');
+            $table->uuid('professor_id')->nullable();
             $table->foreign('professor_id')->references('id')->on('professores');
             $table->uuid('disciplina_id');
             $table->foreign('disciplina_id')->references('id')->on('disciplinas');

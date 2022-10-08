@@ -7,6 +7,7 @@ use App\Scopes\ActivedScope;
 use App\Scopes\BlockedScope;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class Repository
 {
@@ -36,7 +37,7 @@ class Repository
     {
         $entity = !$activeAttribute ? $this->entity :  $this->entity::where('ativo', true);
         if ($sortBy) {
-            $entity->orderBy($sortBy);
+            $entity = $entity->orderBy($sortBy);
         }
         return $entity->get();
     }

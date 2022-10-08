@@ -20,13 +20,13 @@ class CreateMatriculasTable extends Migration
             $table->foreign('curso_id')->references('id')->on('cursos');
             $table->uuid('turma_id');
             $table->foreign('turma_id')->references('id')->on('turmas');
-            $table->uuid('empresa_id');
+            $table->uuid('empresa_id')->nullable();
             $table->foreign('empresa_id')->references('id')->on('empresas');
             $table->uuid('aluno_id');
             $table->foreign('aluno_id')->references('id')->on('alunos');
 
             $table->string('status', 15);
-            $table->string('conceito', 15);
+            $table->string('conceito', 15)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -22,7 +22,7 @@ class TurmaDisciplinaMatricula extends Model
      */
     protected $fillable = [
         'id',
-        'turma_id',
+        'turma_disciplina_id',
         'matricula_id',
         'nota_final',
         'status'

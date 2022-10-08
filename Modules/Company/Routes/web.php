@@ -13,6 +13,7 @@
 
 Route::prefix('admin/empresa')->name('admin.empresa.')->middleware(['auth'])->group(function() {
     Route::get('/', 'EmpresaController@index')->name('index');
+    Route::get('/all', 'EmpresaController@all')->name('all');
     Route::post('/store', 'EmpresaController@store')->name('store');
     Route::post('/get', 'EmpresaController@get')->name('get');
     Route::get('/edit/{empresa}', 'EmpresaController@edit')->name('edit');

@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login')->with(['tipos' => $this->tipoUsuarioService->all('nome')]);
+        return view('auth.login')->with(['tipos' => $this->tipoUsuarioService->all(false, 'nome')]);
     }
 
     /**

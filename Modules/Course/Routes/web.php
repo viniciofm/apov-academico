@@ -31,6 +31,8 @@ Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(
         Route::get('/get-by-id/{grade}', 'GradeController@getById')->name('get-by-id');
 
         Route::prefix('disciplina')->name('disciplina.')->group(function () {
+            Route::get('/all-by-turma/{turma}', 'DisciplinaController@allByTurma')->name('all-by-turma');
+            Route::get('/get-by-turma/{turma}', 'DisciplinaController@getByTurma')->name('get-by-turma');
             Route::post('/store', 'DisciplinaController@store')->name('store');
             Route::post('/get', 'DisciplinaController@get')->name('get');
             Route::get('/edit/{disciplina}', 'DisciplinaController@edit')->name('edit');
@@ -41,8 +43,15 @@ Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(
 
 Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(function() {
     Route::get('/', 'TurmaController@index')->name('index');
+    Route::get('/all-by-grade/{grade}', 'TurmaController@allByGrade')->name('all-by-grade');
     Route::post('/store', 'TurmaController@store')->name('store');
     Route::post('/get', 'TurmaController@get')->name('get');
     Route::get('/edit/{turma}', 'TurmaController@edit')->name('edit');
     Route::post('/update/{turma}', 'TurmaController@update')->name('update');
+    Route::get('/get-by-id/{turma}', 'TurmaController@getById')->name('get-by-id');
+
+    Route::prefix('disciplina')->name('disciplina.')->group(function () {
+        Route::post('/get', 'TurmaDisciplinaController@get')->name('get');
+        Route::post('/update-professor/{turmaDisciplina}', 'TurmaDisciplinaController@updateProfessor')->name('update-professor');
+    });
 });

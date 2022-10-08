@@ -138,6 +138,19 @@ class ProfessorController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
+    {
+        try {
+            $data = array_values($this->service->all(true)->toArray());
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @param  Professor  $registro
      * @param  bool  $active
      * @return JsonResponse

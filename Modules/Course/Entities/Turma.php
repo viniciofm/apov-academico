@@ -34,4 +34,9 @@ class Turma extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+
+    public function turmaDisciplinas()
+    {
+        return $this->hasMany(TurmaDisciplina::class);
+    }
 }

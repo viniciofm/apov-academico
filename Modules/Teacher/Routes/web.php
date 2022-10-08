@@ -13,6 +13,7 @@
 
 Route::prefix('admin/professor')->name('admin.professor.')->middleware(['auth'])->group(function() {
     Route::get('/', 'ProfessorController@index')->name('index');
+    Route::get('/all', 'ProfessorController@all')->name('all');
     Route::post('/store', 'ProfessorController@store')->name('store');
     Route::post('/get', 'ProfessorController@get')->name('get');
     Route::get('/edit/{professor}', 'ProfessorController@edit')->name('edit');

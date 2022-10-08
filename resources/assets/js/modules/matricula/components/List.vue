@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :module="'Turmas'" :title="'Turmas'"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Matrículas'" :title="'Matrículas'"></sub-header>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->
@@ -16,24 +16,24 @@
                             :withFilters="true">
                             <template v-slot:header-card>
                                 <div class="col-md-6">
-                                    <h4 class="card-title">TURMAS CADASTRADAS</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as turmas cadastradas.</h6>
+                                    <h4 class="card-title">MATRÍCULAS CADASTRADAS</h4>
+                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as matrículas cadastradas.</h6>
                                 </div>
                             </template>
 
                             <template v-slot:filters>
                                 <div class="form-group col-lg-3 col-md-3 col-sm-6">
-                                    <label for="codigo">Código</label>
+                                    <label for="matricula">Matrícula do Aluno</label>
                                     <input class="form-control"
-                                           v-model="search.codigo"
-                                           id="codigo" name="codigo" maxlength="200" type="text" placeholder="">
+                                           v-model="search.matricula"
+                                           id="matricula" name="matricula" maxlength="200" type="text" placeholder="">
                                 </div>
 
                                 <div class="form-group col-lg-3 col-md-3 col-sm-6">
-                                    <label for="codigo_grade">Grade</label>
+                                    <label for="nome_aluno">Nome</label>
                                     <input class="form-control"
-                                           v-model="search.codigo_grade"
-                                           id="codigo_grade" name="codigo_grade" maxlength="200" type="text" placeholder="">
+                                           v-model="search.nome_aluno"
+                                           id="nome_aluno" name="nome_aluno" maxlength="200" type="text" placeholder="">
                                 </div>
 
                                 <div class="form-group col-lg-3 col-md-3 col-sm-6">
@@ -46,28 +46,26 @@
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.codigo }}
+                                        {{ item.aluno.matricula }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.grade.codigo }}
+                                        {{ item.aluno.usuario.nome }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.grade.curso.nome }}
+                                        {{ item.turma.grade.codigo }}
+                                    </td>
+                                    <td scope="col">
+                                        {{ item.turma.codigo }}
+                                    </td>
+                                    <td scope="col">
+                                        {{ item.curso.nome }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-<!--                                            <router-link :to="{name: `${routeCreate}.grids`, params: { 'curso_id': item.id }}"-->
-<!--                                                         class="btn col-md-4" title="Alunos">-->
-<!--                                                <i class="align-middle text-secondary fas fa-fw fa-clipboard-list"></i>-->
+<!--                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'id': item.id }}"-->
+<!--                                                         class="btn col-md-4" title="Editar">-->
+<!--                                                <i class="align-middle fas fa-fw fa-pen"></i>-->
 <!--                                            </router-link>-->
-                                            <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-4" title="Disciplinas da Turma">
-                                                <i class="align-middle fas fa-fw fa-list"></i>
-                                            </router-link>
-                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-4" title="Editar">
-                                                <i class="align-middle fas fa-fw fa-pen"></i>
-                                            </router-link>
                                         </div>
                                     </td>
                                 </tr>
@@ -97,11 +95,11 @@ export default {
     name: "ListTurmas",
     data: () => ({
         subHeaderLinks:[],
-        search: {codigo: '', codigo_grade:'', nome_curso:''},
+        search: {matricula: '', nome_aluno:'', nome_curso:''},
         dataPaginate: {},
-        columns: ['Código', 'Grade', 'Curso', 'Ações'],
+        columns: ['Matrícula', 'Aluno', 'Matriz', 'Turma', 'Curso', 'Ações'],
         isLoading: false,
-        routeCreate:'turma'
+        routeCreate:'matricula'
     }),
     mounted() {
         this.getData();
@@ -120,7 +118,7 @@ export default {
         getData(page = 1) {
             this.isLoading = true;
 
-            submit(route('admin.turma.get'), {
+            submit(route('admin.matricula.get'), {
                 page: Number.isInteger(page) ? page : 1,
                 perPage: 10,
                 paginate: true,

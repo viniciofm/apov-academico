@@ -4,6 +4,7 @@ namespace Modules\Course\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Teacher\Entities\Professor;
 
 class TurmaDisciplina extends Model
 {
@@ -30,5 +31,20 @@ class TurmaDisciplina extends Model
     protected $casts = [
 
     ];
+
+    public function disciplina()
+    {
+        return $this->belongsTo(Disciplina::class);
+    }
+
+    public function turma()
+    {
+        return $this->belongsTo(Turma::class);
+    }
+
+    public function professor()
+    {
+        return $this->belongsTo(Professor::class);
+    }
 
 }

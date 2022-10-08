@@ -3,77 +3,69 @@
 namespace Modules\Course\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Course\Entities\Turma;
+use Modules\Course\Http\Requests\TurmaDisciplinaProfessorRequestValidator;
+use Modules\Course\Http\Requests\TurmaRequestValidator;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 
 class TurmaDisciplinaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var TurmaDisciplinaService $service
      */
-    public function index()
+    protected $service;
+
+    /**
+     * @param  TurmaDisciplinaService  $service
+     */
+    public function __construct(TurmaDisciplinaService $service)
     {
-        return view('course::index');
+        $this->service = $service;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function create()
+    public function get(Request $request)
     {
-        return view('course::create');
+        try {
+            $data = $this->service->get([
+                'with' => ['disciplina', 'turma', 'professor.usuario'],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  TurmaDisciplinaProfessorRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function updateProfessor(TurmaDisciplinaProfessorRequestValidator $request, $id)
     {
-        //
-    }
+        try {
+            $data = $this->service->update($id, $request->all());
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('course::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('course::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Professor atualizado!'
+        ], 201);
     }
 }
