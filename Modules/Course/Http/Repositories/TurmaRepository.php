@@ -6,6 +6,8 @@ namespace Modules\Course\Http\Repositories;
 use App\Http\Repositories\Repository;
 use App\Scopes\ActivedScope;
 use Illuminate\Support\Facades\Auth;
+use Modules\Course\Entities\Curso;
+use Modules\Course\Entities\Grade;
 use Modules\Course\Entities\Turma;
 
 class TurmaRepository extends Repository
@@ -72,5 +74,14 @@ class TurmaRepository extends Repository
         }
 
         return $query->get($columns);
+    }
+
+    /**
+     * @param  Grade  $grade
+     * @return mixed
+     */
+    public function allByGrade(Grade $grade)
+    {
+        return $this->entity::where('grade_id', $grade->id)->where('ativo', true)->orderBy('created_at', 'desc')->get();
     }
 }

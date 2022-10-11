@@ -19,6 +19,7 @@ class TurmaRequestValidator extends AbstractGenericFormRequest
             'id' => 'sometimes|required|uuid|exists:turmas,id',
             'grade_id' => 'required|uuid|exists:grades,id',
             'codigo' => 'required|max:15|string',
+            'ativo' => 'required|int',
         ];
     }
 
@@ -42,7 +43,8 @@ class TurmaRequestValidator extends AbstractGenericFormRequest
         return [
             'id' => 'ID',
             'grade_id' => 'Grade ID',
-            'codigo' => 'Código'
+            'codigo' => 'Código',
+            'ativo' => 'Ativo'
         ];
     }
 }

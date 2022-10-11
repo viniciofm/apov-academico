@@ -49,6 +49,7 @@ Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(
     Route::get('/edit/{turma}', 'TurmaController@edit')->name('edit');
     Route::post('/update/{turma}', 'TurmaController@update')->name('update');
     Route::get('/get-by-id/{turma}', 'TurmaController@getById')->name('get-by-id');
+    Route::get('/active/{turma}/{active}', 'TurmaController@active')->name('active');
 
     Route::prefix('disciplina')->name('disciplina.')->group(function () {
         Route::post('/get', 'TurmaDisciplinaController@get')->name('get');

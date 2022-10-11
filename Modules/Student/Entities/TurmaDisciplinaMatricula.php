@@ -4,11 +4,13 @@ namespace Modules\Student\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Course\Entities\TurmaDisciplina;
 
 class TurmaDisciplinaMatricula extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 

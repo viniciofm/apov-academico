@@ -12,7 +12,7 @@ class TurmaDisciplinaMatriculaService extends Service
     /**
      * @var TurmaDisciplinaService $turmaDisciplinaService
      */
-    protected TurmaDisciplinaService $turmaDisciplinaService;
+    protected $turmaDisciplinaService;
 
     public function __construct(TurmaDisciplinaMatriculaRepository $repository)
     {

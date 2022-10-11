@@ -4,6 +4,7 @@ namespace Modules\Course\Http\Services;
 
 use App\Http\Services\Service;
 use Illuminate\Support\Facades\Auth;
+use Modules\Course\Entities\Grade;
 use Modules\Course\Http\Repositories\TurmaRepository;
 
 class TurmaService extends Service
@@ -66,9 +67,12 @@ class TurmaService extends Service
         $disciplinas = $this->disciplinaService->where('grade_id', '=', $attributes['grade_id']);
         foreach($disciplinas as $disciplina)
         {
-            $turmaDisciplina = $turma->disciplinas->where('disciplina_id', $disciplina->id);
-            if($turmaDisciplina->count() == 0){
-                $this->createTurmaDisciplina($disciplina, $turma);
+            $disciplinas = $turma->disciplinas;
+            if($disciplinas){
+                $turmaDisciplina = $turma->disciplinas->where('disciplina_id', $disciplina->id);
+                if($turmaDisciplina->count() == 0){
+                    $this->createTurmaDisciplina($disciplina, $turma);
+                }
             }
         }
 
@@ -86,5 +90,14 @@ class TurmaService extends Service
             'disciplina_id' => $disciplina->id,
             'turma_id' => $turma->id,
         ]);
+    }
+
+    /**
+     * @param  Grade  $grade
+     * @return mixed
+     */
+    public function allByGrade(Grade $grade)
+    {
+        return $this->repository->allByGrade($grade);
     }
 }

@@ -148,16 +148,38 @@ class TurmaController extends Controller
     /**
      * @param  Grade  $grade
      * @return JsonResponse
-     *
      */
     public function allByGrade(Grade $grade)
     {
         try {
-            $data = $this->service->where('grade_id','=' , $grade->id);
+            $data = $this->service->allByGrade($grade);
 
             return \response()->json($data, 200);
         } catch (\Exception $e) {
             return \response()->json($e->getMessage(), 500);
         }
+    }
+
+    /**
+     * @param  Turma  $turma
+     * @param  bool  $active
+     * @return JsonResponse
+     */
+    public function active(Turma $turma,bool $active) : JsonResponse
+    {
+        try{
+            $data = $this->service->activeObject($turma, $active);
+            if (!$data) {
+                throw new \Exception('Não foi possível '.($active?'ativar':'desativar').' a turma');
+            }
+        } catch (\Exception $e){
+            return \response()->json(['message' => $e->getMessage()], $e->getCode() !== 0 ? $e->getCode() : 500 );
+        }
+        return \response()->json([
+            'data' => [
+                'success' => true,
+                'message' => 'Turma '.($active ? 'ativada' : 'desativada').' com sucesso!'
+            ]
+        ], 201);
     }
 }

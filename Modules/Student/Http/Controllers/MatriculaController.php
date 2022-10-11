@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Student\Entities\Matricula;
+use Modules\Student\Http\Requests\DisciplinaMatriculaRequestValidator;
 use Modules\Student\Http\Requests\UpdateMatriculaRequestValidator;
 use Modules\Student\Http\Services\MatriculaService;
 use Modules\Student\Http\Services\TurmaDisciplinaMatriculaService;
@@ -49,6 +50,54 @@ class MatriculaController extends Controller
     public function index()
     {
         return view('modules.matricula.index');
+    }
+
+    /**
+     * @param  DisciplinaMatriculaRequestValidator  $request
+     * @return JsonResponse
+     */
+    public function storeDisciplinas(DisciplinaMatriculaRequestValidator $request): JsonResponse
+    {
+        try {
+            $data = $this->service->addDisciplinas($request->all());
+
+            if ($data instanceof \Exception) {
+                return \response()->json(['message' => $data->getMessage()], $data->getCode());
+            }
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Disciplina(s) adicionada(s)!'
+        ], 201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function deleteDisciplina(Request $request): JsonResponse
+    {
+        try {
+            $data = $this->service->deleteDisciplina($request->all());
+
+            if ($data instanceof \Exception) {
+                return \response()->json(['message' => $data->getMessage()], $data->getCode());
+            }
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Disciplina removida!'
+        ], 201);
     }
 
     /**

@@ -6,7 +6,7 @@ namespace Modules\Student\Http\Requests;
 use App\Http\Requests\AbstractGenericFormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class MatriculaRequestValidator extends AbstractGenericFormRequest
+class DisciplinaMatriculaRequestValidator extends AbstractGenericFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,13 +16,10 @@ class MatriculaRequestValidator extends AbstractGenericFormRequest
     public function rules() : array
     {
         return [
-            'aluno_id' => 'required|uuid|exists:alunos,id',
-            'grade_id' => 'required|uuid|exists:grades,id',
-            'curso_id' => 'required|uuid|exists:cursos,id',
+            'matricula_id' => 'required|uuid|exists:matriculas,id',
             'turma_id' => 'required|uuid|exists:turmas,id',
-            'empresa_id' => 'sometimes|required|uuid|exists:empresas,id',
             'disciplinas' => 'sometimes|required|array',
-            'disciplinas.id' => 'sometimes|required|uuid|exists:disciplinas,id',
+            'disciplinas.*' => 'sometimes|required|uuid|exists:disciplinas,id',
         ];
     }
 
@@ -45,13 +42,9 @@ class MatriculaRequestValidator extends AbstractGenericFormRequest
     public function attributes()
     {
         return [
-            'aluno_id' => 'ID do Aluno',
-            'grade_id' => 'ID da Grade',
-            'curso_id' => 'ID do Curso',
-            'empresa_id' => 'ID da Empresa',
-            'turma_id' => 'ID da Turma',
+            'matricula_id' => 'ID da Matrícula',
             'disciplinas' => 'Disciplinas',
-            'disciplinas.id' => 'ID da Disciplina'
+            'disciplinas.*' => 'ID da Disciplina'
         ];
     }
 }

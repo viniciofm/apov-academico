@@ -23,7 +23,8 @@ class Turma extends Model
     protected $fillable = [
         'id',
         'codigo',
-        'grade_id'
+        'grade_id',
+        'ativo'
     ];
 
     protected $casts = [

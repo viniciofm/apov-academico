@@ -29,4 +29,6 @@ Route::prefix('admin/matricula')->name('admin.matricula.')->middleware(['auth'])
     Route::get('/get-by-id/{matricula}', 'MatriculaController@getById')->name('get-by-id');
     Route::post('/get-disciplinas', 'MatriculaController@getDisciplinas')->name('get-disciplinas');
     Route::post('/get-alunos', 'MatriculaController@getAlunos')->name('get-alunos');
+    Route::post('/disciplinas/store', 'MatriculaController@storeDisciplinas')->name('store-disciplinas');
+    Route::delete('/disciplinas/delete', 'MatriculaController@deleteDisciplina')->name('delete-disciplina');
 });
