@@ -26,6 +26,35 @@
                             <div v-show="errors.has('nome')" class="text-danger" style="">{{ errors.first('nome') }}</div>
                         </div>
 
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="nome">Nº CNAP</label>
+                            <input class="form-control" v-model="payload.cnap" id="cnap" name="cnap" maxlength="150" value="" type="text" placeholder="" required="required"
+                                   v-validate="''"
+                                   data-vv-as="'Nº CNAP'">
+                            <div v-show="errors.has('cnap')" class="text-danger" style="">{{ errors.first('cnap') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="cbo">CBO*</label>
+                            <multiselect v-model="payload.cbo"
+                                         :options="cbos"
+                                         :searchable="true"
+                                         :label="'nome'"
+                                         placeholder="Selecione uma opção"
+                                         deselect-label="Desmarcar"
+                                         select-label="Selecionar"
+                                         selected-label="Selecionado"
+                                         v-validate="''"
+                                         data-vv-as="'CBO"
+                                         name="cbo"
+                                         id="cbo"
+                                         track-by="id">
+                                <span slot="noResult">Nenhum valor encontrado. Considere mudar a pesquisa.</span>
+                                <span slot="noOptions">A lista está vazia.</span>
+                            </multiselect>
+                            <div v-show="errors.has('cbo')" class="text-danger" style="">{{ errors.first('cbo') }}</div>
+                        </div>
+
                         <div class="mb-3 col-lg-3 col-md-3 col-sm-12">
                             <label for="ativo">Ativo</label>
                             <div class="form-check form-switch mt-1">
@@ -71,6 +100,7 @@ import SubHeader from "../../../components/SubHeader"
 import Swal from "sweetalert2";
 import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
+import Multiselect from 'vue-multiselect'
 
 export default {
     name: "Curso",
@@ -82,7 +112,9 @@ export default {
             'sigla': '',
             'nome': '',
             'ativo': true,
+            'cbo': '',
         },
+        cbos: [],
         isLoading: false,
     }),
     props: [
@@ -90,13 +122,15 @@ export default {
         'title'
     ],
     created() {
+        this.getCBOs();
         if (this.id) {
             this.getData();
         }
     },
     components: {
         SubHeader,
-        Loading
+        Loading,
+        Multiselect
     },
     methods: {
         save(){
@@ -110,9 +144,11 @@ export default {
                         formData.append('sigla', this.payload.sigla);
                         formData.append('nome', this.payload.nome);
                         formData.append('ativo', this.payload.ativo ? 1 : 0);
+                        formData.append('cbo_id', this.payload.cbo ? this.payload.cbo.id : '');
+                        formData.append('cnap', this.payload.cnap ? this.payload.cnap : '');
 
                         let url = route(me.id ? 'admin.curso.update' : 'admin.curso.store', me.id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -125,12 +161,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({ path: `/` });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(
@@ -140,6 +176,23 @@ export default {
                         )
                     }
                 })
+        },
+        getCBOs(){
+            this.isLoading = true;
+            submit(route('admin.curso.allCbo'), {}, 'GET').then(
+                data => {
+                    this.cbos = data;
+                }
+            ).then(() => {
+                this.isLoading = false;
+            }).catch(error => {
+                Swal.fire(
+                    'Erro!',
+                    'Encontramos um erro ao consultar os dados!',
+                    'error'
+                )
+                this.isLoading = false;
+            });
         },
         getData() {
             this.isLoading = true;
@@ -169,3 +222,5 @@ export default {
     overflow: auto;
 }
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

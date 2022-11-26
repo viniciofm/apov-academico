@@ -1,57 +1,21 @@
 <template>
     <div class="col-sm-12 col-md-12 col-lg-12">
         <section>
-            <sub-header :links="subHeaderLinks" :module="'Matrículas'" :title="title ? title : (('Cadastro') + ' de Matrícula')"></sub-header>
+            <sub-header :links="subHeaderLinks" :module="'Matrículas'" :title="title ? title : (('Cadastro') + ' de Disciplina em Matrícula')"></sub-header>
 
             <div class="card mb-3">
                 <div class="card-header">
-                    <h5 class="mb-2">Formulário de {{ ('Cadastro') }} de Matrícula</h5>
+                    <h5 class="mb-2">Formulário de {{ ('Cadastro') }} de Disciplina em Matrícula</h5>
                 </div>
-                <div class="card-body">
-                    <h5 class="mb-0">Dados da Matrícula</h5>
+                <div class="card-body" v-if="payload.matricula">
+                    <h5 class="mb-0">Dados de Cadastro</h5>
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="aluno">Aluno*</label>
-                            <multiselect v-model="payload.aluno"
-                                         :options="alunos"
-                                         :searchable="true"
-                                         :custom-label="customLabelAluno"
-                                         placeholder="Selecione uma opção"
-                                         deselect-label="Desmarcar"
-                                         select-label="Selecionar"
-                                         selected-label="Selecionado"
-                                         v-validate="'required'"
-                                         data-vv-as="'Aluno"
-                                         name="aluno"
-                                         id="aluno"
-                                         track-by="id">
-                                <span slot="noResult">Nenhum valor encontrado. Considere mudar a pesquisa.</span>
-                                <span slot="noOptions">A lista está vazia.</span>
-                            </multiselect>
-                            <div v-show="errors.has('aluno')" class="text-danger" style="">{{ errors.first('aluno') }}</div>
-                        </div>
-                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="empresa">Empresa</label>
-                            <multiselect v-model="payload.empresa"
-                                         :options="empresas"
-                                         :searchable="true"
-                                         :label="'nome'"
-                                         placeholder="Selecione uma opção"
-                                         deselect-label="Desmarcar"
-                                         select-label="Selecionar"
-                                         selected-label="Selecionado"
-                                         v-validate="''"
-                                         data-vv-as="'Empresa"
-                                         name="empresa"
-                                         id="empresa"
-                                         track-by="id">
-                                <span slot="noResult">Nenhum valor encontrado. Considere mudar a pesquisa.</span>
-                                <span slot="noOptions">A lista está vazia.</span>
-                            </multiselect>
-                            <div v-show="errors.has('empresa')" class="text-danger" style="">{{ errors.first('empresa') }}</div>
+                            <label class="form-control">{{ payload.matricula.aluno.usuario.nome }}</label>
                         </div>
 
-                        <div v-if="payload.aluno" class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <div v-if="payload.matricula" class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="curso_id">Curso*</label>
                             <select class="form-control" v-on:change="updateGrade()" data-bs-toggle="select2" v-model="payload.curso_id" name="curso_id" id="curso_id"
                                     v-validate="'required'"
@@ -62,7 +26,7 @@
                             <div v-show="errors.has('curso_id')" class="text-danger" style="">{{ errors.first('curso_id') }}</div>
                         </div>
 
-                        <div v-if="payload.aluno && payload.curso_id" class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <div v-if="payload.matricula && payload.curso_id" class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="grade_id">Grade*</label>
                             <select class="form-control" v-on:change="updateTurma()" data-bs-toggle="select2" v-model="payload.grade_id" name="grade_id" id="grade_id"
                                     v-validate="'required'"
@@ -83,15 +47,10 @@
                             </select>
                             <div v-show="errors.has('turma_id')" class="text-danger" style="">{{ errors.first('turma_id') }}</div>
                         </div>
-
-                        <div v-if="payload.aluno && payload.curso_id" class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="status">Status</label>
-                            <label class="form-control">Matrículado</label>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card mb-3"v-if="payload.grade_id">
+            <div class="card mb-3" v-if="payload.grade_id">
                 <div class="card-header">
                     <h5 class="mb-2">Disciplinas</h5>
                 </div>
@@ -100,8 +59,8 @@
                     <div class="row">
                         <div v-for="disciplina in disciplinas" class="mb-3 col-lg-4 col-md-4 col-sm-12">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" :id="'disciplina_selected_' + disciplina.id" :value="disciplina.selected" v-model="disciplina.selected" id="flexSwitchCheckChecked" checked="">
-                                <label class="form-check-label" for="flexSwitchCheckChecked">{{ disciplina.sigla }} / {{ disciplina.nome }}</label>
+                                <input class="form-check-input" type="checkbox" :id="'disciplina_selected_' + disciplina.id" :value="disciplina.selected" v-model="disciplina.selected" checked="">
+                                <label class="form-check-label" :for="'disciplina_selected_' + disciplina.id">{{ disciplina.sigla }} / {{ disciplina.nome }}</label>
                             </div>
                         </div>
                     </div>
@@ -150,14 +109,12 @@ export default {
         search: '',
         dataPaginate: {},
         payload:{
-            'aluno': '',
-            'empresa': '',
+            'matricula': '',
             'grade_id': '',
             'turma_id': '',
             'curso_id': ''
         },
         isLoading: false,
-        alunos: [],
         empresas: [],
         cursos: {},
         grades: {},
@@ -165,17 +122,17 @@ export default {
         disciplinas: {},
     }),
     props: [
-        'title'
+        'matricula_id',
+        'title',
     ],
     computed: {
         subHeaderLinks: function() {
-            return [['/', 'Turmas']];
+            return [['/', 'Matrículas'], ['/'+this.matricula_id+'/disciplinas','Disciplinas']];
         }
     },
     created() {
-        this.getAlunos();
+        this.getMatricula();
         this.getCursos();
-        this.getEmpresas();
     },
     components: {
         SubHeader,
@@ -186,12 +143,30 @@ export default {
         customLabelAluno({ usuario }) {
             return `${usuario.nome}`
         },
+        getMatricula(){
+            this.isLoading = true;
+            submit(route('admin.matricula.get-by-id', this.matricula_id), {}, 'GET').then(
+                data => {
+                    this.payload.matricula = data.registro;
+                    this.payload.empresa = data.registro.empresa ? data.registro.empresa : [];
+                }
+            ).then(() => {
+                this.isLoading = false;
+            }).catch(error => {
+                Swal.fire(
+                    'Erro!',
+                    'Encontramos um erro ao consultar os dados!',
+                    'error'
+                )
+                this.isLoading = false;
+            });
+        },
         updateDisciplinas(){
             this.isLoading = true;
             submit(route('admin.curso.grade.disciplina.all-by-turma', this.payload.turma_id), {}, 'GET').then(
                 data => {
                     this.disciplinas = data;
-                    this.disciplinas = this.disciplinas.map(item => ({...item, ...{selected: true}}));
+                    this.disciplinas = this.disciplinas.map(item => ({...item, ...{selected: false}}));
                 }
             ).then(() => {
                 this.isLoading = false;
@@ -260,40 +235,6 @@ export default {
                 this.isLoading = false;
             });
         },
-        getAlunos(){
-            this.isLoading = true;
-            submit(route('admin.aluno.all'), {}, 'GET').then(
-                data => {
-                    this.alunos = data;
-                }
-            ).then(() => {
-                this.isLoading = false;
-            }).catch(error => {
-                Swal.fire(
-                    'Erro!',
-                    'Encontramos um erro ao consultar os dados!',
-                    'error'
-                )
-                this.isLoading = false;
-            });
-        },
-        getEmpresas(){
-            this.isLoading = true;
-            submit(route('admin.empresa.all'), {}, 'GET').then(
-                data => {
-                    this.empresas = data;
-                }
-            ).then(() => {
-                this.isLoading = false;
-            }).catch(error => {
-                Swal.fire(
-                    'Erro!',
-                    'Encontramos um erro ao consultar os dados!',
-                    'error'
-                )
-                this.isLoading = false;
-            });
-        },
         save(){
             this.$validator.validateAll().then(
                 res => {
@@ -307,16 +248,20 @@ export default {
                         })
                         selectedDisciplinas = selectedDisciplinas.map(item => item.id)
 
-                        formData.append('grade_id', this.payload.grade_id);
-                        formData.append('aluno_id', this.payload.aluno.id);
-                        formData.append('curso_id', this.payload.curso_id);
-                        formData.append('turma_id', this.payload.turma_id);
-                        if(this.payload.empresa){
-                            formData.append('empresa_id', this.payload.empresa.id);
+                        if (selectedDisciplinas.length == 0){
+                            Swal.fire(
+                                'Oops...',
+                                'Para continuar você deve antes selecionar ao menos uma disciplina.',
+                                'error'
+                            )
+                            return;
                         }
+
+                        formData.append('matricula_id', this.matricula_id);
+                        formData.append('turma_id', this.payload.turma_id);
                         formData.append('disciplinas', JSON.stringify(selectedDisciplinas));
 
-                        let url = route('admin.matricula.store');
+                        let url = route('admin.matricula.store-disciplinas');
                         me.isLoading = true;
 
                         http.post(url, formData, {

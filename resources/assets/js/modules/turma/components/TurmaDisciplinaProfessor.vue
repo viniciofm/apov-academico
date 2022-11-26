@@ -119,7 +119,7 @@ export default {
                         formData.append('turma_disciplina_id', me.turmaDisciplina.id);
 
                         let url = route('admin.turma.disciplina.update-professor', me.turmaDisciplina.id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -133,13 +133,13 @@ export default {
                             )
                             setTimeout(function(){
                                 me.professor = {};
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$emit('close');
                                 me.$emit('getData');
                             }, 1000);
                         }).catch(error => {
                             me.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

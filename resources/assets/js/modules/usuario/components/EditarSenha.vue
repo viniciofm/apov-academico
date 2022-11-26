@@ -131,7 +131,7 @@ export default {
                         formData.append('confirm_password', this.payload.confirm_password);
 
                         let url = route('usuario.update-password');
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -144,7 +144,7 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 window.location.href = me.routeHome;
                             }, 1000);
                         }).catch(error => {
@@ -165,7 +165,7 @@ export default {
                                 title: 'Oops...',
                                 text: errors
                             })
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

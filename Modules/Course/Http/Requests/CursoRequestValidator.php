@@ -18,6 +18,8 @@ class CursoRequestValidator extends AbstractGenericFormRequest
         return [
             'id' => 'sometimes|required|uuid|exists:cursos,id',
             'sigla' => 'required|max:3|string',
+            'cnap' => 'max:150|string|nullable',
+            'cbo_id' => 'required|uuid|exists:cbos,id',
             'nome' => 'required|max:50|string',
             'ativo' => 'required|int',
         ];
@@ -43,6 +45,8 @@ class CursoRequestValidator extends AbstractGenericFormRequest
         return [
             'id' => 'ID',
             'sigla' => 'Sigla',
+            'cnap' => 'Nº CNAP',
+            'cbo_id' => 'CBO',
             'nome' => 'Nome',
             'ativo' => 'Ativo'
         ];

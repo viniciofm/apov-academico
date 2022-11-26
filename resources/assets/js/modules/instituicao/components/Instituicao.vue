@@ -180,7 +180,7 @@ export default {
                         formData.append('endereco' , JSON.stringify(this.payload.endereco));
 
                         let url = route('admin.instituicao.update', me.payload.id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -208,11 +208,11 @@ export default {
                                 }
                             });
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

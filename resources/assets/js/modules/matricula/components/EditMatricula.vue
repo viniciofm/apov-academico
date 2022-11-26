@@ -193,7 +193,7 @@ export default {
                         formData.append('empresa_id', this.payload.empresa ? this.payload.empresa.id : '');
 
                         let url = route('admin.matricula.update', this.matricula_id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -206,12 +206,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({path: `/`});
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

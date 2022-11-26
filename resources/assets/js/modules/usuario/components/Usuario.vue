@@ -213,7 +213,7 @@ export default {
                         let userId = (me.id || me.editUser) ? (me.id ? me.id : me.payload.id) : null;
 
                         let url = route(userId ? 'admin.usuario.update' : 'admin.usuario.store', userId);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -226,7 +226,7 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 if(me.editUser){
                                     window.location.href = me.routeHome;
                                 }else{
@@ -251,7 +251,7 @@ export default {
                                 title: 'Oops...',
                                 text: errors
                             })
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

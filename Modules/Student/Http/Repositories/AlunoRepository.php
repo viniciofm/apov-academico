@@ -5,6 +5,7 @@ namespace Modules\Student\Http\Repositories;
 
 use App\Http\Repositories\Repository;
 use App\Scopes\ActivedScope;
+use App\Scopes\BlockedScope;
 use Illuminate\Support\Facades\Auth;
 use Modules\Student\Entities\Aluno;
 
@@ -70,7 +71,7 @@ class AlunoRepository extends Repository
     public function all(bool $activeAttribute = false,string $sortBy = NULL)
     {
         $entity = !$activeAttribute ? $this->entity :  $this->entity::where('ativo', true);
-        $entity->with('usuario:id,nome');
+        $entity->withoutGlobalScope(ActivedScope::class)->with('usuario:id,nome');
 
         return $entity->get()->sortBy('usuario.nome');
     }

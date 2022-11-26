@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             InstituicaoSeeder::class,
             GeneroSeeder::class,
             UserSeeder::class,
-            MenuSeeder::class
+            MenuSeeder::class,
+            CboSeeder::class
         ]);
     }
 }

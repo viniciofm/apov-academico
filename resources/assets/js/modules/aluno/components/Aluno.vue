@@ -185,7 +185,7 @@ export default {
                         formData.append('endereco' , JSON.stringify(this.payload.endereco));
 
                         let url = route(me.id ? 'admin.aluno.update' : 'admin.aluno.store', me.id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -198,12 +198,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({ path: `/` });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

@@ -119,7 +119,7 @@ export default {
                 allowEscapeKey: false,
                 preConfirm: () => {
                     return new Promise(() => {
-                        me.loading = true;
+                        me.isLoading = true;
                         toSeek(route('admin.curso.active', {'curso': item.id, 'active': ativo})).then(
                             data => {
                                 if(data.success){

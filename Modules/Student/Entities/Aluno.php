@@ -2,6 +2,7 @@
 
 namespace Modules\Student\Entities;
 
+use App\Scopes\BlockedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\Endereco;
@@ -37,7 +38,7 @@ class Aluno extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withoutGlobalScope(BlockedScope::class);
     }
 
     public function endereco()

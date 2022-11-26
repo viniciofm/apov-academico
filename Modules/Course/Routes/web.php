@@ -13,6 +13,7 @@
 
 Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(function() {
     Route::get('/', 'CursoController@index')->name('index');
+    Route::get('/allCbo', 'CursoController@allCbo')->name('allCbo');
     Route::get('/all', 'CursoController@all')->name('all');
     Route::post('/store', 'CursoController@store')->name('store');
     Route::post('/get', 'CursoController@get')->name('get');

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
 use Modules\Course\Http\Requests\CursoRequestValidator;
+use Modules\Course\Http\Services\CboService;
 use Modules\Course\Http\Services\CursoService;
 use Modules\User\Http\Services\UserService;
 
@@ -20,6 +21,10 @@ class CursoController extends Controller
      * @var CursoService
      */
     protected $service;
+    /**
+     * @var CboService
+     */
+    protected $cboService;
 
     /**
      * @var UserService
@@ -30,9 +35,10 @@ class CursoController extends Controller
      * @param  CursoService  $service
      * @param  UserService  $userService
      */
-    public function __construct(CursoService $service, UserService $userService)
+    public function __construct(CursoService $service, UserService $userService, CboService $cboService)
     {
         $this->service = $service;
+        $this->cboService = $cboService;
         $this->userService = $userService;
     }
 
@@ -111,7 +117,6 @@ class CursoController extends Controller
     }
 
     /**
-     * @param  Request  $request
      * @return JsonResponse
      */
     public function all(): JsonResponse
@@ -126,11 +131,26 @@ class CursoController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function allCbo(): JsonResponse
+    {
+        try {
+            $data = $this->cboService->all(true, 'nome');
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @param  Curso  $curso
      * @return \Illuminate\Http\JsonResponse
      */
     public function getById(Curso $curso)
     {
+        $curso->cbo;
         return \response()->json([
             'registro' => $curso,
         ], 201);
@@ -143,6 +163,7 @@ class CursoController extends Controller
      */
     public function edit(Curso $curso)
     {
+        $curso->cbo;
         return \response()->json([
             'registro' => $curso,
         ], 201);

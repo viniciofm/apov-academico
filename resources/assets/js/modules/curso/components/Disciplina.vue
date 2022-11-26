@@ -154,7 +154,7 @@ export default {
                         formData.append('carga_horaria', this.payload.carga_horaria);
 
                         let url = route(me.disciplina_id ? 'admin.curso.grade.disciplina.update' : 'admin.curso.grade.disciplina.store', me.disciplina_id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -167,12 +167,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({name: `curso.grids.disciplines`, params: {'curso_id': me.curso_id, 'grade_id': me.grade_id}});
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

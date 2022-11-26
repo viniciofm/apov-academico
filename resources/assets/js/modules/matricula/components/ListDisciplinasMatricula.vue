@@ -11,6 +11,8 @@
                             :data-paginate="dataPaginate"
                             :columns="columns"
                             :allow-search="false"
+                            :routeCreate="routeCreate"
+                            :textCreate="textCreate"
                             :withFilters="false">
                             <template v-slot:header-card>
                                 <div class="col-md-6" v-if="payload.matricula.aluno">
@@ -36,10 +38,10 @@
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
-                                                         class="btn col-md-4" title="Remover Disciplina">
-                                                <i class="align-middle fas fa-fw fa-trash"></i>
-                                            </router-link>
+                                            <button v-on:click="remover(item)"
+                                                    class="btn col-md-3" :title="'Remover disciplina'">
+                                                <i :class="'align-middle fas fa-fw text-success text-danger fa-trash'"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -77,6 +79,7 @@ export default {
             matricula: '',
         },
         routeCreate:'matricula.disciplines',
+        textCreate:'Adicionar Nova',
         listStatus: {
             'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
@@ -96,6 +99,41 @@ export default {
         Loading
     },
     methods: {
+        remover(item){
+            let me = this;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente desvincular a disciplina ' + item.turma_disciplina.disciplina.sigla + '?'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        submit(route('admin.matricula.delete-disciplina'), {'id': item.id, 'matricula_id' : me.matricula_id}, 'DELETE').then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getDisciplinasMatricula();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            this.isLoading = false;
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
+        },
         translaterStatus(status){
             return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
         },

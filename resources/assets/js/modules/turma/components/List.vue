@@ -57,15 +57,19 @@
                                     <td scope="col" class="text-center">
                                         <div class="row">
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-4" title="Disciplinas da Turma">
+                                                         class="btn col-md-3" title="Disciplinas da Turma">
                                                 <i class="align-middle fas fa-fw fa-list"></i>
                                             </router-link>
                                             <router-link :to="{name: `${routeCreate}.alunos`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-4" title="Alunos da Turma">
+                                                         class="btn col-md-3" title="Alunos da Turma">
                                                 <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
+                                            <button v-on:click="updateStatus(item)"
+                                                    class="btn col-md-3" :title="(item.ativo ? 'Desativar' : 'Ativar')">
+                                                <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
+                                            </button>
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-4" title="Editar">
+                                                         class="btn col-md-3" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
                                         </div>
@@ -113,6 +117,42 @@ export default {
     },
 
     methods: {
+        updateStatus(item){
+            let me = this;
+            let ativo = item.ativo ? 0 : 1;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente alterar o status da turma ' + item.codigo + ' para ' + (ativo ? 'ativo' : 'inativo') + '?'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        toSeek(route('admin.turma.active', {'turma': item.id, 'active': ativo})).then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getData();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            me.isLoading = false
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
+        },
         dateFormat(value) {
             let date = new Date(value);
             return date.toLocaleDateString();

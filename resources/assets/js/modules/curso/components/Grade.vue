@@ -155,7 +155,7 @@ export default {
                         formData.append('ativo', this.payload.ativo ? 1 : 0);
 
                         let url = route(me.grade_id ? 'admin.curso.grade.update' : 'admin.curso.grade.store', me.grade_id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -168,12 +168,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({name: `curso.grids`, params: {'curso_id': me.curso_id}});
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Student\Entities\Matricula;
 use Modules\Student\Http\Requests\DisciplinaMatriculaRequestValidator;
+use Modules\Student\Http\Requests\MatriculaRequestValidator;
 use Modules\Student\Http\Requests\UpdateMatriculaRequestValidator;
 use Modules\Student\Http\Services\MatriculaService;
 use Modules\Student\Http\Services\TurmaDisciplinaMatriculaService;
@@ -104,7 +105,7 @@ class MatriculaController extends Controller
      * @param  UpdateMatriculaRequestValidator  $request
      * @return JsonResponse
      */
-    public function store(UpdateMatriculaRequestValidator $request): JsonResponse
+    public function store(MatriculaRequestValidator $request): JsonResponse
     {
         try {
             $data = $this->service->create($request->all());

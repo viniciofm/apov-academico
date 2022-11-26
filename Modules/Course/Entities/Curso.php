@@ -5,6 +5,8 @@ namespace Modules\Course\Entities;
 use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Instituition\Entities\Instituicao;
 
 class Curso extends Model
 {
@@ -26,12 +28,30 @@ class Curso extends Model
         'sigla',
         'nome',
         'ativo',
-        'instituicao_id'
+        'instituicao_id',
+        'cbo_id',
+        'cnap',
     ];
 
     protected $casts = [
 
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function cbo(): BelongsTo
+    {
+        return $this->belongsTo(Cbo::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function instituicao(): BelongsTo
+    {
+        return $this->belongsTo(Instituicao::class);
+    }
 
     protected static function boot()
     {

@@ -49,6 +49,14 @@
                                    data-vv-as="'Código'">
                             <div v-show="errors.has('codigo')" class="text-danger" style="">{{ errors.first('codigo') }}</div>
                         </div>
+
+                        <div class="mb-3 col-lg-3 col-md-3 col-sm-12">
+                            <label for="ativo">Ativo</label>
+                            <div class="form-check form-switch mt-1">
+                                <input class="form-check-input" type="checkbox" id="ativo" v-model="payload.ativo">
+                                <label class="form-check-label" for="ativo">{{payload.ativo ? 'Sim' : 'Não'}}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,7 +103,8 @@ export default {
         dataPaginate: {},
         payload:{
             'codigo': '',
-            'grade_id': ''
+            'grade_id': '',
+            'ativo': true,
         },
         isLoading: false,
         curso_id: '',
@@ -169,9 +178,10 @@ export default {
 
                         formData.append('grade_id', this.payload.grade_id);
                         formData.append('codigo', this.payload.codigo);
+                        formData.append('ativo', this.payload.ativo ? 1 : 0);
 
                         let url = route(me.turma_id ? 'admin.turma.update' : 'admin.turma.store', me.turma_id);
-                        me.loading = true;
+                        me.isLoading = true;
 
                         http.post(url, formData, {
                             headers: {
@@ -184,12 +194,12 @@ export default {
                                 'success'
                             )
                             setTimeout(function(){
-                                me.loading = false;
+                                me.isLoading = false;
                                 me.$router.push({path: `/`});
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
-                            me.loading = false;
+                            me.isLoading = false;
                         });
                     }else{
                         Swal.fire(

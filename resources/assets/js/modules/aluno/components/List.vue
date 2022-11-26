@@ -125,7 +125,7 @@ export default {
                 allowEscapeKey: false,
                 preConfirm: () => {
                     return new Promise(() => {
-                        me.loading = true;
+                        me.isLoading = true;
                         toSeek(route('admin.aluno.active', {'aluno': item.id, 'active': ativo})).then(
                             data => {
                                 if(data.success){

@@ -18,7 +18,7 @@
                                          type="button" title="Inserir um novo registro" class="btn btn-success text-white">
                                         <span>
                                             <i class="fa fa-plus"></i>
-                                            <span>Adicionar Novo</span>
+                                            <span>{{ textCreate ? textCreate : 'Adicionar Novo' }}</span>
                                         </span>
                                     </router-link>
                                 </div>
@@ -193,7 +193,7 @@ export default {
             required: true
         },
         routeCreate: String,
-        actionText: String,
+        textCreate: String,
         styles: {
             type: String,
             default: ''

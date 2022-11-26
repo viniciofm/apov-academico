@@ -77,7 +77,8 @@
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'matricula_id': item.id }}"
                                                          class="btn col-md-4" title="Disciplinas da matrícula">
                                                 <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
-                                            </router-link><router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
+                                            </router-link>
+                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
