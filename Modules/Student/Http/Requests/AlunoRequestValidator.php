@@ -17,6 +17,7 @@ class AlunoRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'id' => 'sometimes|required|uuid|exists:empresas,id',
+            'data_nascimento' => 'string|nullable',
             'usuario' => 'array',
             'usuario.nome' => 'required|string',
             'usuario.email' => 'required|email|string',
@@ -58,6 +59,7 @@ class AlunoRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'id' => 'ID',
+            'data_nascimento' => 'Data de Nascimento',
             'usuario.nome' => 'Nome',
             'usuario.email' => 'E-mail',
             'usuario.cpf_cnpj' => 'CPF/CNPJ',

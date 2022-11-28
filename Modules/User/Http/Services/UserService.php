@@ -57,7 +57,7 @@ class UserService extends Service
             }
             $endereco = $this->enderecoService->create($attributes['endereco']);
             //criar usuário
-            $dadosUsuario = Arr::only($attributes, ['nome', 'genero_id', 'email', 'tipo_documento', 'cpf_cnpj']);
+            $dadosUsuario = Arr::only($attributes, ['nome', 'genero_id', 'email', 'tipo_documento', 'cpf_cnpj', 'consulta']);
             $dadosUsuario['password'] = \Hash::make($attributes['password']);
             $tipoUsuario = $this->tipoUsuarioService->where('nome', '=', 'admin');
             $dadosUsuario['tipo_usuario_id'] = count($tipoUsuario) > 0 ? $tipoUsuario[0]->id : null;

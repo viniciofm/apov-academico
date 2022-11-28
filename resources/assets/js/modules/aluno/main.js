@@ -1,5 +1,6 @@
 'use strict';
 
+import Acl from '../../common/acl';
 import router from './router';
 
 require('../../bootstrap.js');
@@ -13,6 +14,9 @@ import msgBR from '../../lang/vee-validate/pt_BR';
 import Content from "../Content";
 
 Validator.localize('pt_BR', msgBR);
+
+/* acl */
+Vue.use(Acl)
 
 Vue.use(VeeValidate, {
     locale: 'pt_BR',

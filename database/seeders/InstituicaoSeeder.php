@@ -23,6 +23,7 @@ class InstituicaoSeeder extends Seeder
                 'nome' => $value['nome'],
                 'email' => $value['email'],
                 'responsavel' => $value['responsavel'],
+                'responsavel_cargo' => $value['responsavel_cargo'],
                 'telefone_contato' => $value['telefone_contato'],
                 'cpf_cnpj' => $value['cpf_cpnj'],
                 'tipo_documento' => $value['tipo_documento'],

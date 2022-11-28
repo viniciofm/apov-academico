@@ -64,14 +64,18 @@
                                                          class="btn col-md-3" title="Alunos da Turma">
                                                 <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
-                                            <button v-on:click="updateStatus(item)"
+                                            <button v-can="'can-update'" v-on:click="updateStatus(item)"
                                                     class="btn col-md-3" :title="(item.ativo ? 'Desativar' : 'Ativar')">
                                                 <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
                                             </button>
-                                            <router-link :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
+                                            <router-link v-can="'can-update'" :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
                                                          class="btn col-md-3" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
+                                            <label v-can="'can-only-select'"
+                                                   class="col-md-4" :title="(item.ativo ? 'Ativo' : 'Desativado')">
+                                                <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
+                                            </label>
                                         </div>
                                     </td>
                                 </tr>

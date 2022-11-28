@@ -25,6 +25,14 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="formacao">Formação*</label>
+                            <input class="form-control" v-model="payload.formacao" id="formacao" name="formacao" maxlength="150" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required'"
+                                   data-vv-as="'Formação'">
+                            <div v-show="errors.has('formacao')" class="text-danger" style="">{{ errors.first('formacao') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="email">E-mail*</label>
                             <input class="form-control" v-model="payload.usuario.email" id="email" name="email" maxlength="150" value="" type="email" placeholder="" required="required"
                                    v-validate="'required|email'"
@@ -86,7 +94,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>{{ id ? 'Atualizar' : 'Salvar' }}</span>
                                 </button>
@@ -127,6 +135,7 @@ export default {
                 'genero_id': '',
             },
             'user_id': '',
+            'formacao': '',
             'ativo': true,
             'endereco': {
                 'id': null,
@@ -186,6 +195,7 @@ export default {
 
                         formData.append('usuario', JSON.stringify(this.payload.usuario));
                         formData.append('user_id', this.payload.user_id);
+                        formData.append('formacao', this.payload.formacao);
                         formData.append('ativo', this.payload.ativo ? 1 : 0);
                         formData.append('endereco' , JSON.stringify(this.payload.endereco));
 

@@ -76,7 +76,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>{{ id ? 'Atualizar' : 'Salvar' }}</span>
                                 </button>

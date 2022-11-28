@@ -54,10 +54,14 @@
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
-                                            <button v-on:click="updateStatus(item)"
+                                            <button v-can="'can-update'" v-on:click="updateStatus(item)"
                                                          class="btn col-md-4" :title="(item.ativo ? 'Desativar' : 'Ativar')">
                                                 <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
                                             </button>
+                                            <label v-can="'can-only-select'"
+                                                   class="col-md-4" :title="(item.ativo ? 'Ativo' : 'Desativado')">
+                                                <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
+                                            </label>
                                         </div>
                                     </td>
                                 </tr>

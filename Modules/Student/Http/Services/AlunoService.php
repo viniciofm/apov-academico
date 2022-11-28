@@ -3,6 +3,7 @@
 namespace Modules\Student\Http\Services;
 
 use App\Http\Services\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +107,10 @@ class AlunoService extends Service
             }
             if(!$attributes['endereco']['numero']){
                 $attributes['endereco']['numero'] = NULL;
+            }
+
+            if($attributes['data_nascimento']){
+                $attributes['data_nascimento'] = Carbon::createFromTimeString($attributes['data_nascimento']);
             }
 
             $usuario = $this->usuarioService->update($registro->user_id, Arr::only($attributes['usuario'], ['nome', 'email', 'cpf_cnpj', 'tipo_documento', 'genero_id']));

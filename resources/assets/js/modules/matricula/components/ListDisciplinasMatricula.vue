@@ -38,7 +38,7 @@
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-                                            <button v-on:click="remover(item)"
+                                            <button v-can="'can-update'" v-on:click="remover(item)"
                                                     class="btn col-md-3" :title="'Remover disciplina'">
                                                 <i :class="'align-middle fas fa-fw text-success text-danger fa-trash'"></i>
                                             </button>

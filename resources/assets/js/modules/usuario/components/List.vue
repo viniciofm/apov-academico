@@ -68,6 +68,9 @@
                                     <td scope="col" class="text-center">
                                         <span :class="'badge ' + (item.tipo_documento == 'cpf' ? 'bg-info' : 'bg-primary')">{{ item.tipo_documento == 'cpf' ? 'CPF' : 'CNPJ' }}</span>
                                     </td>
+                                    <td scope="col">
+                                        <span :class="'badge ' + (item.consulta ? 'bg-warning' : 'bg-success')">{{ item.consulta ? 'Sim' : 'Não' }}</span>
+                                    </td>
                                     <td scope="col" v-html="translaterTipoUsuario(item.tipo_usuario)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
@@ -110,7 +113,7 @@ export default {
         subHeaderLinks:[],
         search: {nome:'', email:'', cpf_cnpj:'', tipo_usuario:''},
         dataPaginate: {},
-        columns: ['Nome', 'E-mail', 'CPF/CNPJ','Tipo Documento', 'Tipo', 'Ações'],
+        columns: ['Nome', 'E-mail', 'CPF/CNPJ','Tipo Documento', 'Apenas Consulta?', 'Tipo', 'Ações'],
         isLoading: false,
         routeCreate:'usuario'
     }),

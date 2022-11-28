@@ -57,6 +57,17 @@
                         </div>
 
                         <div class="mb-3 col-lg-3 col-md-3 col-sm-12">
+                            <label for="data_nascimento">Data de Nascimento</label>
+                            <div>
+                                <date-picker class=""
+                                             placeholder="Selecione uma data"
+                                             format="DD/MM/YYYY" v-model="payload.data_nascimento"
+                                             id='data_nascimento' name="data_nascimento">
+                                </date-picker>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-lg-3 col-md-3 col-sm-12">
                             <label for="ativo">Ativo</label>
                             <div class="form-check form-switch mt-1">
                                 <input class="form-check-input" type="checkbox" id="ativo" v-model="payload.ativo">
@@ -79,7 +90,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>{{ id ? 'Atualizar' : 'Salvar' }}</span>
                                 </button>
@@ -104,12 +115,16 @@ import Endereco from "../../../components/Endereco"
 import Swal from "sweetalert2";
 import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import moment from 'moment'
 
 export default {
     name: "Aluno",
     data: () => ({
         subHeaderLinks:[['/', 'Alunos']],
         search: '',
+        moment: moment,
         dataPaginate: {},
         payload:{
             'usuario' : {
@@ -119,6 +134,7 @@ export default {
                 'tipo_documento': 'cpf',
                 'genero_id': '',
             },
+            'data_nascimento': '',
             'user_id': '',
             'ativo': true,
             'telefone': '',
@@ -150,7 +166,8 @@ export default {
     components: {
         SubHeader,
         Endereco,
-        Loading
+        Loading,
+        DatePicker
     },
     methods: {
         getGenders(){
@@ -179,6 +196,8 @@ export default {
                         let formData = new FormData();
 
                         formData.append('usuario', JSON.stringify(this.payload.usuario));
+                        formData.append('data_nascimento', this.payload.data_nascimento ?
+                            this.payload.data_nascimento.toISOString() : '');
                         formData.append('user_id', this.payload.user_id);
                         formData.append('ativo', this.payload.ativo ? 1 : 0);
                         formData.append('telefone', this.payload.telefone ? this.payload.telefone : '');
@@ -199,7 +218,7 @@ export default {
                             )
                             setTimeout(function(){
                                 me.isLoading = false;
-                                me.$router.push({ path: `/` });
+                                // me.$router.push({ path: `/` });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
@@ -219,6 +238,7 @@ export default {
             submit(route('admin.aluno.edit', this.id), {},'GET').then(
                 data => {
                     this.payload = data.registro;
+                    this.payload.data_nascimento = data.registro.data_nascimento ? new Date(this.moment(data.registro.data_nascimento).toDate()) : ''
                 }
             ).then(() => {
                 this.isLoading = false;

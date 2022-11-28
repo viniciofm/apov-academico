@@ -55,8 +55,16 @@
                             <label for="responsavel">Responsável</label>
                             <input class="form-control" v-model="payload.responsavel" id='responsavel' name="responsavel" maxlength="150" value="" type="text" placeholder="" required="required"
                                    v-validate="'required'"
-                                   data-vv-as="'Reponsável'">
+                                   data-vv-as="'Responsável'">
                             <div v-show="errors.has('responsavel')" class="text-danger" style="">{{ errors.first('responsavel') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="responsavel_cargo">Cargo do Responsável</label>
+                            <input class="form-control" v-model="payload.responsavel_cargo" id='responsavel_cargo' name="responsavel_cargo" maxlength="150" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required'"
+                                   data-vv-as="'Cargo do Responsável'">
+                            <div v-show="errors.has('responsavel_cargo')" class="text-danger" style="">{{ errors.first('responsavel_cargo') }}</div>
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
@@ -86,7 +94,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Cancelar</span>
                                 </a>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>Atualizar</span>
                                 </button>
@@ -125,6 +133,7 @@ export default {
             'nome': '',
             'email': '',
             'responsavel': '',
+            'responsavel_cargo': '',
             'telefone_contato': '',
             'cpf_cnpj': '',
             'tipo_documento': '',
@@ -173,6 +182,7 @@ export default {
                         formData.append('nome', this.payload.nome);
                         formData.append('email', this.payload.email);
                         formData.append('responsavel', this.payload.responsavel);
+                        formData.append('responsavel_cargo', this.payload.responsavel_cargo);
                         formData.append('telefone_contato', this.payload.telefone_contato ? this.payload.telefone_contato : '');
                         formData.append('cpf_cnpj', this.payload.cpf_cnpj);
                         formData.append('tipo_documento', this.payload.tipo_documento);

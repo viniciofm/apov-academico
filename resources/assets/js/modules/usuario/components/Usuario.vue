@@ -81,6 +81,15 @@
                             />
                             <div v-show="errors.has('password')" class="text-danger" style="">{{ errors.first('password') }}</div>
                         </div>
+
+                        <div v-if="(payload.tipo_usuario && payload.tipo_usuario.nome == 'admin')"
+                              class="mb-3 col-lg-3 col-md-3 col-sm-12">
+                            <label for="consulta">Apenas consulta?</label>
+                            <div class="form-check form-switch mt-1">
+                                <input class="form-check-input" type="checkbox" id="consulta" v-model="payload.consulta">
+                                <label class="form-check-label" for="consulta">{{payload.consulta ? 'Sim' : 'Não'}}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +106,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>{{ (id || editUser) ? 'Atualizar' : 'Salvar' }}</span>
                                 </button>
@@ -140,6 +149,7 @@ export default {
             'genero_id': '',
             'password': '',
             'blocked': false,
+            'consulta': false,
             'endereco': {
                 'id': null,
                 'rua': '',
@@ -202,6 +212,7 @@ export default {
                         formData.append('tipo_documento', this.payload.tipo_documento);
                         formData.append('cpf_cnpj', this.payload.cpf_cnpj);
                         formData.append('genero_id', this.payload.genero_id);
+                        formData.append('consulta', this.payload.consulta ? 1 : 0);
                         if(this.payload.password){
                             formData.append('password', this.payload.password);
                         }
@@ -212,7 +223,7 @@ export default {
 
                         let userId = (me.id || me.editUser) ? (me.id ? me.id : me.payload.id) : null;
 
-                        let url = route(userId ? 'admin.usuario.update' : 'admin.usuario.store', userId);
+                        let url = userId ? route('admin.usuario.update', userId) : route('admin.usuario.store');
                         me.isLoading = true;
 
                         http.post(url, formData, {

@@ -28,12 +28,14 @@ class Aluno extends Model
         'matricula',
         'telefone',
         'ativo',
-        'user_id'
+        'user_id',
+        'data_nascimento',
     ];
 
     protected $casts = [
         'matricula' => 'int',
         'ativo' => 'boolean',
+        'data_nascimento' => 'date',
     ];
 
     public function usuario()

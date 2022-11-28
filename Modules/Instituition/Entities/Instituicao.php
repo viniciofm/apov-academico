@@ -27,6 +27,7 @@ class Instituicao extends Model
         'nome',
         'email',
         'responsavel',
+        'responsavel_cargo',
         'telefone_contato',
         'cpf_cnpj',
         'tipo_documento',

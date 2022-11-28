@@ -27,7 +27,8 @@ class Professor extends Model
         'id',
         'matricula',
         'ativo',
-        'user_id'
+        'user_id',
+        'formacao',
     ];
 
     protected $casts = [

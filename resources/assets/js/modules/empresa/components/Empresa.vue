@@ -55,7 +55,7 @@
                             <label for="responsavel">Responsável</label>
                             <input class="form-control" v-model="payload.responsavel" id='responsavel' name="responsavel" maxlength="150" value="" type="text" placeholder="" required="required"
                                    v-validate="'required'"
-                                   data-vv-as="'Reponsável'">
+                                   data-vv-as="'Responsável'">
                             <div v-show="errors.has('responsavel')" class="text-danger" style="">{{ errors.first('responsavel') }}</div>
                         </div>
 
@@ -94,7 +94,7 @@
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
-                                <button @click="save()"
+                                <button v-can="'can-update'" @click="save()"
                                         class="btn btn-primary">
                                     <span>{{ id ? 'Atualizar' : 'Salvar' }}</span>
                                 </button>
@@ -235,7 +235,7 @@ export default {
                 data => {
                     this.payload = data.registro;
                     if(this.id){
-                        this.payload.old_logomarca = data.empresa.logomarca;
+                        this.payload.old_logomarca = data.registro.logomarca;
                     }
                 }
             ).then(() => {

@@ -17,6 +17,7 @@ class ProfessorRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'id' => 'sometimes|required|uuid|exists:empresas,id',
+            'formacao' => 'required|string',
             'usuario' => 'array',
             'usuario.nome' => 'required|string',
             'usuario.email' => 'required|email|string',
@@ -57,6 +58,7 @@ class ProfessorRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'id' => 'ID',
+            'formacao' => 'Formação',
             'usuario.nome' => 'Nome',
             'usuario.email' => 'E-mail',
             'usuario.cpf_cnpj' => 'CPF/CNPJ',
