@@ -218,7 +218,7 @@ export default {
                             )
                             setTimeout(function(){
                                 me.isLoading = false;
-                                // me.$router.push({ path: `/` });
+                                me.$router.push({ path: `/` });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)

@@ -75,7 +75,7 @@ class UserController extends Controller
         $r = $request->all();
         //validar atualização
         $registro = $this->service->find($id);
-        $canRegister = $this->service->canRegisterCadastro($r, 'admin', $registro->id);
+        $canRegister = $this->service->canRegisterCadastro($r, $registro->tipo_usuario->nome, $registro->id);
         if (!$canRegister){
             throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
         }

@@ -6,7 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Company\Http\Requests\EmpresaRequestValidator;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Teacher\Entities\Professor;
 use Modules\Teacher\Http\Repositories\ProfessorRepository;
 use Modules\Teacher\Http\Requests\ProfessorRequestValidator;
@@ -26,13 +28,19 @@ class ProfessorController extends Controller
     protected $userService;
 
     /**
+     * @var TurmaDisciplinaService $turmaDisciplinaService
+     */
+    protected $turmaDisciplinaService;
+
+    /**
      * @param  ProfessorService  $service
      * @param  UserService  $userService
      */
-    public function __construct(ProfessorService $service, UserService $userService)
+    public function __construct(ProfessorService $service, UserService $userService, TurmaDisciplinaService $turmaDisciplinaService)
     {
         $this->service = $service;
         $this->userService = $userService;
+        $this->turmaDisciplinaService = $turmaDisciplinaService;
     }
 
     /**
@@ -171,5 +179,34 @@ class ProfessorController extends Controller
                 'message' => 'Professor '.($active ? 'ativado' : 'desativado').' com sucesso!'
             ]
         ], 201);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function myDisciplines()
+    {
+        return view('modules.professor.my-disciplines');
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function getMyDisciplines(Request $request): JsonResponse
+    {
+        try {
+            $data = $this->turmaDisciplinaService->get([
+                'with' => ['disciplina', 'turma'],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => array_merge(json_decode($request['search'], true),['professor_id' => Auth::user()->professor->id]),
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 }

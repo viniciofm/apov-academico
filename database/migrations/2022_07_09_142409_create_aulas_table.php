@@ -16,7 +16,7 @@ class CreateAulasTable extends Migration
         Schema::create('aulas', function (Blueprint $table) {
             $table->uuid('id');
             $table->date('data');
-            $table->string('conteudo', 200);
+            $table->string('conteudo', 500);
 
             $table->uuid('turma_disciplina_id');
             $table->foreign('turma_disciplina_id')->references('id')->on('turma_disciplinas');

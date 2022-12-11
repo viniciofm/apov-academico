@@ -25,6 +25,8 @@ mix.js('resources/assets/js/modules/matricula/main.js', `${JS_PATH}/matricula`).
 mix.js('resources/assets/js/modules/aluno/main.js', `${JS_PATH}/aluno`).vue();
 mix.js('resources/assets/js/modules/usuario/main.js', `${JS_PATH}/usuario`).vue();
 
+mix.js('resources/assets/js/modules/perfil/professor/main.js', `${JS_PATH}/perfil/professor`).vue();
+
 mix.sass('resources/sass/app.scss', `${CSS_PATH}`);
 
 mix.disableNotifications()

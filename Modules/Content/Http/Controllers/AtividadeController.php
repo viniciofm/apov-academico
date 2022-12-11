@@ -3,77 +3,118 @@
 namespace Modules\Content\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Content\Http\Requests\AtividadeRequestValidator;
+use Modules\Content\Http\Services\AtividadeService;
 
 class AtividadeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var AtividadeService $service
      */
-    public function index()
-    {
-        return view('company::index');
+    private $service;
+
+    public function __construct(AtividadeService $service){
+        $this->service = $service;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @param  AtividadeRequestValidator  $request
+     * @return JsonResponse
      */
-    public function create()
+    public function store(AtividadeRequestValidator $request): JsonResponse
     {
-        return view('company::create');
+        try {
+            $data = $this->service->create($request);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registro cadastrado!'
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  AtividadeRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function update(AtividadeRequestValidator $request, $id)
     {
-        //
+        try {
+            $data = $this->service->update($id, $request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registro atualizado!'
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function show($id)
+    public function get(Request $request): JsonResponse
     {
-        return view('company::show');
+        try {
+            $data = $this->service->get([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+                'orderBy' => 'data',
+                'orderByOrder' => 'asc',
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function edit($id)
+    public function delete(Request $request): JsonResponse
     {
-        return view('company::edit');
+        try {
+            $registro = $this->service->find($request->id);
+            $data = $this->service->remove($registro);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível remover o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Atividade removida!'
+        ], 201);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param  Atividade  $atividade
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function edit(Atividade $atividade)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        return \response()->json([
+            'registro' => $atividade,
+        ], 201);
     }
 }

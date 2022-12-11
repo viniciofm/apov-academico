@@ -3,77 +3,120 @@
 namespace Modules\Content\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Content\Entities\Aula;
+use Modules\Content\Http\Requests\AulaRequestValidator;
+use Modules\Content\Http\Services\AulaService;
 
 class AulaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * @var AulaService $service
      */
-    public function index()
-    {
-        return view('content::index');
+    private $service;
+
+    public function __construct(AulaService $service){
+        $this->service = $service;
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * @param  AulaRequestValidator  $request
+     * @return JsonResponse
      */
-    public function create()
+    public function store(AulaRequestValidator $request): JsonResponse
     {
-        return view('content::create');
+        try {
+            $data = $this->service->create($request);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível registrar o novo item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registro cadastrado!'
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * @param  AulaRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function store(Request $request)
+    public function update(AulaRequestValidator $request, $id)
     {
-        //
+        try {
+            $data = $this->service->update($id, $request->all());
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registro atualizado!'
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function show($id)
+    public function get(Request $request): JsonResponse
     {
-        return view('content::show');
+        try {
+            $data = $this->service->get([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+                'orderBy' => 'data',
+                'orderByOrder' => 'asc',
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
+     * @param  Request  $request
+     * @return JsonResponse
      */
-    public function edit($id)
+        public function delete(Request $request): JsonResponse
     {
-        return view('content::edit');
+        try {
+            $registro = $this->service->find($request->id);
+            $data = $this->service->remove($registro);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível remover o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Aula removida!'
+        ], 201);
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @param  Aula  $aula
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function edit(Aula $aula)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        return \response()->json([
+            'registro' => $aula,
+        ], 201);
     }
 }

@@ -14,7 +14,7 @@
                                         Filtrar
                                     </button>
 
-                                    <router-link v-can="'can-update'"  v-if="routeCreate" :to="{name: `${routeCreate}.create`}"
+                                    <router-link v-can="'can-update'"  v-if="routeCreate" :to="{name: `${routeCreate}.create`, params: routeCreateParams}"
                                          type="button" title="Inserir um novo registro" class="btn btn-success text-white">
                                         <span>
                                             <i class="fa fa-plus"></i>
@@ -193,6 +193,7 @@ export default {
             required: true
         },
         routeCreate: String,
+        routeCreateParams: Object,
         textCreate: String,
         styles: {
             type: String,

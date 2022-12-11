@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Instituition\Entities\Instituicao;
+use Modules\Teacher\Entities\Professor;
 
 class User extends Authenticatable
 {
@@ -82,6 +83,11 @@ class User extends Authenticatable
     public function tipo_usuario()
     {
         return $this->belongsTo(TipoUsuario::class);
+    }
+
+    public function professor()
+    {
+        return $this->hasOne(Professor::class, 'user_id');
     }
 
     public function endereco()

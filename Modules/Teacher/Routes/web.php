@@ -20,3 +20,8 @@ Route::prefix('admin/professor')->name('admin.professor.')->middleware(['auth'])
     Route::post('/update/{professor}', 'ProfessorController@update')->name('update');
     Route::get('/active/{professor}/{active}', 'ProfessorController@active')->name('active');
 });
+
+Route::prefix('professor')->name('professor.')->middleware(['auth'])->group(function() {
+    Route::get('/', 'ProfessorController@myDisciplines')->name('my-disciplines');
+    Route::post('/my-disciplines', 'ProfessorController@getMyDisciplines')->name('get-my-disciplines');
+});

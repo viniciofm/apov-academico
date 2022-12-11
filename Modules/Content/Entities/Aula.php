@@ -4,10 +4,12 @@ namespace Modules\Content\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Aula extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 
@@ -28,7 +30,7 @@ class Aula extends Model
     ];
 
     protected $casts = [
-
+        'data' => 'date',
     ];
 
 }
