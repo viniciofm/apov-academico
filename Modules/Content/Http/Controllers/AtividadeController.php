@@ -5,6 +5,7 @@ namespace Modules\Content\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Content\Entities\Atividade;
 use Modules\Content\Http\Requests\AtividadeRequestValidator;
 use Modules\Content\Http\Services\AtividadeService;
 
@@ -31,6 +32,9 @@ class AtividadeController extends Controller
             if (!$data) {
                 throw new \Exception('Não foi possível registrar o novo item!');
             }
+            if ($data instanceof \Exception){
+                throw new \Exception($data->getMessage());
+            }
         } catch (\Exception $e) {
             return \response()->json(['message' => $e->getMessage()], 500);
         }
@@ -48,10 +52,13 @@ class AtividadeController extends Controller
     public function update(AtividadeRequestValidator $request, $id)
     {
         try {
-            $data = $this->service->update($id, $request->all());
+            $data = $this->service->update($id, $request);
 
             if (!$data) {
                 throw new \Exception('Não foi possível atualizar o item!');
+            }
+            if ($data instanceof \Exception){
+                throw new \Exception($data->getMessage());
             }
         } catch (\Exception $e) {
             return \response()->json(['message' => $e->getMessage()], 500);
@@ -111,7 +118,7 @@ class AtividadeController extends Controller
      * @param  Atividade  $atividade
      * @return JsonResponse
      */
-    public function edit(Atividade $atividade)
+    public function edit(Atividade $atividade): JsonResponse
     {
         return \response()->json([
             'registro' => $atividade,

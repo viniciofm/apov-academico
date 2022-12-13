@@ -28,7 +28,13 @@
                                         {{ moment(item.data).format('DD/MM/YYYY') }}
                                     </td>
                                     <td scope="col">
-                                        {{ item.conteudo }}
+                                        {{ item.titulo }}
+                                    </td>
+                                    <td scope="col">
+                                        {{ item.peso.replace('.', ',') }}
+                                    </td>
+                                    <td scope="col">
+                                        {{ item.descricao }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
@@ -73,7 +79,7 @@ export default {
         subHeaderLinks:[['/','Disciplinas']],
         search: { },
         dataPaginate: {},
-        columns: ['Data', 'Conteúdo', 'Ações'],
+        columns: ['Data', 'Título', 'Peso', 'Descrição', 'Ações'],
         isLoading: false,
         routeCreate:'professor.activities',
         routeCreateParams:{}

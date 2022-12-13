@@ -10,37 +10,41 @@
                 <div class="card-body">
                     <h5 class="mb-0">Dados da Atividade</h5>
                     <div class="row">
-                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                             <label for="data">Data*</label>
                             <div>
                                 <date-picker class=""
                                              placeholder="Selecione uma data"
                                              format="DD/MM/YYYY" v-model="payload.data"
+                                             v-validate="'required'"
                                              id='data' name="data">
                                 </date-picker>
                             </div>
                             <div v-show="errors.has('data')" class="text-danger" style="">{{ errors.first('data') }}</div>
                         </div>
 
-                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12" v-if="!id">
-                            <label for="numero_aulas">Número de aulas*</label>
-                            <select class="form-control" data-bs-toggle="select2" v-model="payload.numero_aulas" name="numero_aulas" id="numero_aulas"
-                                    v-validate="'required'"
-                                    data-vv-as="'Número de aulas'">
-                                <option value="" disabled selected>Não selecionado</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                            <div v-show="errors.has('numero_aulas')" class="text-danger" style="">{{ errors.first('numero_aulas') }}</div>
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="titulo">Título*</label>
+                            <input class="form-control" v-model="payload.titulo" id="titulo" name="titulo" maxlength="20" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required|max:20'"
+                                   data-vv-as="'Título'">
+                            <div v-show="errors.has('titulo')" class="text-danger" style="">{{ errors.first('titulo') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="peso">Peso*</label>
+                            <input class="form-control" v-model="payload.peso" id="peso" name="peso" value="" type="number" placeholder="" required="required"
+                                   v-validate="'required|decimal:2|min_value:1|max_value:100'"
+                                   data-vv-as="'Peso'">
+                            <div v-show="errors.has('peso')" class="text-danger" style="">{{ errors.first('peso') }}</div>
                         </div>
 
                         <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                            <label for="conteudo">Conteúdo*</label>
-                            <textarea class="form-control" rows="4" v-model="payload.conteudo" id="conteudo" name="conteudo" maxlength="501" value="" type="text" placeholder="" required="required"
-                                   v-validate="'required|max:500'"
-                                      data-vv-as="'Conteúdo'"></textarea>
-                            <div v-show="errors.has('conteudo')" class="text-danger" style="">{{ errors.first('conteudo') }}</div>
+                            <label for="descricao">Descrição*</label>
+                            <textarea class="form-control" rows="3" v-model="payload.descricao" id="descricao" name="descricao" maxlength="201" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required|max:200'"
+                                      data-vv-as="'Descrição'"></textarea>
+                            <div v-show="errors.has('descricao')" class="text-danger" style="">{{ errors.first('descricao') }}</div>
                         </div>
                     </div>
                 </div>
@@ -52,7 +56,7 @@
                     <div class="row">
                         <div class="row">
                             <div class="text-right">
-                                <button @click="$router.push({ name: 'professor.classes', params: routeCreateParams })"
+                                <button @click="$router.push({ name: routeCreate, params: routeCreateParams })"
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
@@ -89,14 +93,15 @@ export default {
     name: "Activity",
     data: () => ({
         moment: moment,
-        subHeaderLinks:[['/','Disciplinas'],['/aulas','Aulas']],
+        subHeaderLinks:[['/','Disciplinas'],['/atividades','Atividades']],
         payload:{
             data: '',
-            conteudo: '',
-            numero_aulas: '',
+            peso: '',
+            titulo: '',
+            descricao: '',
         },
         isLoading: false,
-        routeCreate:'professor.classes',
+        routeCreate:'professor.activities',
         routeCreateParams:{}
     }),
     mounted() {
@@ -134,13 +139,12 @@ export default {
                         let formData = new FormData();
 
                         formData.append('data', this.payload.data ? this.payload.data.toISOString() : '');
-                        formData.append('conteudo', me.payload.conteudo);
+                        formData.append('titulo', me.payload.titulo);
+                        formData.append('peso', me.payload.peso);
+                        formData.append('descricao', me.payload.descricao);
                         formData.append('turma_disciplina_id', me.turma_disciplina.id);
-                        if (!me.id){
-                            formData.append('numero_aulas', me.payload.numero_aulas);
-                        }
 
-                        let url = route(me.id ? 'content.aula.update' : 'content.aula.store', me.id);
+                        let url = route(me.id ? 'content.atividade.update' : 'content.atividade.store', me.id);
                         me.isLoading = true;
 
                         http.post(url, formData, {
@@ -155,7 +159,7 @@ export default {
                             )
                             setTimeout(function(){
                                 me.isLoading = false;
-                                me.$router.push({ name: 'professor.classes', params: me.routeCreateParams });
+                                me.$router.push({ name: me.routeCreate, params: me.routeCreateParams });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
@@ -172,7 +176,7 @@ export default {
         },
         getData() {
             this.isLoading = true;
-            submit(route('content.aula.edit', this.id), {},'GET').then(
+            submit(route('content.atividade.edit', this.id), {},'GET').then(
                 data => {
                     this.payload = data.registro;
                     this.payload.data = data.registro.data ? new Date(this.moment(data.registro.data).toDate()) : '';

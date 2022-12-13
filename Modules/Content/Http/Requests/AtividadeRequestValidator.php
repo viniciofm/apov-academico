@@ -19,7 +19,7 @@ class AtividadeRequestValidator extends AbstractGenericFormRequest
             'turma_disciplina_id' => 'required|uuid|exists:turma_disciplinas,id',
             'data' => 'required|string',
             'titulo' => 'required|string|max:20',
-            'descricao' => 'required|string|max:500',
+            'descricao' => 'required|string|max:200',
         ];
     }
 

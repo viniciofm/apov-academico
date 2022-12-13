@@ -16,6 +16,7 @@
                                 <date-picker class=""
                                              placeholder="Selecione uma data"
                                              format="DD/MM/YYYY" v-model="payload.data"
+                                             v-validate="'required'"
                                              id='data' name="data">
                                 </date-picker>
                             </div>
@@ -52,7 +53,7 @@
                     <div class="row">
                         <div class="row">
                             <div class="text-right">
-                                <button @click="$router.push({ name: 'professor.classes', params: routeCreateParams })"
+                                <button @click="$router.push({ name: routeCreate, params: routeCreateParams })"
                                         class="btn btn-warning mr-2">
                                     <span>Voltar</span>
                                 </button>
@@ -155,7 +156,7 @@ export default {
                             )
                             setTimeout(function(){
                                 me.isLoading = false;
-                                me.$router.push({ name: 'professor.classes', params: me.routeCreateParams });
+                                me.$router.push({ name: me.routeCreate, params: me.routeCreateParams });
                             }, 1000);
                         }).catch(error => {
                             this.$emit('showError', error)
