@@ -74,7 +74,7 @@
                                 <div class="wrap-input100 validate-input mb-1" data-validate="Informe sua senha">
                                     <span class="focus-input100"></span>
                                     <select class="input100" style="border-color: white;" name="tipo_usuario_id" id="tipo_usuario_id" required="required">
-                                        <option value="" disabled selected>Não selecionado</option>
+                                        <option value="" disabled selected>Selecione o tipo de acesso...</option>
                                         @foreach($tipos as $tipo)
                                             <option value="{{$tipo->id}}">{{ __($tipo->nome) }}</option>
                                         @endforeach

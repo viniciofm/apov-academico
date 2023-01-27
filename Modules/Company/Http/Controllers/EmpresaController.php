@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Company\Entities\Empresa;
 use Modules\Company\Http\Requests\EmpresaRequestValidator;
 use Modules\Company\Http\Services\EmpresaService;
@@ -24,13 +25,19 @@ class EmpresaController extends Controller
     protected $userService;
 
     /**
+     * @var EmpresaService $empresaService
+     */
+    protected $empresaService;
+
+    /**
      * @param  EmpresaService  $service
      * @param  UserService  $userService
      */
-    public function __construct(EmpresaService $service, UserService $userService)
+    public function __construct(EmpresaService $service, UserService $userService, EmpresaService $empresaService)
     {
         $this->service = $service;
         $this->userService = $userService;
+        $this->empresaService = $empresaService;
     }
 
     /**
@@ -168,6 +175,31 @@ class EmpresaController extends Controller
                 'success' => true,
                 'message' => 'Empresa '.($active ? 'ativada' : 'desativada').' com sucesso!'
             ]
+        ], 201);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function indexEmpresa()
+    {
+        return view('modules.empresa.edit');
+    }
+
+    /**
+     * @param  Empresa  $empresa
+     * @return void
+     */
+    public function editEmpresa()
+    {
+        $user = Auth::user();
+        $empresa = [];
+        if($user && $user->tipo_usuario->nome == 'empresa'){
+            $empresa = $this->empresaService->findByAttr('user_id', $user->id, ['endereco']);
+        }
+
+        return \response()->json([
+            'registro' => $empresa,
         ], 201);
     }
 }

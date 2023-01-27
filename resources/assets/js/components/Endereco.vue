@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="rua">Rua</label>
-                    <input class="form-control" id="rua" v-model="endereco.rua" name="rua" maxlength="150" value="" type="text">
+                    <input :disabled="read_only" class="form-control" id="rua" v-model="endereco.rua" name="rua" maxlength="150" value="" type="text">
                 </div>
 
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="numero">Número</label>
-                    <input class="form-control" id="numero" v-model="endereco.numero" name="numero" maxlength="150" value="" type="text"
+                    <input :disabled="read_only" class="form-control" id="numero" v-model="endereco.numero" name="numero" maxlength="150" value="" type="text"
                            v-validate="'numeric:0'"
                            data-vv-as="'Número'">
                     <div v-show="errors.has('numero')" class="text-danger" style="">{{ errors.first('numero') }}</div>
@@ -20,22 +20,22 @@
 
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="bairro">Bairro</label>
-                    <input class="form-control" id="bairro" v-model="endereco.bairro" name="bairro" maxlength="150" value="" type="text">
+                    <input :disabled="read_only" class="form-control" id="bairro" v-model="endereco.bairro" name="bairro" maxlength="150" value="" type="text">
                 </div>
 
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="complemento">Complemento</label>
-                    <input class="form-control" id="complemento" v-model="endereco.complemento" name="complemento" maxlength="150" value="" type="text">
+                    <input :disabled="read_only" class="form-control" id="complemento" v-model="endereco.complemento" name="complemento" maxlength="150" value="" type="text">
                 </div>
 
                 <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                     <label for="cep">CEP</label>
-                    <input class="form-control" v-mask="'#####-###'" v-model="endereco.cep" id="cep" name="cep" maxlength="150" value="" type="text">
+                    <input :disabled="read_only" class="form-control" v-mask="'#####-###'" v-model="endereco.cep" id="cep" name="cep" maxlength="150" value="" type="text">
                 </div>
 
                 <div class="mb-3 col-lg-2 col-md-2 col-sm-12">
                     <label for="estado_id">Estado</label>
-                    <select class="form-control" v-on:change="resetCidade()" data-bs-toggle="select2" v-model="endereco.estado_id" name="estado_id" id="estado_id">
+                    <select :disabled="read_only" class="form-control" v-on:change="resetCidade()" data-bs-toggle="select2" v-model="endereco.estado_id" name="estado_id" id="estado_id">
                         <option value="" disabled selected>Não selecionado</option>
                         <option v-for="(estado, estado_id) in estados" :value="estado.id">{{estado.nome}}</option>
                     </select>
@@ -43,7 +43,7 @@
 
                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                     <label for="cidade_id">Cidade</label>
-                    <select class="form-control" data-bs-toggle="select2" v-model="endereco.cidade_id" name="cidade_id" id="cidade_id">
+                    <select :disabled="read_only" class="form-control" data-bs-toggle="select2" v-model="endereco.cidade_id" name="cidade_id" id="cidade_id">
                         <option value="" disabled selected>Não selecionado</option>
                         <option v-if="endereco.estado_id != '' && estados[endereco.estado_id]" v-for="cidade in cidades" :value="cidade.id">{{cidade.nome}}</option>
                     </select>
@@ -69,7 +69,8 @@ export default {
         isLoading: false,
     }),
     props: [
-        'endereco'
+        'endereco',
+        'read_only'
     ],
     computed: {
         cidades: function () {

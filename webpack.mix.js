@@ -17,6 +17,7 @@ const JS_PATH = 'public/dist/js';
 mix.copy('resources/assets/js/app.js', `public/js`);
 mix.copy('resources/js', `public/js`);
 mix.js('resources/assets/js/modules/empresa/main.js', `${JS_PATH}/empresa`).vue();
+mix.js('resources/assets/js/modules/empresa_acesso/main.js', `${JS_PATH}/empresa_acesso`).vue();
 mix.js('resources/assets/js/modules/instituicao/main.js', `${JS_PATH}/instituicao`).vue();
 mix.js('resources/assets/js/modules/professor/main.js', `${JS_PATH}/professor`).vue();
 mix.js('resources/assets/js/modules/curso/main.js', `${JS_PATH}/curso`).vue();

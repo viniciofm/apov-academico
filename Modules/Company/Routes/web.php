@@ -20,3 +20,8 @@ Route::prefix('admin/empresa')->name('admin.empresa.')->middleware(['auth'])->gr
     Route::post('/update/{empresa}', 'EmpresaController@update')->name('update');
     Route::get('/active/{empresa}/{active}', 'EmpresaController@active')->name('active');
 });
+
+Route::prefix('empresa')->name('empresa.')->middleware(['auth'])->group(function() {
+    Route::get('/', 'EmpresaController@indexEmpresa')->name('index');
+    Route::get('/edit', 'EmpresaController@editEmpresa')->name('edit');
+});
