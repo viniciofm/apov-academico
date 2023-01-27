@@ -42,9 +42,13 @@
                                                          class="btn col-md-3" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
+                                            <router-link v-can="'can-update'"  :to="{name: `${routeCreate}.notes`, params: { 'turma_disciplina': turma_disciplina, 'id': item.id }}"
+                                                         class="btn col-md-3" title="Lançamento de notas">
+                                                <i class="align-middle fas fa-fw text-warning fa-list-alt"></i>
+                                            </router-link>
                                             <button v-can="'can-update'" v-on:click="remover(item)"
                                                     class="btn col-md-3" :title="'Remover atividade'">
-                                                <i :class="'align-middle fas fa-fw text-success text-danger fa-trash'"></i>
+                                                <i :class="'align-middle fas fa-fw text-danger fa-trash'"></i>
                                             </button>
                                         </div>
                                     </td>

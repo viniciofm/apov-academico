@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Content\Entities\Aula;
 use Modules\Content\Http\Requests\AulaRequestValidator;
 use Modules\Content\Http\Services\AulaService;
+use Modules\Course\Entities\TurmaDisciplina;
 
 class AulaController extends Controller
 {
@@ -117,6 +118,59 @@ class AulaController extends Controller
     {
         return \response()->json([
             'registro' => $aula,
+        ], 201);
+    }
+
+    /**
+     * @param  Aula  $aula
+     * @return JsonResponse
+     */
+    public function dates(TurmaDisciplina $turma_disciplina)
+    {
+        $dates = $this->service->findDatesFromTurma($turma_disciplina);
+
+        return \response()->json(
+            $dates
+        , 201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @param  TurmaDisciplina  $turma_disciplina
+     * @return JsonResponse
+     */
+    public function grades(Request $request,TurmaDisciplina $turma_disciplina)
+    {
+        $data = $request->post('data');
+        $data = $this->service->getClassesFromDate($turma_disciplina, $data);
+
+        return \response()->json($data, 201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @return JsonResponse
+     */
+    public function storeGrades(Request $request, TurmaDisciplina $turmaDisciplina)
+    {
+        try {
+            $request = $request->all();
+            $faltas = json_decode($request['faltas'] ?? '', true);
+            $data = $this->service->storeGrades($turmaDisciplina, $faltas);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+            if ($data instanceof \Exception){
+                throw new \Exception($data->getMessage());
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registros atualizados!'
         ], 201);
     }
 }

@@ -197,7 +197,7 @@ class ProfessorController extends Controller
     {
         try {
             $data = $this->turmaDisciplinaService->get([
-                'with' => ['disciplina', 'turma'],
+                'with' => ['disciplina', 'turma', 'matriculasTurma'],
                 'paginate' => $request['paginate'] === "true",
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],

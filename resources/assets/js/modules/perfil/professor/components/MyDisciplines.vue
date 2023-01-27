@@ -54,7 +54,7 @@
                                         {{ item.turma.codigo }}
                                     </td>
                                     <td scope="col">
-                                        0
+                                        {{ item.matriculas_turma.length }}
                                     </td>
                                     <td scope="col" class="text-center">
                                         <div class="row">

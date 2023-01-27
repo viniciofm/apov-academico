@@ -124,4 +124,52 @@ class AtividadeController extends Controller
             'registro' => $atividade,
         ], 201);
     }
+
+    /**
+     * @param  Atividade  $atividade
+     * @return JsonResponse
+     */
+    public function notes(Atividade $atividade): JsonResponse
+    {
+        try {
+            $registro = $this->service->getStudentsByActivity($atividade);
+
+            if (!$registro) {
+                throw new \Exception('Não foi possível remover o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+
+        return \response()->json([
+            'registro' => $registro,
+        ], 201);
+    }
+
+    /**
+     * @param  AtividadeRequestValidator  $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function storeNotes(Request $request, Atividade $atividade)
+    {
+        try {
+            $request = $request->all();
+            $notas = json_decode($request['notas'] ?? '', true);
+            $data = $this->service->storeNotas($atividade, $notas);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível atualizar o item!');
+            }
+            if ($data instanceof \Exception){
+                throw new \Exception($data->getMessage());
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Registros atualizados!'
+        ], 201);
+    }
 }

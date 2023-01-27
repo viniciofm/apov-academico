@@ -22,7 +22,7 @@ class Presenca extends Model
      */
     protected $fillable = [
         'id',
-        'presente',
+        'falta',
         'matricula_id',
         'aula_id'
     ];

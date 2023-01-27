@@ -128,7 +128,7 @@
                     </div>
                 </template>
 
-                <pagination
+                <pagination v-if="dataPaginate"
                     :data="dataPaginate"
                     @pagination-change-page="getData"
                     :limit="limit"
@@ -190,7 +190,7 @@ export default {
         },
         dataPaginate: {
             type: Object,
-            required: true
+            required: false
         },
         routeCreate: String,
         routeCreateParams: Object,

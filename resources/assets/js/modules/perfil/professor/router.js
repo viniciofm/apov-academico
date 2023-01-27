@@ -5,6 +5,8 @@ import ListClasses from "./components/ListClasses";
 import Class from "./components/Class";
 import ListActivities from "./components/ListActivities";
 import Activity from "./components/Activity";
+import Notes from "./components/Notes";
+import Grades from "./components/Grades";
 
 Vue.use(VueRouter);
 
@@ -32,6 +34,12 @@ const routes = [
         props: true
     },
     {
+        path: '/aulas/presencas',
+        name: 'professor.classes.grades',
+        component: Grades,
+        props: true
+    },
+    {
         path: '/atividades',
         name: 'professor.activities',
         component: ListActivities,
@@ -47,6 +55,12 @@ const routes = [
         path: '/atividades/editar/:id',
         name: 'professor.activities.edit',
         component: Activity,
+        props: true
+    },
+    {
+        path: '/atividades/notas/:id',
+        name: 'professor.activities.notes',
+        component: Notes,
         props: true
     },
 ]

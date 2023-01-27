@@ -16,9 +16,17 @@
                             @getData="getData"
                             :withFilters="false">
                             <template v-slot:header-card>
-                                <div class="col-md-6">
-                                    <h4 class="card-title">AULAS PARA A DISCIPLINA - {{turma_disciplina.disciplina.sigla}}</h4>
-                                    <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as aulas da disciplina.</h6>
+                                <div class="col-md-6 row">
+                                    <div class="col-md-6">
+                                        <h4 class="card-title">AULAS - {{turma_disciplina.disciplina.sigla}}</h4>
+                                        <h6 class="card-subtitle text-muted">Utilize o módulo para gerenciar as aulas da disciplina.</h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <router-link v-can="'can-update'"  :to="{name: `${routeCreate}.grades`, params: { 'turma_disciplina': turma_disciplina }}"
+                                                     class="btn btn-warning text-white" title="Lançamento de presenças">
+                                            <i class="align-middle fas fa-fw fa-list-alt"></i> <span>{{ 'Lançar Faltas' }}</span>
+                                        </router-link>
+                                    </div>
                                 </div>
                             </template>
 

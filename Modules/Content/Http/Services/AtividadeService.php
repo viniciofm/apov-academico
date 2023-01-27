@@ -6,19 +6,26 @@ use App\Http\Services\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Content\Entities\Atividade;
 use Modules\Content\Http\Repositories\AtividadeRepository;
 use function PHPUnit\Framework\at;
 
 class AtividadeService extends Service
 {
-    public function __construct(AtividadeRepository $repository)
+    /**
+     * @var NotaService
+     */
+    private $notaService;
+
+    public function __construct(AtividadeRepository $repository, NotaService $notaService)
     {
         $this->repository = $repository;
+        $this->notaService = $notaService;
     }
 
     /**
      * @param $request
-     * @return mixed|null
+     * @return \Exception|mixed
      */
     public function create($request)
     {
@@ -47,8 +54,9 @@ class AtividadeService extends Service
     }
 
     /**
+     * @param $id
      * @param $request
-     * @return mixed|null
+     * @return \Exception|mixed
      */
     public function update($id, $request)
     {
@@ -76,6 +84,10 @@ class AtividadeService extends Service
         return null;
     }
 
+    /**
+     * @param  array  $attributes
+     * @return float
+     */
     public function checkSumPesoAtividades(array $attributes) : float
     {
         $sum = 0;
@@ -89,5 +101,43 @@ class AtividadeService extends Service
         }
         $sum += $attributes['peso'];
         return $sum;
+    }
+
+    /**
+     * @param  Atividade  $atividade
+     * @return Atividade
+     */
+    public function getStudentsByActivity(Atividade $atividade) : Atividade
+    {
+        $atividade = Atividade::with('turmaDisciplina.matriculasTurma.matricula.aluno.usuario')
+            ->find($atividade->id)->makeHidden('aluno.telefone','aluno.data_nascimento','usuario.email','usuario.cpf_cnpj');
+
+        foreach ($atividade->turmaDisciplina->matriculasTurma as &$matricula){
+            $matricula->nota_atividade = $this->notaService->whereFunc(function ($q) use ($matricula, $atividade){
+                    $q->where('matricula_id', $matricula->matricula_id)
+                        ->where('atividade_id', $atividade->id);
+            })->first() ?? [];
+        }
+
+        return $atividade;
+    }
+
+    /**
+     * @param  Atividade  $atividade
+     * @return Atividade
+     */
+    public function storeNotas(Atividade $atividade, array $notas) : bool
+    {
+        foreach ($notas as $nota){
+            if (isset($nota['id'])){
+                //salvar nota
+                $this->notaService->update($nota['id'], ['nota' => $nota['nota']]);
+            }else{
+                //atualizar nota
+                $this->notaService->create(['nota' => $nota['nota'], 'matricula_id' => $nota['matricula_id'], 'atividade_id' => $atividade->id]);
+            }
+        }
+
+        return true;
     }
 }

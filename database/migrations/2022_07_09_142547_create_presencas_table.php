@@ -15,7 +15,7 @@ class CreatePresencasTable extends Migration
     {
         Schema::create('presencas', function (Blueprint $table) {
             $table->uuid('id');
-            $table->boolean('presente')->default(true);
+            $table->boolean('falta')->default(false);
 
             $table->uuid('matricula_id');
             $table->foreign('matricula_id')->references('id')->on('matriculas');

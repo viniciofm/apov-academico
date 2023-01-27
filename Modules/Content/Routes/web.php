@@ -18,6 +18,9 @@ Route::prefix('content')->name('content.')->middleware(['auth'])->group(function
         Route::get('/edit/{aula}', 'AulaController@edit')->name('edit');
         Route::post('/update/{aula}', 'AulaController@update')->name('update');
         Route::delete('/delete', 'AulaController@delete')->name('delete');
+        Route::get('/dates/{turma_disciplina}', 'AulaController@dates')->name('dates');
+        Route::post('/grades/{turma_disciplina}', 'AulaController@grades')->name('get-grades');
+        Route::post('/grades/{turma_disciplina}/store', 'AulaController@storeGrades')->name('grades.store');
     });
     Route::prefix('atividade')->name('atividade.')->group(function() {
         Route::post('/store', 'AtividadeController@store')->name('store');
@@ -25,5 +28,7 @@ Route::prefix('content')->name('content.')->middleware(['auth'])->group(function
         Route::get('/edit/{atividade}', 'AtividadeController@edit')->name('edit');
         Route::post('/update/{atividade}', 'AtividadeController@update')->name('update');
         Route::delete('/delete', 'AtividadeController@delete')->name('delete');
+        Route::get('/notes/{atividade}', 'AtividadeController@notes')->name('notes');
+        Route::post('/notes/{atividade}', 'AtividadeController@storeNotes')->name('notes.store');
     });
 });

@@ -4,7 +4,11 @@ namespace Modules\Content\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Course\Entities\TurmaDisciplina;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 
 class Atividade extends Model
 {
@@ -35,4 +39,19 @@ class Atividade extends Model
 
     ];
 
+    /**
+     * @return BelongsTo
+     */
+    public function turmaDisciplina(): BelongsTo
+    {
+        return $this->belongsTo(TurmaDisciplina::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function notas(): HasMany
+    {
+        return $this->hasMany(Nota::class);
+    }
 }
