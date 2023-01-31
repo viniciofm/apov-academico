@@ -77,6 +77,8 @@ class EmpresaRepository extends Repository
                             $qq->where('nome', 'like', '%'.$s.'%');
                         });
                     });
+                }elseif($col == 'status'){
+                    $matriculas->where('status', 'like', '%'.$s.'%');
                 }
             }
         }

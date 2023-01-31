@@ -26,6 +26,15 @@
                                     <input class="form-control"
                                            v-model="search.nome"
                                            id="nome" name="nome" maxlength="200" type="text" placeholder="">
+
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-3 col-sm-6">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" data-bs-toggle="select2" v-model="search.status" name="status" id="status">
+                                        <option value="" selected>Não selecionado</option>
+                                        <option v-for="(item) in listStatus" :value="item.codigo">{{ item.nome }}</option>
+                                    </select>
                                 </div>
                             </template>
                             <template v-slot:table-body>
@@ -45,6 +54,7 @@
                                     <td scope="col">
                                         {{ item.curso.nome }}
                                     </td>
+                                    <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
 
@@ -77,9 +87,14 @@ export default {
     name: "ListAlunosEmpresa",
     data: () => ({
         subHeaderLinks:[],
-        search: {nome:'', email:''},
+        search: {nome:'', status:''},
         dataPaginate: {},
-        columns: ['Matrícula', 'Nome', 'E-mail', 'Contato', 'Curso', 'Ações'],
+        columns: ['Matrícula', 'Nome', 'E-mail', 'Contato', 'Curso', 'Situação', 'Ações'],
+        listStatus: {
+            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
+            'aprovado' : {codigo: 'aprovado', nome: 'Aprovado', color: 'success'}
+        },
         isLoading: false
     }),
     mounted() {
@@ -92,6 +107,9 @@ export default {
     },
 
     methods: {
+        translaterStatus(status){
+            return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
+        },
         dateFormat(value) {
             let date = new Date(value);
             return date.toLocaleDateString();
