@@ -183,7 +183,7 @@ class EmpresaController extends Controller
      */
     public function indexEmpresa()
     {
-        return view('modules.empresa.edit');
+        return view('modules.empresa.empresa');
     }
 
     /**
@@ -201,5 +201,34 @@ class EmpresaController extends Controller
         return \response()->json([
             'registro' => $empresa,
         ], 201);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function alunos()
+    {
+        return view('modules.empresa.alunos');
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function getAlunos(Request $request): JsonResponse
+    {
+//        try {
+            $data = $this->service->getStudents([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+            ]);
+
+            return \response()->json($data, 200);
+//        } catch (\Exception $e) {
+//            return \response()->json($e->getMessage(), 500);
+//        }
     }
 }

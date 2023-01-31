@@ -5,6 +5,7 @@ namespace Modules\Company\Entities;
 use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Student\Entities\Matricula;
 use Modules\User\Entities\Endereco;
 use Modules\User\Entities\User;
 
@@ -49,6 +50,14 @@ class Empresa extends Model
     public function endereco()
     {
         return $this->belongsTo(Endereco::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class)->with(['aluno','aluno.usuario','curso']);
     }
 
     protected static function boot()

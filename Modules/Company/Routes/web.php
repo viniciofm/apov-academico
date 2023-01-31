@@ -24,4 +24,9 @@ Route::prefix('admin/empresa')->name('admin.empresa.')->middleware(['auth'])->gr
 Route::prefix('empresa')->name('empresa.')->middleware(['auth'])->group(function() {
     Route::get('/', 'EmpresaController@indexEmpresa')->name('index');
     Route::get('/edit', 'EmpresaController@editEmpresa')->name('edit');
+
+    Route::prefix('alunos')->name('alunos.')->group(function() {
+        Route::get('/', 'EmpresaController@alunos');
+        Route::post('/get', 'EmpresaController@getAlunos')->name('get');
+    });
 });

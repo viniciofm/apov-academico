@@ -148,4 +148,13 @@ class EmpresaService extends Service
         }
         return null;
     }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function getStudents(array $params)
+    {
+        return $this->repository->getStudents($params);
+    }
 }
