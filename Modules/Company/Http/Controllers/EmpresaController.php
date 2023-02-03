@@ -217,7 +217,7 @@ class EmpresaController extends Controller
      */
     public function getAlunos(Request $request): JsonResponse
     {
-//        try {
+        try {
             $data = $this->service->getStudents([
                 'with' => [],
                 'paginate' => $request['paginate'] === "true",
@@ -227,8 +227,8 @@ class EmpresaController extends Controller
             ]);
 
             return \response()->json($data, 200);
-//        } catch (\Exception $e) {
-//            return \response()->json($e->getMessage(), 500);
-//        }
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
     }
 }

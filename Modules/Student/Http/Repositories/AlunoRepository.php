@@ -87,4 +87,35 @@ class AlunoRepository extends Repository
         })->orderByDesc('created_at')->withoutGlobalScope(ActivedScope::class)->first();
         return $lastRegistry ? $lastRegistry->matricula + 1 : 1;
     }
+
+    public function getMatriculas(array $params){
+        $user = Auth::user();
+
+        if($user && $user->tipo_usuario->nome == 'aluno'){
+            $aluno = $this->whereWith('user_id', '=', $user->id, []);
+
+            $matriculas = $aluno->matriculas();
+            if ($params['search'])
+            {
+                foreach($params['search'] as $col => $s){
+                    if($col == 'status'){
+                        $matriculas->where('status', 'like', '%'.$s.'%');
+                    }
+                }
+            }
+
+            if ($params['paginate']) {
+                return $matriculas->paginate(
+                    $params['perPage'],
+                    ['*'],
+                    'page',
+                    $params['page']
+                );
+            }
+
+            return $aluno->matriculas;
+        }
+
+        return array();
+    }
 }

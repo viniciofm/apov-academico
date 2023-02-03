@@ -25,6 +25,7 @@ mix.js('resources/assets/js/modules/curso/main.js', `${JS_PATH}/curso`).vue();
 mix.js('resources/assets/js/modules/turma/main.js', `${JS_PATH}/turma`).vue();
 mix.js('resources/assets/js/modules/matricula/main.js', `${JS_PATH}/matricula`).vue();
 mix.js('resources/assets/js/modules/aluno/main.js', `${JS_PATH}/aluno`).vue();
+mix.js('resources/assets/js/modules/aluno_acesso/main.js', `${JS_PATH}/aluno_acesso`).vue();
 mix.js('resources/assets/js/modules/usuario/main.js', `${JS_PATH}/usuario`).vue();
 
 mix.js('resources/assets/js/modules/perfil/professor/main.js', `${JS_PATH}/perfil/professor`).vue();

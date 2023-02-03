@@ -125,4 +125,13 @@ class AlunoService extends Service
         }
         return null;
     }
+
+    /**
+     * @param  array  $params
+     * @return mixed
+     */
+    public function getMatriculas(array $params)
+    {
+        return $this->repository->getMatriculas($params);
+    }
 }

@@ -62,36 +62,38 @@ class EmpresaRepository extends Repository
 
     public function getStudents(array $params){
         $user = Auth::user();
-        $empresa = [];
+
         if($user && $user->tipo_usuario->nome == 'empresa'){
             $empresa = $this->whereWith('user_id', '=', $user->id, []);
-        }
 
-        $matriculas = $empresa->matriculas();
-        if ($params['search'])
-        {
-            foreach($params['search'] as $col => $s){
-                if($col == 'nome'){
-                    $matriculas->whereHas('aluno', function($q) use ($col, $s){
-                        $q->whereHas('usuario', function($qq) use ($col, $s){
-                            $qq->where('nome', 'like', '%'.$s.'%');
+            $matriculas = $empresa->matriculas();
+            if ($params['search'])
+            {
+                foreach($params['search'] as $col => $s){
+                    if($col == 'nome'){
+                        $matriculas->whereHas('aluno', function($q) use ($col, $s){
+                            $q->whereHas('usuario', function($qq) use ($col, $s){
+                                $qq->where('nome', 'like', '%'.$s.'%');
+                            });
                         });
-                    });
-                }elseif($col == 'status'){
-                    $matriculas->where('status', 'like', '%'.$s.'%');
+                    }elseif($col == 'status'){
+                        $matriculas->where('status', 'like', '%'.$s.'%');
+                    }
                 }
             }
+
+            if ($params['paginate']) {
+                return $matriculas->paginate(
+                    $params['perPage'],
+                    ['*'],
+                    'page',
+                    $params['page']
+                );
+            }
+
+            return $empresa->matriculas;
         }
 
-        if ($params['paginate']) {
-            return $matriculas->paginate(
-                $params['perPage'],
-                ['*'],
-                'page',
-                $params['page']
-            );
-        }
-
-        return $empresa->matriculas;
+        return array();
     }
 }

@@ -169,4 +169,33 @@ class AlunoController extends Controller
             ]
         ], 201);
     }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function alunoIndex()
+    {
+        return view('modules.aluno.aluno');
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function getMatriculas(Request $request): JsonResponse
+    {
+        try {
+            $data = $this->service->getMatriculas([
+                'with' => [],
+                'paginate' => $request['paginate'] === "true",
+                'perPage' => $request['perPage'],
+                'page' => $request['page'],
+                'search' => json_decode($request['search'], true),
+            ]);
+
+            return \response()->json($data, 200);
+        } catch (\Exception $e) {
+            return \response()->json($e->getMessage(), 500);
+        }
+    }
 }

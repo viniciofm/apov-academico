@@ -48,6 +48,11 @@ class Aluno extends Model
         return $this->usuario->belongsTo(Endereco::class);
     }
 
+    public function matriculas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Matricula::class)->with(['aluno','aluno.usuario','curso']);
+    }
+
     protected static function boot()
     {
         parent::boot();

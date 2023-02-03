@@ -24,7 +24,7 @@
         "submenus": [
             {
                 "posicao":1,
-                "nome": "Minhas disciplinas",
+                "nome": "Meus Cursos",
                 "url": "aluno",
                 "icon": "",
                 "tipo_usuario": "aluno"
