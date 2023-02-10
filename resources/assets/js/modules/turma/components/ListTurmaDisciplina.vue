@@ -37,6 +37,11 @@
                                                          class="btn col-md-4" title="Alunos da Disciplina">
                                                 <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
+
+                                            <a target="_blanck" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
+                                                <i class="align-middle text-primary fa-solid fa-book"></i>
+                                            </a>
+
                                             <button  v-on:click='openTheModalProfessor(item)'
                                                          class="btn col-md-4" title="Editar Professor">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
@@ -107,6 +112,9 @@ export default {
     },
 
     methods: {
+        getRoute(rota, id){
+            return route(rota, id)
+        },
         openTheModalProfessor(turmaDisciplina) {
             this.turmaDisciplina = turmaDisciplina;
             this.$refs.modalTurmaDisciplinaProfessor.open();

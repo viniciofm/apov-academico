@@ -74,6 +74,14 @@ class TurmaDisciplina extends Model
      */
     public function aulas(): HasMany
     {
-        return $this->hasMany(Aula::class);
+        return $this->hasMany(Aula::class)->orderBy('data');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function atividades(): HasMany
+    {
+        return $this->hasMany(Atividade::class);
     }
 }

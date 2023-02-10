@@ -7,5 +7,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ mix("/dist/js/empresa_aluno/main.js") }}"></script>
+    <script src="{{ mix("/dist/js/perfil/empresa_aluno/main.js") }}"></script>
 @endpush

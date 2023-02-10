@@ -76,10 +76,10 @@
 </template>
 
 <script>
-import {submit, toSeek} from "../../../common/send-form";
+import {submit, toSeek} from "../../../../common/send-form";
 import Swal from "sweetalert2";
-import SubHeader from "../../../components/SubHeader"
-import CardTable from "../../../components/CardTable"
+import SubHeader from "../../../../components/SubHeader"
+import CardTable from "../../../../components/CardTable"
 import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 

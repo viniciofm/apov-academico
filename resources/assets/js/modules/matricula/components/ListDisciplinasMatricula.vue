@@ -38,6 +38,10 @@
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
+                                            <a target="_blanck" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.turma_disciplina.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
+                                                <i class="align-middle text-primary fa-solid fa-book"></i>
+                                            </a>
+
                                             <button v-can="'can-update'" v-on:click="remover(item)"
                                                     class="btn col-md-3" :title="'Remover disciplina'">
                                                 <i :class="'align-middle fas fa-fw text-success text-danger fa-trash'"></i>
@@ -99,6 +103,9 @@ export default {
         Loading
     },
     methods: {
+        getRoute(rota, id){
+            return route(rota, id)
+        },
         remover(item){
             let me = this;
 

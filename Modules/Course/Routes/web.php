@@ -58,3 +58,11 @@ Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(
         Route::get('/get-by-id/{turmaDisciplina}', 'TurmaDisciplinaController@getById')->name('get-by-id');
     });
 });
+
+Route::prefix('relatorio')->name('relatorio.')->middleware(['auth'])->group(function() {
+    Route::get('diario-classe/{turma_disciplina}', 'ReportController@diarioClasse')->name('diario-classe.turma-disciplina');
+
+    Route::prefix('pdf')->name('pdf.')->group(function (){
+        Route::get('diario-classe/{turma_disciplina}', 'ReportPdfController@diarioClasse')->name('diario-classe.turma-disciplina');
+    });
+});

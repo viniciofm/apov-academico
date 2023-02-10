@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from "vue-router";
-import Empresa from "../empresa/components/Empresa";
+import Empresa from "../../empresa/components/Empresa";
 
 Vue.use(VueRouter);
 

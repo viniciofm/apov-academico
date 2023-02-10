@@ -23,7 +23,7 @@
             </div>
             <div class="col-4 text-end">
                 <p class="mb-0">
-                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/VinicioFragosoMendes" target="_blank" class="text-muted">Desenvolvido por Vinício F. Mendes</a>
+                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/viniciofm" target="_blank" class="text-muted">Desenvolvido por Vinício F. Mendes</a>
                 </p>
             </div>
         </div>

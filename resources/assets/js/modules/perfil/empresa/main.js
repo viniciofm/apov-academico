@@ -1,17 +1,17 @@
 'use strict';
 
-import Acl from '../../common/acl';
+import Acl from '../../../common/acl';
 import router from './router';
 
-require('../../bootstrap.js');
+require('../../../bootstrap.js');
 import Vue from 'vue';
 
 window.Vue = Vue;
 
 /* validate */
 import VeeValidate, { Validator } from 'vee-validate';
-import msgBR from '../../lang/vee-validate/pt_BR';
-import Content from "../Content";
+import msgBR from '../../../lang/vee-validate/pt_BR';
+import Content from "../../Content";
 
 Validator.localize('pt_BR', msgBR);
 
