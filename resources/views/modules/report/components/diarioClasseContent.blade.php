@@ -16,12 +16,12 @@
                 @if(count($turmaDisciplina->aulas))
                     <div class="row mt-4">
                         <div class="text-center text-uppercase">
-                            <h5>Frequência</h5>
+                            <h5 style="padding: 6px 0px; background: #999999;">Frequência</h5>
                         </div>
                         <div class="">
-                            <table class="table table-striped table-sm" style="font-size:0.8rem;">
+                            <table class="table table-bordered table-sm" style="font-size:0.8rem;">
                                 <thead>
-                                    <tr class="text-uppercase">
+                                    <tr class="text-uppercase fw-bolder">
                                         <td>Matrícula</td>
                                         <td>Aluno</td>
                                         @foreach($turmaDisciplina->aulas as $aula)
@@ -33,7 +33,7 @@
                                 <tbody>
                                     @foreach($matriculasTurma as $matriculaTurma)
                                         <tr>
-                                            <td> {{ $matriculaTurma->matricula->aluno->matricula }} </td>
+                                            <td> {{ sprintf('%04d', $matriculaTurma->matricula->aluno->matricula) }} </td>
                                             <td> {!! $matriculaTurma->matricula->aluno->usuario->nome !!} </td>
                                             @foreach($turmaDisciplina->aulas as $aula)
                                                 <td> {{ $aula->faltas->where('matricula_id', $matriculaTurma->matricula_id)->first() ? 'F' : '*' }} </td>
@@ -51,12 +51,12 @@
                 @if(count($turmaDisciplina->atividades))
                     <div class="row mt-4">
                         <div class="text-center text-uppercase">
-                            <h5>Notas</h5>
+                            <h5 style="padding: 6px 0px; background: #999999;">Notas</h5>
                         </div>
                         <div class="">
-                            <table class="table table-striped table-sm" style="font-size:0.8rem;">
+                            <table class="table table-bordered table-sm" style="font-size:0.8rem;">
                                 <thead>
-                                    <tr class="text-uppercase">
+                                    <tr class="text-uppercase fw-bolder">
                                         <td>Matrícula</td>
                                         <td>Aluno</td>
                                         @foreach($turmaDisciplina->atividades as $atividade)
@@ -71,7 +71,7 @@
                                 <tbody>
                                     @foreach($matriculasTurma as $matriculaTurma)
                                         <tr>
-                                            <td> {{ $matriculaTurma->matricula->aluno->matricula }} </td>
+                                            <td> {{ sprintf('%04d', $matriculaTurma->matricula->aluno->matricula) }} </td>
                                             <td> {!! $matriculaTurma->matricula->aluno->usuario->nome !!} </td>
 
                                             @foreach($turmaDisciplina->atividades as $atividade)
@@ -95,12 +95,12 @@
                 @if(count($turmaDisciplina->aulas))
                     <div class="row mt-4">
                         <div class="text-center text-uppercase">
-                            <h5>Conteúdo Programático</h5>
+                            <h5 style="padding: 6px 0px; background: #999999;">Conteúdo Programático</h5>
                         </div>
                         <div>
-                            <table class="table table-striped">
+                            <table class="table table-bordered table-sm" style="font-size:0.8rem;">
                                 <thead>
-                                    <tr class="text-uppercase">
+                                    <tr class="text-uppercase fw-bolder">
                                         <td>Data</td>
                                         <td>Conteúdo</td>
                                     </tr>

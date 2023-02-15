@@ -61,8 +61,12 @@ Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(
 
 Route::prefix('relatorio')->name('relatorio.')->middleware(['auth'])->group(function() {
     Route::get('diario-classe/{turma_disciplina}', 'ReportController@diarioClasse')->name('diario-classe.turma-disciplina');
+    Route::get('historico-parcial/{matricula}', 'ReportController@historicoParcial')->name('historico-parcial');
+    Route::get('historico-final/{matricula}', 'ReportController@historicoFinal')->name('historico-final');
 
     Route::prefix('pdf')->name('pdf.')->group(function (){
         Route::get('diario-classe/{turma_disciplina}', 'ReportPdfController@diarioClasse')->name('diario-classe.turma-disciplina');
+        Route::get('historico-parcial/{matricula}', 'ReportPdfController@historicoParcial')->name('historico-parcial');
+        Route::get('historico-final/{matricula}', 'ReportPdfController@historicoFinal')->name('historico-final');
     });
 });

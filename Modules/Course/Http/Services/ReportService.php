@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Course\Entities\Grade;
 use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Repositories\TurmaRepository;
+use Modules\Student\Entities\Matricula;
 
 class ReportService extends Service
 {

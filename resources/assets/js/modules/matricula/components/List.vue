@@ -78,6 +78,11 @@
                                                          class="btn col-md-4" title="Disciplinas da matrícula">
                                                 <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
                                             </router-link>
+
+                                            <a target="_blanck" :href="getRoute('relatorio.historico-' + (item.status != 'concluido' ? 'parcial' : 'final'), item.id)" class="btn col-md-4" title="Histórico para a Matrícula">
+                                                <i class="align-middle text-primary fa-solid fa-book-bookmark"></i>
+                                            </a>
+
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
@@ -132,6 +137,9 @@ export default {
     },
 
     methods: {
+        getRoute(rota, id){
+            return route(rota, id)
+        },
         translaterStatus(status){
             return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
         },

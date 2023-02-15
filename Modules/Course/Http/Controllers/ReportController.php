@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Services\ReportService;
+use Modules\Student\Entities\Matricula;
 
 class ReportController extends Controller
 {
@@ -31,5 +32,14 @@ class ReportController extends Controller
     public function diarioClasse(TurmaDisciplina $turmaDisciplina)
     {
         return view('modules.report.diarioClasse')->with($this->reportService->dataDiarioClasse($turmaDisciplina));
+    }
+
+    /**
+     * @param  Matricula  $matricula
+     * @return Application|Factory|View
+     */
+    public function historicoParcial(Matricula $matricula)
+    {
+        return view('modules.report.historicoParcial')->with(['matricula' => $matricula]);
     }
 }

@@ -109,5 +109,8 @@
   "aluno": "Aluno",
   "empresa": "Empresa",
   "user_data": "Dados do Usuário",
-  "data_instituition": "Dados da Instituição"
+  "data_instituition": "Dados da Instituição",
+  "matriculado" : "Matrículado",
+  "cancelado" : "Cancelado",
+  "concluido" : "Concluído"
 }
