@@ -85,7 +85,7 @@ export default {
         routeCreate:'matricula.disciplines',
         textCreate:'Adicionar Nova',
         listStatus: {
-            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
             'aprovado' : {codigo: 'aprovado', nome: 'Aprovado', color: 'success'}
         },

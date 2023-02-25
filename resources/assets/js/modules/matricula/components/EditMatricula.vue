@@ -119,7 +119,7 @@ export default {
         isLoading: false,
         empresas: [],
         listStatus: [
-            {codigo: 'matriculado', nome: 'Matrículado'},
+            {codigo: 'matriculado', nome: 'Matriculado'},
             {codigo: 'cancelado', nome: 'Cancelado'},
             {codigo: 'concluido', nome: 'Concluído'},
         ],

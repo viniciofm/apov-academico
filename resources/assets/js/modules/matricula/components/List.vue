@@ -122,7 +122,7 @@ export default {
         isLoading: false,
         routeCreate:'matricula',
         listStatus: {
-            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
             'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'}
         },

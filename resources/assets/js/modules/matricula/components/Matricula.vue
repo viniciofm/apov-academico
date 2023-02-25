@@ -86,7 +86,7 @@
 
                         <div v-if="payload.aluno && payload.curso_id" class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="status">Status</label>
-                            <label class="form-control">Matrículado</label>
+                            <label class="form-control">Matriculado</label>
                         </div>
                     </div>
                 </div>

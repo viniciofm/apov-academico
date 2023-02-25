@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        @include('modules.report.components.historicoContent', array('typeDocument' => 'Parcial', ))
+                        @include('modules.report.components.historicoContent', array('typeDocument' => 'Parcial'))
                     </div>
                 </div>
             </div>

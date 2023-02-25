@@ -31,7 +31,7 @@ class ReportController extends Controller
      */
     public function diarioClasse(TurmaDisciplina $turmaDisciplina)
     {
-        return view('modules.report.diarioClasse')->with($this->reportService->dataDiarioClasse($turmaDisciplina));
+        return view('modules.report.diarioClasse')->with($this->reportService->getDataTurmaDisciplina($turmaDisciplina));
     }
 
     /**
@@ -40,6 +40,6 @@ class ReportController extends Controller
      */
     public function historicoParcial(Matricula $matricula)
     {
-        return view('modules.report.historicoParcial')->with(['matricula' => $matricula]);
+        return view('modules.report.historicoParcial')->with(array_merge(['matricula' => $matricula],$this->reportService->getDataByMatricula($matricula)));
     }
 }

@@ -68,7 +68,7 @@ export default {
         routeCreate:'turma.disciplines',
         turmaDisciplina: {},
         listStatus: {
-            'matriculado' : {codigo: 'matriculado', nome: 'Matrículado', color: 'info'},
+            'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
             'aprovado' : {codigo: 'aprovado', nome: 'Aprovado', color: 'success'}
         },

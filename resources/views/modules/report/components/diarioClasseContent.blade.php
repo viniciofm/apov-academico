@@ -81,7 +81,7 @@
 
                                             <td> {!! number_format($matriculaTurma->nota, 2, ',', '.') !!} </td>
                                             <td> {!! $matriculaTurma->faltas !!} </td>
-                                            <td> {!! ( $matriculaTurma->faltas * 100) / $numAulas !!} </td>
+                                            <td> {!! number_format(($matriculaTurma->faltas > 0 ? (( $matriculaTurma->faltas * 100) / $numAulas) : 100), 2, ',', '.') !!} </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
