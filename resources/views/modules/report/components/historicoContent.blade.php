@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="text-center text-uppercase">
-                        <h2>Histórico Escolar {{ $typeDocument }}</h2>
+                        <h2>Histórico Escolar {{ $typeDocument == 'parcial' ? 'Parcial' : '' }}</h2>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -47,7 +47,7 @@
                             <div class="col-md-2 col-3">{{ $matricula->created_at->format('m/Y') }}</div>
 
                             <div class="col-md-2 col-2  fw-bolder">Mês/Ano Saída:</div>
-                            <div class="col-md-2 col-4">{{ $matricula->created_at->format('m/Y') }}</div>
+                            <div class="col-md-2 col-4">{{ $matricula->status == 'concluido' ? $matricula->created_at->format('m/Y') : '-' }}</div>
                         </div>
                         <div class="row grid-pdf mt-2">
                             <div class="col-md-2 col-2 fw-bolder">Status:</div>
@@ -64,7 +64,7 @@
 
                 <div class="row mt-4">
                     <div class="text-center text-uppercase">
-                        <h5 style="padding: 6px 0px; background: #999999;">Disciplinas Cursadas/Cursando</h5>
+                        <h5 style="padding: 6px 0px; background: #999999;">Disciplinas Cursadas{{ $typeDocument == 'parcial' ? '/Cursando' : ''}}</h5>
                     </div>
                     <div>
                         <table class="table table-bordered table-sm" style="font-size:0.8rem;">

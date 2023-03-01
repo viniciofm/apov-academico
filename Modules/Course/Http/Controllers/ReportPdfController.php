@@ -74,4 +74,29 @@ class ReportPdfController extends Controller
 
         return $pdf->stream("historico_parcial_" . $matricula->id . ".pdf");
     }
+
+    /**
+     * @param  Matricula  $matricula
+     * @return mixed
+     */
+    public function historicoFinal(Matricula $matricula)
+    {
+        $pdf = \PDF::LoadView('modules.report.pdf.historicoFinal', array_merge(['matricula' => $matricula],$this->reportService->getDataByMatricula($matricula)));
+        $pdf->setPaper('a4')
+//            ->setOption('orientation', 'landscape')
+            ->setOption('margin-top', 20)
+            ->setOption('margin-left', 5)
+            ->setOption('margin-right', 5)
+            ->setOption('margin-bottom', 10)
+            ->setOption('header-html', view('modules.report.pdf.components.header'))
+            ->setOption('footer-right', 'Página [page] de [toPage]')
+            ->setOption('footer-font-size', 7)
+            ->setOption('footer-left', 'Histórico Escolar')
+
+            ->setOption('enable-local-file-access', true)
+            ->setOption('no-stop-slow-scripts', true)
+            ->setOption('keep-relative-links', true);
+
+        return $pdf->stream("historico_" . $matricula->id . ".pdf");
+    }
 }

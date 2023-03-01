@@ -4,6 +4,6 @@
 
 @section('content')
     <div>
-        @include('modules.report.components.historicoContent', array('typeDocument' => 'parcial'))
+        @include('modules.report.components.historicoContent', array('typeDocument' => 'final'))
     </div>
 @endsection

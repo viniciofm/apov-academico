@@ -57,7 +57,9 @@
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-
+                                            <a target="_blanck" :href="getRoute('relatorio.historico-' + (item.status != 'concluido' ? 'parcial' : 'final'), item.id)" class="btn col-md-4" title="Histórico para a Matrícula">
+                                                <i class="align-middle text-primary fa-solid fa-book-bookmark"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -93,7 +95,7 @@ export default {
         listStatus: {
             'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
-            'aprovado' : {codigo: 'aprovado', nome: 'Aprovado', color: 'success'}
+            'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'}
         },
         isLoading: false
     }),
@@ -107,6 +109,9 @@ export default {
     },
 
     methods: {
+        getRoute(rota, id){
+            return route(rota, id)
+        },
         translaterStatus(status){
             return `<span class='badge bg-${this.listStatus[status].color}'>${this.listStatus[status].nome}</span>`;
         },
