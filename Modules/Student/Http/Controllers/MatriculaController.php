@@ -15,6 +15,7 @@ use Modules\Student\Http\Requests\UpdateMatriculaRequestValidator;
 use Modules\Student\Http\Services\MatriculaService;
 use Modules\Student\Http\Services\TurmaDisciplinaMatriculaService;
 use Modules\User\Http\Services\UserService;
+use Carbon\Carbon;
 
 class MatriculaController extends Controller
 {
@@ -129,7 +130,11 @@ class MatriculaController extends Controller
     public function update(UpdateMatriculaRequestValidator $request, string $id): JsonResponse
     {
         try {
-            $data = $this->service->update($id, $request->all());
+            $request = $request->all();
+            $request['motivo_cancelamento'] = $request['motivo_cancelamento'] ?? null;
+            $request['data_saida'] = isset($request['data_saida']) ? Carbon::createFromTimeString($request['data_saida']) :  null;
+
+            $data = $this->service->update($id, $request);
 
             if (!$data) {
                 throw new \Exception('Não foi possível atualizar o item!');

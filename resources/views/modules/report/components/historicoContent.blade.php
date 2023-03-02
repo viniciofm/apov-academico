@@ -47,7 +47,7 @@
                             <div class="col-md-2 col-3">{{ $matricula->created_at->format('m/Y') }}</div>
 
                             <div class="col-md-2 col-2  fw-bolder">Mês/Ano Saída:</div>
-                            <div class="col-md-2 col-4">{{ $matricula->status == 'concluido' ? $matricula->created_at->format('m/Y') : '-' }}</div>
+                            <div class="col-md-2 col-4">{{ in_array($matricula->status, ['concluido', 'cancelado']) ? $matricula->data_saida->format('m/Y') : '-' }}</div>
                         </div>
                         <div class="row grid-pdf mt-2">
                             <div class="col-md-2 col-2 fw-bolder">Status:</div>

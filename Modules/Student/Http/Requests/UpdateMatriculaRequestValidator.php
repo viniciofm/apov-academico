@@ -17,6 +17,8 @@ class UpdateMatriculaRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'status' => 'required|string',
+            'motivo_cancelamento' => 'sometimes|required|string',
+            'data_saida' => 'sometimes|string',
             'empresa_id' => 'sometimes|uuid|exists:empresas,id|nullable'
         ];
     }
@@ -40,6 +42,8 @@ class UpdateMatriculaRequestValidator extends AbstractGenericFormRequest
     {
         return [
             'status' => 'Status',
+            'motivo_cancelamento' => 'Motivo Cancelamento',
+            'data_saida' => 'Data de Saída',
             'empresa_id' => 'ID da Empresa'
         ];
     }

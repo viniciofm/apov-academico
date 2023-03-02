@@ -51,6 +51,28 @@
                             </multiselect>
                             <div v-show="errors.has('empresa')" class="text-danger" style="">{{ errors.first('empresa') }}</div>
                         </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12" v-if="payload.matricula.status == 'cancelado'">
+                            <label for="nome">Motivo Cancelamento*</label>
+                            <input class="form-control" v-model="payload.matricula.motivo_cancelamento" id="motivo_cancelamento" name="motivo_cancelamento" maxlength="200" value="" type="text" placeholder="" required="required"
+                                   v-validate="'required'"
+                                   data-vv-as="'Motivo Cancelamento'">
+                            <div v-show="errors.has('motivo_cancelamento')" class="text-danger" style="">{{ errors.first('motivo_cancelamento') }}</div>
+                        </div>
+
+                        <div class="mb-3 col-lg-3 col-md-3 col-sm-12" v-if="['cancelado', 'concluido'].includes(payload.matricula.status)">
+                            <label for="data_saida">Data de Saída</label>
+                            <div>
+                                <date-picker
+                                             placeholder="Selecione uma data"
+                                             format="DD/MM/YYYY" v-model="payload.matricula.data_saida"
+                                             v-validate="'required'"
+                                             data-vv-as="'Data de Saída'"
+                                             id='data_saida' name="data_saida">
+                                </date-picker>
+                                <div v-show="errors.has('data_saida')" class="text-danger" style="">{{ errors.first('data_saida') }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,6 +128,8 @@ import Swal from "sweetalert2";
 import Loading from "vue-loading-overlay";
 import 'vue-loading-overlay/dist/vue-loading.css';
 import Multiselect from 'vue-multiselect'
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 
 export default {
     name: "Matricula",
@@ -140,7 +164,8 @@ export default {
     components: {
         SubHeader,
         Loading,
-        Multiselect
+        Multiselect,
+        DatePicker
     },
     methods: {
         customLabelAluno({ usuario }) {
@@ -190,6 +215,13 @@ export default {
                         let formData = new FormData();
 
                         formData.append('status', this.payload.matricula.status);
+                        if(this.payload.matricula.status == 'cancelado'){
+                            formData.append('motivo_cancelamento', this.payload.matricula.motivo_cancelamento);
+                        }
+                        if(['cancelado', 'concluido'].includes(this.payload.matricula.status)) {
+                            formData.append('data_saida', this.payload.matricula.data_saida ?
+                                this.payload.matricula.data_saida.toISOString() : '');
+                        }
                         formData.append('empresa_id', this.payload.empresa ? this.payload.empresa.id : '');
 
                         let url = route('admin.matricula.update', this.matricula_id);

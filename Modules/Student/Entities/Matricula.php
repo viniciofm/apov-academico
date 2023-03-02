@@ -30,11 +30,13 @@ class Matricula extends Model
         'empresa_id',
         'aluno_id',
         'status',
-        'conceito'
+        'conceito',
+        'motivo_cancelamento',
+        'data_saida'
     ];
 
     protected $casts = [
-
+        'data_saida' => 'date',
     ];
 
     public function curso(): \Illuminate\Database\Eloquent\Relations\BelongsTo
