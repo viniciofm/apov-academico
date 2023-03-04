@@ -6,6 +6,7 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Content\Entities\Atividade;
 use Modules\Content\Entities\Aula;
 use Modules\Student\Entities\TurmaDisciplinaMatricula;
@@ -14,6 +15,7 @@ use Modules\Teacher\Entities\Professor;
 class TurmaDisciplina extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 

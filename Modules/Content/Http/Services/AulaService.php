@@ -76,7 +76,7 @@ class AulaService extends Service
 
         $turmaDisciplina = TurmaDisciplina::with('matriculasTurma.matricula.aluno.usuario')->find($turmaDisciplina->id);
 
-        $alunos = TurmaDisciplina::where('turma_disciplinas.id', ''.$turmaDisciplina->id.'')
+        $alunos = TurmaDisciplina::where('turma_disciplinas.id', $turmaDisciplina->id)->whereNull('turma_disciplina_matricula.deleted_at')
             ->join('turma_disciplina_matricula', 'turma_disciplina_matricula.turma_disciplina_id', '=', 'turma_disciplinas.id')
             ->join('matriculas', 'matriculas.id', '=', 'turma_disciplina_matricula.matricula_id')
             ->join('alunos', 'matriculas.aluno_id', '=', 'alunos.id')

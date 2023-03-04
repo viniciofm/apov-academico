@@ -45,10 +45,10 @@ class InstituicaoService extends Service
             $attributes = $request->all();
             $instituicao = $this->repository->find($id);
 
-            if(!$attributes['endereco']['cidade_id']){
+            if(empty($attributes['endereco']['cidade_id'])){
                 $attributes['endereco']['cidade_id'] = NULL;
             }
-            if(!$attributes['endereco']['numero']){
+            if(empty($attributes['endereco']['numero'])){
                 $attributes['endereco']['numero'] = NULL;
             }
 

@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <endereco :read_only='true' :endereco="payload.endereco"></endereco>
+            <endereco :read_only='empresa_acesso' :endereco="payload.endereco"></endereco>
 
             <div class="card mb-3">
                 <!--/.bg-holder-->

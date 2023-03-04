@@ -19,7 +19,7 @@ class EnderecoService extends Service
      */
     public function create(array $attributes)
     {
-        $attributes['numero'] = (int)$attributes['numero'];
+        $attributes['numero'] = isset($attributes['numero']) ? (int)$attributes['numero'] : null;
 
         return $this->repository->create($attributes);
     }

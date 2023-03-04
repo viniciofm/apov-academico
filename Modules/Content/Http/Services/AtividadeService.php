@@ -69,7 +69,7 @@ class AtividadeService extends Service
             }
 
             //checa se vai passar de 100 pontos na disciplina
-            if ($this->checkSumPesoAtividades($attributes['turma_disciplina_id']) > 100){
+            if ($this->checkSumPesoAtividades($attributes) > 100){
                 throw new \Exception('Nota excede o limite de 100 pontos para a disciplina!');
             }
 
