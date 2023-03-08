@@ -151,11 +151,11 @@ export default {
         },
         isLoading: false,
     }),
-    props: [
-        'id',
-        'title',
-        'empresa_acesso'
-    ],
+    props: {
+        'id': {},
+        'title': {},
+        'empresa_acesso': {default: false}
+    },
     created() {
         if (this.id || this.empresa_acesso) {
             this.getData();

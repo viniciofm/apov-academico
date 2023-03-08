@@ -83,6 +83,10 @@
                                                 <i class="align-middle text-primary fa-solid fa-book-bookmark"></i>
                                             </a>
 
+                                            <a target="_blanck" :href="getRoute('relatorio.boletim', item.id)" class="btn col-md-4" title="Boletim para a Matrícula">
+                                                <i class="align-middle text-success fa-solid fa-clipboard-list"></i>
+                                            </a>
+
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>

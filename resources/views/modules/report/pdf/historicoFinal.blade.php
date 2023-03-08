@@ -4,6 +4,6 @@
 
 @section('content')
     <div>
-        @include('modules.report.components.historicoContent', array('typeDocument' => 'final'))
+        @include('modules.report.components.historicoContent', array('typeDocument' => 'final', 'isPDF' => true))
     </div>
 @endsection

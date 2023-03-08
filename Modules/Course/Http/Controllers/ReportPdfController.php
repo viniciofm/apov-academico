@@ -99,4 +99,26 @@ class ReportPdfController extends Controller
 
         return $pdf->stream("historico_" . $matricula->id . ".pdf");
     }
+
+    /**
+     * @param  Matricula  $matricula
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function boletim(Matricula $matricula)
+    {
+        $pdf = \PDF::LoadView('modules.report.pdf.boletim', $this->reportService->getDataTurmaDisciplina(null, $matricula));
+        $pdf->setPaper('a4')
+            ->setOption('orientation', 'landscape')
+            ->setOption('margin-top', 20)
+            ->setOption('margin-left', 5)
+            ->setOption('margin-right', 5)
+            ->setOption('margin-bottom', 10)
+            ->setOption('header-html', view('modules.report.pdf.components.header'))
+            ->setOption('footer-center', 'Página [page] de [toPage]')
+            ->setOption('footer-font-size', 7)
+            ->setOption('footer-left', 'Boletim Escolar')
+            ->setOption('footer-right', 'Emitido em: ' . Carbon::now()->format('d/m/Y') . '.');
+
+        return $pdf->stream("diario_classe_" . $matricula->id . ".pdf");
+    }
 }

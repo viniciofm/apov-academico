@@ -112,5 +112,7 @@
   "data_instituition": "Dados da Instituição",
   "matriculado" : "Matriculado",
   "cancelado" : "Cancelado",
-  "concluido" : "Concluído"
+  "concluido" : "Concluído",
+  "aprovado" : "Aprovado",
+  "reprovado" : "Reprovado"
 }

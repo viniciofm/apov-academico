@@ -4,6 +4,8 @@ namespace Modules\Content\Entities;
 
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Nota extends Model
 {
@@ -31,4 +33,11 @@ class Nota extends Model
 
     ];
 
+    /**
+     * @return BelongsTo
+     */
+    public function atividade(): BelongsTo
+    {
+        return $this->belongsTo(Atividade::class);
+    }
 }

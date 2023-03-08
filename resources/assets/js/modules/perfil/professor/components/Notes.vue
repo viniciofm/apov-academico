@@ -12,7 +12,7 @@
                         </div>
 
                         <Table :columns="columns">
-                            <tr v-for="(item, index) of payload.turma_disciplina.matriculas_turma" :key="item.id">
+                            <tr v-for="(item, index) of payload.turma_disciplina.matriculas_ativas_turma" :key="item.id">
                                 <td scope="col" class="text-center">
                                     {{ item.matricula.aluno.matricula }}
                                 </td>
@@ -120,7 +120,7 @@ export default {
                         //enviar apenas as notas e o id da atividade
                         // pegar o id da matricula e a nota
                         let notas = []
-                        me.payload.turma_disciplina.matriculas_turma.forEach(item => {
+                        me.payload.turma_disciplina.matriculas_ativas_turma.forEach(item => {
                             notas.push({'nota': item.nota_atividade.nota, 'matricula_id': item.matricula_id, 'id': item.nota_atividade ? item.nota_atividade.id : null })
                         })
 

@@ -60,6 +60,10 @@
                                             <a target="_blanck" :href="getRoute('relatorio.historico-' + (item.status != 'concluido' ? 'parcial' : 'final'), item.id)" class="btn col-md-4" title="Histórico para a Matrícula">
                                                 <i class="align-middle text-primary fa-solid fa-book-bookmark"></i>
                                             </a>
+
+                                            <a target="_blanck" :href="getRoute('relatorio.boletim', item.id)" class="btn col-md-4" title="Boletim para a Matrícula">
+                                                <i class="align-middle text-success fa-solid fa-clipboard-list"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

@@ -40,7 +40,7 @@ class ReportController extends Controller
      */
     public function historicoParcial(Matricula $matricula)
     {
-        return view('modules.report.historicoParcial')->with(array_merge(['matricula' => $matricula],$this->reportService->getDataByMatricula($matricula)));
+        return view('modules.report.historicoParcial')->with(array_merge(['matricula' => $matricula], $this->reportService->getDataByMatricula($matricula)));
     }
 
     /**
@@ -49,6 +49,15 @@ class ReportController extends Controller
      */
     public function historicoFinal(Matricula $matricula)
     {
-        return view('modules.report.historicoFinal')->with(array_merge(['matricula' => $matricula],$this->reportService->getDataByMatricula($matricula)));
+        return view('modules.report.historicoFinal')->with(array_merge(['matricula' => $matricula], $this->reportService->getDataByMatricula($matricula)));
+    }
+
+    /**
+     * @param  Matricula  $matricula
+     * @return Application|Factory|View
+     */
+    public function boletim(Matricula $matricula)
+    {
+        return view('modules.report.boletim')->with($this->reportService->getDataTurmaDisciplina(null, $matricula));
     }
 }

@@ -1,10 +1,16 @@
 <?php
 
-namespace App\Entities;
+// @formatter:off
+/**
+ * A helper file for your Eloquent Models
+ * Copy the phpDocs from this file to the correct Model,
+ * And remove them from this file, to prevent double declarations.
+ *
+ * @author Barry vd. Heuvel <barryvdh@gmail.com>
+ */
 
-use App\Traits\UsesUuid;
-use Illuminate\Database\Eloquent\Model;
 
+namespace App\Entities{
 /**
  * App\Entities\Menu
  *
@@ -31,33 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Menu whereTipoUsuarioId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Menu whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Menu whereUrl($value)
- * @mixin \Eloquent
  */
-class Menu extends Model
-{
-    use UsesUuid;
-
-    protected $primaryKey = 'id';
-
-    protected $table = 'menus';
-
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
-    /**
-     * @var array
-     */
-    protected $fillable = [
-        'id',
-        'position',
-        'nome',
-        'url',
-        'icon',
-        'tipo_usuario_id'
-    ];
-
-    protected $casts = [
-
-    ];
+	class Menu extends \Eloquent {}
 }
+

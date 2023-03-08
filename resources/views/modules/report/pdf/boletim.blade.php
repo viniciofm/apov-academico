@@ -4,6 +4,6 @@
 
 @section('content')
     <div>
-        @include('modules.report.components.historicoContent', array('typeDocument' => 'parcial', 'isPDF' => true))
+        @include('modules.report.components.boletimContent')
     </div>
 @endsection

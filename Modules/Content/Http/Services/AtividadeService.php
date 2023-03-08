@@ -7,8 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Content\Entities\Atividade;
+use Modules\Content\Entities\Nota;
+use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Content\Http\Repositories\AtividadeRepository;
-use function PHPUnit\Framework\at;
+use Modules\Student\Entities\TurmaDisciplinaMatricula;
 
 class AtividadeService extends Service
 {
@@ -107,17 +109,23 @@ class AtividadeService extends Service
      * @param  Atividade  $atividade
      * @return Atividade
      */
-    public function getStudentsByActivity(Atividade $atividade) : Atividade
+    public function getStudentsByActivity(Atividade $atividade) : array
     {
         $atividade = Atividade::with('turmaDisciplina.matriculasTurma.matricula.aluno.usuario')
             ->find($atividade->id)->makeHidden('aluno.telefone','aluno.data_nascimento','usuario.email','usuario.cpf_cnpj');
 
-        foreach ($atividade->turmaDisciplina->matriculasTurma as &$matricula){
+        $matriculas = $atividade->turmaDisciplina->matriculasTurma->where('matricula.status', '!=', 'cancelado');
+        foreach ($matriculas as &$matricula){
             $matricula->nota_atividade = $this->notaService->whereFunc(function ($q) use ($matricula, $atividade){
                     $q->where('matricula_id', $matricula->matricula_id)
                         ->where('atividade_id', $atividade->id);
             })->first() ?? [];
         }
+
+        $atividade = $atividade->toArray();
+        unset($atividade['turma_disciplina']['matriculas_turma']);
+
+        $atividade['turma_disciplina']['matriculas_ativas_turma'] = array_values($matriculas->toArray());
 
         return $atividade;
     }
@@ -138,6 +146,62 @@ class AtividadeService extends Service
             }
         }
 
+        //atualizar nota final dos alunos na turma
+        $this->updateNotasAlunos($atividade->turmaDisciplina);
+        //atualizar situação dos alunos na turma pela nota
+        $this->updateStatusAlunos($atividade->turmaDisciplina);
+
         return true;
+    }
+
+    /**
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @return void
+     */
+    public function updateNotasAlunos(TurmaDisciplina $turmaDisciplina)
+    {
+        //calcular nota dos alunos da turma
+        $notas = Nota::whereHas('atividade', function($q) use ($turmaDisciplina){
+            $q->where('turma_disciplina_id', $turmaDisciplina->id);
+        })->get();
+
+        $matriculasNotas = [];
+        foreach($notas as $nota){
+            if (!isset($matriculasNotas[$nota->matricula_id])){
+                $matriculasNotas[$nota->matricula_id] = 0.0;
+            }
+
+            $matriculasNotas[$nota->matricula_id] += $nota->nota;
+        }
+
+        foreach($turmaDisciplina->matriculasTurma as $matricula){
+            if (isset($matriculasNotas[$matricula->matricula_id])){
+                $matricula->nota_final = round($matriculasNotas[$matricula->matricula_id], 0);
+                $matricula->save();
+            }
+        }
+
+        //calcular alunos da turma pela frequência
+    }
+
+    /**
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @return void
+     */
+    public function updateStatusAlunos(TurmaDisciplina $turmaDisciplina)
+    {
+        //calcular alunos da turma pela nota
+        foreach($turmaDisciplina->matriculasTurma as $matricula){
+            if($matricula->nota_final >= 60){
+                $matricula->status = 'aprovado';
+            }else{
+                if ($matricula->status == 'aprovado'){
+                    $matricula->status = 'reprovado';
+                }
+            }
+            $matricula->save();
+        }
+
+        //calcular alunos da turma pela frequência
     }
 }

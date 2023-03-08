@@ -82,7 +82,7 @@
 
                             <tbody>
                             @foreach($matriculasTurma as $matriculaTurma)
-                                <tr>
+                                <tr class="{{ !isset($isPDF) && $matriculaTurma->status == 'reprovado' ? 'text-danger' : '' }}">
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->sigla }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->nome }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->carga_horaria }} </td>

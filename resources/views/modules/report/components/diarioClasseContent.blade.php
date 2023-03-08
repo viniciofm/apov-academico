@@ -65,12 +65,13 @@
                                         <td>Nota Final</td>
                                         <td>Faltas</td>
                                         <td>Frequência (%)</td>
+                                        <td>Situação</td>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     @foreach($matriculasTurma as $matriculaTurma)
-                                        <tr>
+                                        <tr class="{{ $matriculaTurma->status == 'reprovado' ? 'text-danger' : '' }}">
                                             <td> {{ sprintf('%04d', $matriculaTurma->matricula->aluno->matricula) }} </td>
                                             <td> {!! $matriculaTurma->matricula->aluno->usuario->nome !!} </td>
 
@@ -79,9 +80,10 @@
                                                 <td> {{ $nota ? number_format($nota->nota, 2, ',', '.') : '-' }} </td>
                                             @endforeach
 
-                                            <td> {!! number_format($matriculaTurma->nota, 2, ',', '.') !!} </td>
+                                            <td> {!! number_format($matriculaTurma->nota_final, 2, ',', '.') !!} </td>
                                             <td> {!! $matriculaTurma->faltas !!} </td>
-                                            <td> {!! number_format(($matriculaTurma->faltas > 0 ? (( $matriculaTurma->faltas * 100) / $numAulas) : 100), 2, ',', '.') !!} </td>
+                                            <td> {!! number_format(($matriculaTurma->faltas > 0 ? (( $matriculaTurma->faltas * 100) / count($turmaDisciplina->aulas)) : 100), 2, ',', '.') !!} </td>
+                                            <td> {{ __($matriculaTurma->status) }}
                                         </tr>
                                     @endforeach
                                 </tbody>

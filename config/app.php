@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Snappy\ServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
