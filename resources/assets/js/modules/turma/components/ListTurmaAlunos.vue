@@ -68,8 +68,10 @@ export default {
         turma: {},
         listStatus: {
             'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
-            'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'danger'},
-            'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'}
+            'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'warning'},
+            'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'},
+            'reprovado' : {codigo: 'reprovado', nome: 'Reprovado', color: 'danger'},
+            'reprovado_falta' : {codigo: 'reprovado_falta', nome: 'Reprovado por Falta', color: 'danger'},
         },
     }),
     props: [

@@ -114,5 +114,6 @@
   "cancelado" : "Cancelado",
   "concluido" : "Concluído",
   "aprovado" : "Aprovado",
-  "reprovado" : "Reprovado"
+  "reprovado" : "Reprovado",
+  "reprovado_falta" : "Reprovado por Falta"
 }

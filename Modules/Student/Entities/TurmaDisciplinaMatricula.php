@@ -32,7 +32,9 @@ class TurmaDisciplinaMatricula extends Model
         'turma_disciplina_id',
         'matricula_id',
         'nota_final',
-        'status'
+        'status',
+        'fatas',
+        'frequencia'
     ];
 
     protected $casts = [

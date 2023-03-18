@@ -26,7 +26,7 @@ class ReportService extends Service
             foreach($disciplinasMatricula as $disciplinaMatricula){
                 foreach($disciplinaMatricula->turmaDisciplina->aulas as $aula){
                     $falta = $aula->faltas->where('matricula_id', $matricula->id)->first();
-                    $disciplinaMatricula->faltas += $falta ? 1 : 0;
+//                    $disciplinaMatricula->faltas += $falta ? 1 : 0;
                 }
             }
 
@@ -37,7 +37,7 @@ class ReportService extends Service
         foreach ($matriculasTurma as $matriculaTurma){
             foreach($turmaDisciplina->aulas as $aula){
                 $falta = $aula->faltas->where('matricula_id', $matriculaTurma->matricula_id)->first();
-                $matriculaTurma->faltas += $falta ? 1 : 0;
+//                $matriculaTurma->faltas += $falta ? 1 : 0;
             }
         }
         return compact('turmaDisciplina' , 'matriculasTurma', 'matricula');

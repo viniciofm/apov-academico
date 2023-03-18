@@ -69,7 +69,7 @@
                                                 </thead>
 
                                                 <tbody>
-                                                    <tr class="{{ $discMatricula->status == 'reprovado' ? 'text-danger' : '' }}">
+                                                    <tr class="{{ in_array($discMatricula->status, ['reprovado', 'reprovado_falta']) ? 'text-danger' : '' }}">
                                                         @foreach($discMatricula->turmaDisciplina->atividades as $atividade)
                                                             @php $nota = $atividade->notas->where('matricula_id', $matricula->id)->first(); @endphp
                                                             <td> {{ $nota ? number_format($nota->nota, 2, ',', '.') : '-' }} </td>
@@ -77,7 +77,7 @@
 
                                                         <td> {!! number_format($discMatricula->nota_final, 2, ',', '.') !!} </td>
                                                         <td> {!! $discMatricula->faltas !!} </td>
-                                                        <td> {!! number_format(($discMatricula->faltas > 0 ? (( $discMatricula->faltas * 100) / count($discMatricula->turmaDisciplina->aulas)) : 100), 2, ',', '.') !!} </td>
+                                                        <td> {!! number_format($discMatricula->frequencia, 2, ',', '.') !!} </td>
                                                         <td> {{ __($discMatricula->status) }}
                                                     </tr>
                                                 </tbody>

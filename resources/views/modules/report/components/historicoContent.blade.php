@@ -87,7 +87,7 @@
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->nome }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->carga_horaria }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->turma->codigo }} </td>
-                                    <td> {!! number_format(($matriculaTurma->faltas > 0 ? (( $matriculaTurma->faltas * 100) / $matriculaTurma->numAulas) : 100), 2, ',', '.') !!} </td>
+                                    <td> {!! number_format($matriculaTurma->frequencia, 2, ',', '.') !!} </td>
                                     <td> {!! number_format($matriculaTurma->nota, 2, ',', '.') !!} </td>
                                     <td> {{ __($matriculaTurma->status) }}
                                 </tr>

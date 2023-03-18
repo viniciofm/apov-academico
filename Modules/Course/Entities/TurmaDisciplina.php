@@ -32,7 +32,8 @@ class TurmaDisciplina extends Model
         'id',
         'turma_id',
         'professor_id',
-        'disciplina_id'
+        'disciplina_id',
+        'ativo'
     ];
 
     protected $casts = [

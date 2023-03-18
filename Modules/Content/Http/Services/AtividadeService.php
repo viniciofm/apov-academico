@@ -10,6 +10,7 @@ use Modules\Content\Entities\Atividade;
 use Modules\Content\Entities\Nota;
 use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Content\Http\Repositories\AtividadeRepository;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Student\Entities\TurmaDisciplinaMatricula;
 
 class AtividadeService extends Service
@@ -146,10 +147,11 @@ class AtividadeService extends Service
             }
         }
 
-        //atualizar nota final dos alunos na turma
-        $this->updateNotasAlunos($atividade->turmaDisciplina);
-        //atualizar situação dos alunos na turma pela nota
-        $this->updateStatusAlunos($atividade->turmaDisciplina);
+        if (count($notas)) {
+            //atualizar nota final e situação dos alunos na turma
+            $this->updateNotasAlunos($atividade->turmaDisciplina);
+            TurmaDisciplinaService::updateStatusAlunos($atividade->turmaDisciplina);
+        }
 
         return true;
     }
@@ -180,28 +182,5 @@ class AtividadeService extends Service
                 $matricula->save();
             }
         }
-
-        //calcular alunos da turma pela frequência
-    }
-
-    /**
-     * @param  TurmaDisciplina  $turmaDisciplina
-     * @return void
-     */
-    public function updateStatusAlunos(TurmaDisciplina $turmaDisciplina)
-    {
-        //calcular alunos da turma pela nota
-        foreach($turmaDisciplina->matriculasTurma as $matricula){
-            if($matricula->nota_final >= 60){
-                $matricula->status = 'aprovado';
-            }else{
-                if ($matricula->status == 'aprovado'){
-                    $matricula->status = 'reprovado';
-                }
-            }
-            $matricula->save();
-        }
-
-        //calcular alunos da turma pela frequência
     }
 }

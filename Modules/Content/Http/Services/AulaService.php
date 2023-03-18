@@ -12,6 +12,7 @@ use Modules\Content\Entities\Aula;
 use Modules\Content\Entities\Nota;
 use Modules\Content\Http\Repositories\AulaRepository;
 use Modules\Course\Entities\TurmaDisciplina;
+use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Student\Entities\Aluno;
 use Modules\Student\Entities\TurmaDisciplinaMatricula;
 
@@ -129,6 +130,32 @@ class AulaService extends Service
             }
         }
 
+        if (count($faltas)){
+            //atualizar frequência e situação dos alunos na turma pelas presenças/faltas
+            $this->updateFrequenciaAlunos($turmaDisciplina);
+            TurmaDisciplinaService::updateStatusAlunos($turmaDisciplina);
+        }
+
         return true;
+    }
+
+    /**
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @return void
+     */
+    public function updateFrequenciaAlunos(TurmaDisciplina $turmaDisciplina)
+    {
+        //calcular frequência dos alunos da turma
+        foreach ($turmaDisciplina->matriculasTurma as $matriculaTurma){
+            $aulas = $turmaDisciplina->aulas;
+            $matriculaTurma->faltas = 0;
+            foreach($aulas as $aula){
+                $falta = $aula->faltas->where('matricula_id', $matriculaTurma->matricula_id)->first();
+                $matriculaTurma->faltas += $falta ? 1 : 0;
+            }
+            $matriculaTurma->frequencia = $matriculaTurma->faltas > 0 ? (100 - ($matriculaTurma->faltas * 100) / count($aulas)) : 100;
+
+            $matriculaTurma->save();
+        }
     }
 }

@@ -82,7 +82,7 @@
 
                                             <td> {!! number_format($matriculaTurma->nota_final, 2, ',', '.') !!} </td>
                                             <td> {!! $matriculaTurma->faltas !!} </td>
-                                            <td> {!! number_format(($matriculaTurma->faltas > 0 ? (( $matriculaTurma->faltas * 100) / count($turmaDisciplina->aulas)) : 100), 2, ',', '.') !!} </td>
+                                            <td> {!! number_format($matriculaTurma->frequencia, 2, ',', '.') !!} </td>
                                             <td> {{ __($matriculaTurma->status) }}
                                         </tr>
                                     @endforeach
