@@ -82,7 +82,7 @@
                             <div v-show="errors.has('password')" class="text-danger" style="">{{ errors.first('password') }}</div>
                         </div>
 
-                        <div v-if="(payload.tipo_usuario && payload.tipo_usuario.nome == 'admin')"
+                        <div v-if="(!id && !editUser) || (payload.tipo_usuario && payload.tipo_usuario.nome == 'admin')"
                               class="mb-3 col-lg-3 col-md-3 col-sm-12">
                             <label for="consulta">Apenas consulta?</label>
                             <div class="form-check form-switch mt-1">

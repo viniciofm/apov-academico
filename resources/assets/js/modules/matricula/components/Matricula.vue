@@ -211,6 +211,7 @@ export default {
                 data => {
                     this.grades = data;
                     this.payload.grade_id = '';
+                    this.disciplinas = {};
                 }
             ).then(() => {
                 this.isLoading = false;
@@ -230,6 +231,7 @@ export default {
                 data => {
                     this.turmas = data;
                     this.payload.turma_id = '';
+                    this.disciplinas = {};
                 }
             ).then(() => {
                 this.isLoading = false;
@@ -248,6 +250,7 @@ export default {
             submit(route('admin.curso.all'), {}, 'GET').then(
                 data => {
                     this.cursos = data;
+                    this.disciplinas = {};
                 }
             ).then(() => {
                 this.isLoading = false;

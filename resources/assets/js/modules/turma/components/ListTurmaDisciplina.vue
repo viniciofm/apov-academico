@@ -34,18 +34,27 @@
                                     <td scope="col" class="text-center">
                                         <div class="row">
                                             <router-link :to="{name: `${routeCreate}.alunos`, params: { 'turma_disciplina_id': item.id, 'turma_id': item.turma_id }}"
-                                                         class="btn col-md-4" title="Alunos da Disciplina">
+                                                         class="btn col-md-3" title="Alunos da Disciplina">
                                                 <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
 
-                                            <a target="_blanck" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
+                                            <a target="_blank" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.id)" class="btn col-md-3" title="Diário de Classe para a Turma/Disciplina">
                                                 <i class="align-middle text-primary fa-solid fa-book"></i>
                                             </a>
 
                                             <button  v-on:click='openTheModalProfessor(item)'
-                                                         class="btn col-md-4" title="Editar Professor">
+                                                         class="btn col-md-3" title="Editar Professor">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </button>
+
+                                            <button v-can="'can-update'" v-on:click="updateStatus(item)"
+                                                    class="btn col-md-3" :title="(item.ativo ? 'Desativar' : 'Ativar')">
+                                                <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
+                                            </button>
+                                            <label v-can="'can-only-select'"
+                                                   class="col-md-3" :title="(item.ativo ? 'Ativo' : 'Desativado')">
+                                                <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
+                                            </label>
                                         </div>
                                     </td>
                                 </tr>
@@ -125,6 +134,42 @@ export default {
         dateFormat(value) {
             let date = new Date(value);
             return date.toLocaleDateString();
+        },
+        updateStatus(item){
+            let me = this;
+            let ativo = item.ativo ? 0 : 1;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente alterar o status da turma disciplina ' + item.disciplina.sigla + ' para ' + (ativo ? 'ativo' : 'inativo') + '?'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        toSeek(route('admin.turma.disciplina.active', {'turmaDisciplina': item.id, 'active': ativo})).then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getData();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            me.isLoading = false
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
         },
         getData(page = 1) {
             this.isLoading = true;

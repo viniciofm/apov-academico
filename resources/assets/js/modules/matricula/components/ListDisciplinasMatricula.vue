@@ -38,7 +38,7 @@
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
                                     <td scope="col" class="text-center">
                                         <div class="row">
-                                            <a target="_blanck" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.turma_disciplina.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
+                                            <a target="_blank" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.turma_disciplina.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
                                                 <i class="align-middle text-primary fa-solid fa-book"></i>
                                             </a>
 

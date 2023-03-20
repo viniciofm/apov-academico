@@ -82,4 +82,30 @@ class TurmaDisciplinaController extends Controller
             'registro' => $turmaDisciplina,
         ], 201);
     }
+
+    /**
+     * @param  TurmaDisciplina  $turmaDisciplina
+     * @param  bool  $active
+     * @return JsonResponse
+     */
+    public function active(TurmaDisciplina $turmaDisciplina,bool $active) : JsonResponse
+    {
+        try{
+            $data = $this->service->activeObject($turmaDisciplina, $active);
+            if (!$data) {
+                throw new \Exception('Não foi possível '.($active?'ativar':'desativar').' a turma disciplina');
+            }
+
+            //atualizar status dos alunos em caso de inativação (conclusão) da turma disciplina
+            TurmaDisciplinaService::updateStatusAlunos($turmaDisciplina);
+        } catch (\Exception $e){
+            return \response()->json(['message' => $e->getMessage()], $e->getCode() !== 0 ? $e->getCode() : 500 );
+        }
+        return \response()->json([
+            'data' => [
+                'success' => true,
+                'message' => 'Turma disciplina '.($active ? 'ativada' : 'desativada').' com sucesso!'
+            ]
+        ], 201);
+    }
 }

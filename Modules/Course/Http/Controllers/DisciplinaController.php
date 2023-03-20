@@ -144,7 +144,7 @@ class DisciplinaController extends Controller
         try {
             $data = $this->service->whereFunc(function($q) use ($turma) {
                 $q->whereHas('turmaDisciplinas', function($qq) use ($turma) {
-                    $qq->where('turma_id', $turma->id);
+                    $qq->where('turma_id', $turma->id)->where('ativo', true);
                 });
             });
 

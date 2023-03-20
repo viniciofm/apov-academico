@@ -76,20 +76,24 @@
                                 <td>Turma</td>
                                 <td>Frequência (%)</td>
                                 <td>Nota</td>
-                                <td>Situação</td>
+                                @if($matricula->status != 'cancelado')
+                                    <td>Situação</td>
+                                @endif
                             </tr>
                             </thead>
 
                             <tbody>
                             @foreach($matriculasTurma as $matriculaTurma)
-                                <tr class="{{ !isset($isPDF) && $matriculaTurma->status == 'reprovado' ? 'text-danger' : '' }}">
+                                <tr class="{{ !isset($isPDF) && in_array($matriculaTurma->status, ['reprovado', 'reprovado_falta']) ? 'text-danger' : '' }}">
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->sigla }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->nome }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->carga_horaria }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->turma->codigo }} </td>
                                     <td> {!! number_format($matriculaTurma->frequencia, 2, ',', '.') !!} </td>
                                     <td> {!! number_format($matriculaTurma->nota, 2, ',', '.') !!} </td>
-                                    <td> {{ __($matriculaTurma->status) }}
+                                    @if($matricula->status != 'cancelado')
+                                        <td> {{ __($matriculaTurma->status) }}
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
@@ -110,20 +114,23 @@
                         </div>
                     </div>
 
-                    <div class="row mt-4">
-                        <div style="text-align: right;margin-top: 60px;" class="col-md-12">
-                            {{ setlocale(LC_ALL, 'pt_BR.UTF-8') }}
-                            {{ Illuminate\Support\Facades\Auth::user()->instituicao->endereco->cidade->nome }},
-                                {{ now()->format('d') }} de {{  now()->locale('pt-BR')->translatedFormat('F') }} de {{ now()->format('Y') }}.
+                    @if(Auth::user()->tipo_usuario->nome == 'admin')
+                        <div class="row mt-4">
+                            <div style="text-align: right;margin-top: 60px;" class="col-md-12">
+                                {{ setlocale(LC_ALL, 'pt_BR.UTF-8') }}
+                                {{ Illuminate\Support\Facades\Auth::user()->instituicao->endereco->cidade->nome }},
+                                    {{ now()->format('d') }} de {{  now()->locale('pt-BR')->translatedFormat('F') }} de {{ now()->format('Y') }}.
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mt-4">
-                        <div style="text-align: center; margin-top: 60px;" class="col-md-12">
-                            <hr style="color: black; margin: 1px auto;height: 1px;width: 50%;" class="">
-                            <label style="">Assinatura do Responsável</label>
+
+                        <div class="row mt-4">
+                            <div style="text-align: center; margin-top: 60px;" class="col-md-12">
+                                <hr style="color: black; margin: 1px auto;height: 1px;width: 50%;" class="">
+                                <label style="">Assinatura do Responsável</label>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>

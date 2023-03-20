@@ -75,20 +75,20 @@
                                     <td scope="col" class="text-center">
                                         <div class="row">
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'matricula_id': item.id }}"
-                                                         class="btn col-md-4" title="Disciplinas da matrícula">
+                                                         class="btn col-md-3" title="Disciplinas da matrícula">
                                                 <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
                                             </router-link>
 
-                                            <a target="_blanck" :href="getRoute('relatorio.historico-' + (item.status != 'concluido' ? 'parcial' : 'final'), item.id)" class="btn col-md-4" title="Histórico para a Matrícula">
+                                            <a target="_blank" :href="getRoute('relatorio.historico-' + (item.status != 'concluido' ? 'parcial' : 'final'), item.id)" class="btn col-md-3" title="Histórico para a Matrícula">
                                                 <i class="align-middle text-primary fa-solid fa-book-bookmark"></i>
                                             </a>
 
-                                            <a target="_blanck" :href="getRoute('relatorio.boletim', item.id)" class="btn col-md-4" title="Boletim para a Matrícula">
+                                            <a target="_blank" :href="getRoute('relatorio.boletim', item.id)" class="btn col-md-3" title="Boletim para a Matrícula">
                                                 <i class="align-middle text-success fa-solid fa-clipboard-list"></i>
                                             </a>
 
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'matricula_id': item.id }}"
-                                                         class="btn col-md-4" title="Editar">
+                                                         class="btn col-md-3" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
                                         </div>

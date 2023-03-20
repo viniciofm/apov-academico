@@ -71,7 +71,7 @@
 
                                 <tbody>
                                     @foreach($matriculasTurma as $matriculaTurma)
-                                        <tr class="{{ $matriculaTurma->status == 'reprovado' ? 'text-danger' : '' }}">
+                                        <tr class="{{ in_array($matriculaTurma->status, ['reprovado', 'reprovado_falta']) ? 'text-danger' : '' }}">
                                             <td> {{ sprintf('%04d', $matriculaTurma->matricula->aluno->matricula) }} </td>
                                             <td> {!! $matriculaTurma->matricula->aluno->usuario->nome !!} </td>
 

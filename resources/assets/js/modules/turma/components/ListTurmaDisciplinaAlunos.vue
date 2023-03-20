@@ -29,9 +29,6 @@
                                         {{ item.matricula.aluno.usuario.nome }}
                                     </td>
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
-                                    <td scope="col" class="text-center">
-                                        //remover aluno
-                                    </td>
                                 </tr>
                             </template>
 
@@ -63,7 +60,7 @@ export default {
     data: () => ({
         search: {},
         dataPaginate: {},
-        columns: ['Matrícula', 'Aluno', 'Status na Disciplina', 'Ações'],
+        columns: ['Matrícula', 'Aluno', 'Status na Disciplina'],
         isLoading: false,
         routeCreate:'turma.disciplines',
         turmaDisciplina: {},

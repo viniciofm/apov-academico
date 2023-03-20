@@ -67,7 +67,7 @@
                                                 <i class="align-middle text-warning fas fa-fw fa-list"></i>
                                             </router-link>
 
-                                            <a target="_blanck" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.id)" class="btn col-md-4" title="Diário de Classe para a Turma/Disciplina">
+                                            <a target="_blank" :href="getRoute('relatorio.diario-classe.turma-disciplina', item.id)" class="btn col-md-3" title="Diário de Classe para a Turma/Disciplina">
                                                 <i class="align-middle text-primary fa-solid fa-book"></i>
                                             </a>
                                         </div>

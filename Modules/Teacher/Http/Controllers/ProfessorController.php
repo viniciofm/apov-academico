@@ -201,7 +201,7 @@ class ProfessorController extends Controller
                 'paginate' => $request['paginate'] === "true",
                 'perPage' => $request['perPage'],
                 'page' => $request['page'],
-                'search' => array_merge(json_decode($request['search'], true),['professor_id' => Auth::user()->professor->id]),
+                'search' => array_merge(json_decode($request['search'], true),['professor_id' => Auth::user()->professor->id, 'ativo' => true]),
             ]);
 
             return \response()->json($data, 200);

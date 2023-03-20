@@ -23,13 +23,25 @@ class TurmaDisciplinaService extends Service
             //calcular alunos da turma pela nota
             if($matricula->nota_final >= 60){
                 $matricula->status = 'aprovado';
-            }elseif ($matricula->status == 'aprovado' || !$turmaDisciplina->ativo){
+            }elseif (!$turmaDisciplina->ativo){
                 $matricula->status = 'reprovado';
+            }elseif($turmaDisciplina->ativo){
+                $matricula->status = 'matriculado';
             }
 
             //calcular alunos da turma pela frequência
-            if($matricula->frequencia < 25 && $matricula->nota_final >= 60){
+            if(!$turmaDisciplina->ativo && $matricula->frequencia < 25 && $matricula->nota_final >= 60){
                 $matricula->status = 'reprovado_falta';
+            }
+
+            if (!$turmaDisciplina->ativo){
+                if (empty($matricula->nota_final)){
+                    $matricula->nota_final = 0;
+                }
+
+                if (empty($matricula->frequencia)){
+                    $matricula->frequencia = 0;
+                }
             }
 
             $matricula->save();
