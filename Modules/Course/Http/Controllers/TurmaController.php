@@ -161,6 +161,28 @@ class TurmaController extends Controller
     }
 
     /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function delete(Request $request): JsonResponse
+    {
+        try {
+            $registro = $this->service->find($request->id);
+            $data = $this->service->remove($registro);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível remover o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Turma removida!'
+        ], 201);
+    }
+
+    /**
      * @param  Turma  $turma
      * @param  bool  $active
      * @return JsonResponse

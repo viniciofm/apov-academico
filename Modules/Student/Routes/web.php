@@ -31,6 +31,7 @@ Route::prefix('admin/matricula')->name('admin.matricula.')->middleware(['auth'])
     Route::post('/get-alunos', 'MatriculaController@getAlunos')->name('get-alunos');
     Route::post('/disciplinas/store', 'MatriculaController@storeDisciplinas')->name('store-disciplinas');
     Route::delete('/disciplinas/delete', 'MatriculaController@deleteDisciplina')->name('delete-disciplina');
+    Route::get('/imprimir', 'ReportController@exportData')->name('imprimir');
 });
 
 Route::prefix('aluno')->name('aluno.')->middleware(['auth'])->group(function() {

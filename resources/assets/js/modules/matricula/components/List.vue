@@ -11,6 +11,7 @@
                             :data-paginate="dataPaginate"
                             :columns="columns"
                             :allow-search="true"
+                            :allow-export="true"
                             :routeCreate="routeCreate"
                             @getData="getData"
                             :withFilters="true">

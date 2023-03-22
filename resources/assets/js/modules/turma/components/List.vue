@@ -57,25 +57,29 @@
                                     <td scope="col" class="text-center">
                                         <div class="row">
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-3" title="Disciplinas da Turma">
+                                                         class="btn col-md-2" title="Disciplinas da Turma">
                                                 <i class="align-middle fas fa-fw fa-list"></i>
                                             </router-link>
                                             <router-link :to="{name: `${routeCreate}.alunos`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-3" title="Alunos da Turma">
+                                                         class="btn col-md-2" title="Alunos da Turma">
                                                 <i class="align-middle text-secondary fas fa-fw fa-rectangle-list"></i>
                                             </router-link>
                                             <button v-can="'can-update'" v-on:click="updateStatus(item)"
-                                                    class="btn col-md-3" :title="(item.ativo ? 'Desativar' : 'Ativar')">
+                                                    class="btn col-md-2" :title="(item.ativo ? 'Desativar' : 'Ativar')">
                                                 <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
                                             </button>
                                             <router-link v-can="'can-update'" :to="{name: `${routeCreate}.edit`, params: { 'turma_id': item.id }}"
-                                                         class="btn col-md-3" title="Editar">
+                                                         class="btn col-md-2" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
                                             <label v-can="'can-only-select'"
-                                                   class="col-md-4" :title="(item.ativo ? 'Ativo' : 'Desativado')">
+                                                   class="col-md-2" :title="(item.ativo ? 'Ativo' : 'Desativado')">
                                                 <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
                                             </label>
+                                            <button v-can="'can-update'" v-on:click="remover(item)"
+                                                    class="btn col-md-2" :title="'Remover turma'">
+                                                <i :class="'align-middle fas fa-fw text-danger fa-trash'"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -121,6 +125,41 @@ export default {
     },
 
     methods: {
+        remover(item){
+            let me = this;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente remover a turma ' + item.codigo + '? Está ação não poderá ser desfeita!'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        submit(route('admin.turma.delete'), {'id': item.id}, 'DELETE').then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getData();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            this.isLoading = false;
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
+        },
         updateStatus(item){
             let me = this;
             let ativo = item.ativo ? 0 : 1;

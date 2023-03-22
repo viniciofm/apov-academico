@@ -5,11 +5,13 @@ namespace Modules\Course\Entities;
 use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Entities\Endereco;
 
 class Grade extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 

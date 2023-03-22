@@ -6,11 +6,13 @@ use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Instituition\Entities\Instituicao;
 
 class Curso extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 

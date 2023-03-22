@@ -51,6 +51,7 @@ Route::prefix('admin/turma')->name('admin.turma.')->middleware(['auth'])->group(
     Route::post('/update/{turma}', 'TurmaController@update')->name('update');
     Route::get('/get-by-id/{turma}', 'TurmaController@getById')->name('get-by-id');
     Route::get('/active/{turma}/{active}', 'TurmaController@active')->name('active');
+    Route::delete('/delete', 'TurmaController@delete')->name('delete');
 
     Route::prefix('disciplina')->name('disciplina.')->group(function () {
         Route::post('/get', 'TurmaDisciplinaController@get')->name('get');

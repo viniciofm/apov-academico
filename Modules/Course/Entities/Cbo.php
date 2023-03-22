@@ -6,11 +6,13 @@ use App\Scopes\ActivedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
 
 class Cbo extends Model
 {
     use UsesUuid;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
 

@@ -21,17 +21,27 @@
                                             <span>{{ textCreate ? textCreate : 'Adicionar Novo' }}</span>
                                         </span>
                                     </router-link>
+
+                                    <button v-if="allowExport" v-on:click="exportData()"
+                                         type="button" title="Exportar resultados" class="btn btn-info text-white">
+                                        <span>
+                                            <i class="fa fa-file-pdf"></i>
+                                            <span>Exportar</span>
+                                        </span>
+                                    </button>
                                 </div>
                                 <div class="collapse" id="filtro" style="">
-                                    <div class="col-md-12 mt-3 row">
-                                        <slot name="filters"></slot>
-                                        <div class="form-group col-lg-1 col-md-1 col-sm-6">
-                                            <span>&nbsp;</span>
-                                            <button @click.prevent="getData" class="btn btn-primary">
-                                                <i class="fa fa-search" aria-hidden="true"></i>Buscar
-                                            </button>
+                                    <form class="row" id="frmExportData" method="GET" action="/admin/matricula/imprimir" target="_blank">
+                                        <div class="col-md-12 mt-3 row">
+                                            <slot name="filters"></slot>
+                                            <div class="form-group col-lg-1 col-md-1 col-sm-6">
+                                                <span>&nbsp;</span>
+                                                <button @click.prevent="getData" class="btn btn-primary">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>Buscar
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -176,11 +186,16 @@ export default {
         showOrCloseExplanations(value) {
             this.explanations = value
         },
-
-
+        exportData(){
+            $('#frmExportData').submit();
+        }
     },
     props: {
         allowSearch: {
+            type: Boolean,
+            default: false
+        },
+        allowExport: {
             type: Boolean,
             default: false
         },
