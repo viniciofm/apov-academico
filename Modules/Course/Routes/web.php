@@ -30,6 +30,7 @@ Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(
         Route::post('/update/{grade}', 'GradeController@update')->name('update');
         Route::get('/active/{grade}/{active}', 'GradeController@active')->name('active');
         Route::get('/get-by-id/{grade}', 'GradeController@getById')->name('get-by-id');
+        Route::delete('/delete', 'GradeController@delete')->name('delete');
 
         Route::prefix('disciplina')->name('disciplina.')->group(function () {
             Route::get('/all-by-turma/{turma}', 'DisciplinaController@allByTurma')->name('all-by-turma');
@@ -38,6 +39,7 @@ Route::prefix('admin/curso')->name('admin.curso.')->middleware(['auth'])->group(
             Route::post('/get', 'DisciplinaController@get')->name('get');
             Route::get('/edit/{disciplina}', 'DisciplinaController@edit')->name('edit');
             Route::post('/update/{disciplina}', 'DisciplinaController@update')->name('update');
+            Route::delete('/delete', 'DisciplinaController@delete')->name('delete');
         });
     });
 });

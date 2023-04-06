@@ -38,7 +38,10 @@
                                                          class="btn col-md-4" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
-                                            </router-link>
+                                            <button v-can="'can-update'" v-on:click="remover(item)"
+                                                    class="btn col-md-3" :title="'Remover disciplina'">
+                                                <i :class="'align-middle fas fa-fw text-danger fa-trash'"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -96,6 +99,41 @@ export default {
         dateFormat(value) {
             let date = new Date(value);
             return date.toLocaleDateString();
+        },
+        remover(item){
+            let me = this;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente remover a disciplina ' + item.sigla + '?'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        submit(route('admin.curso.grade.disciplina.delete'), {'id': item.id}, 'DELETE').then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getData();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            this.isLoading = false;
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
         },
         getData(page = 1) {
             this.isLoading = true;

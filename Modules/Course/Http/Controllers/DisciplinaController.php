@@ -105,6 +105,34 @@ class DisciplinaController extends Controller
      * @param  Request  $request
      * @return JsonResponse
      */
+    public function delete(Request $request): JsonResponse
+    {
+        try {
+            $registro = $this->service->find($request->id);
+
+            //checa se existem turmas vinculadas com a disciplina
+            if(count($registro->turmaDisciplinas)){
+                throw new \Exception('Não é possível remover essa disciplina. Existem ' . count($registro->turmaDisciplinas) . ' turma(s) vinculada(s).');
+            }
+
+            $data = $this->service->remove($registro);
+
+            if (!$data) {
+                throw new \Exception('Não foi possível remover o item!');
+            }
+        } catch (\Exception $e) {
+            return \response()->json(['message' => $e->getMessage()], 500);
+        }
+        return \response()->json([
+            'success' => true,
+            'message' => 'Disciplina removida!'
+        ], 201);
+    }
+
+    /**
+     * @param  Request  $request
+     * @return JsonResponse
+     */
     public function get(Request $request): JsonResponse
     {
         try {

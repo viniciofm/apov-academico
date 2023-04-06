@@ -42,6 +42,11 @@ class Grade extends Model
         return $this->belongsTo(Curso::class);
     }
 
+    public function disciplinas()
+    {
+        return $this->hasMany(Disciplina::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

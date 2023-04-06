@@ -35,17 +35,21 @@
                                     <td scope="col" class="text-center">
                                         <div class="row">
                                             <router-link :to="{name: `${routeCreate}.disciplines`, params: { 'curso_id': curso_id, 'grade_id': item.id }}"
-                                                         class="btn col-md-4" title="Disciplinas da Grade">
+                                                         class="btn col-md-3" title="Disciplinas da Grade">
                                                 <i class="align-middle text-warning fas fa-fw fa-list-ul"></i>
                                             </router-link>
                                             <router-link :to="{name: `${routeCreate}.edit`, params: { 'curso_id': curso_id, 'grade_id': item.id }}"
-                                                         class="btn col-md-4" title="Editar">
+                                                         class="btn col-md-3" title="Editar">
                                                 <i class="align-middle fas fa-fw fa-pen"></i>
                                             </router-link>
                                             <label v-can="'can-only-select'"
-                                                         class="col-md-4" :title="(item.ativo ? 'Ativo' : 'Desativado')">
+                                                         class="col-md-3" :title="(item.ativo ? 'Ativo' : 'Desativado')">
                                                 <i :class="'align-middle fas fa-fw ' + (item.ativo ? 'text-success ' : 'text-danger ') + (item.ativo ? 'fa-check-circle' : 'fa-times-circle')"></i>
                                             </label>
+                                            <button v-can="'can-update'" v-on:click="remover(item)"
+                                                    class="btn col-md-3" :title="'Remover grade'">
+                                                <i :class="'align-middle fas fa-fw text-danger fa-trash'"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -126,6 +130,41 @@ export default {
                             }
                         ).then(() => {
                             me.isLoading = false
+                        }).catch(error => {
+                            me.$emit('showError', error)
+                            me.isLoading = false;
+                        });
+                    })
+                }
+            });
+        },
+        remover(item){
+            let me = this;
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Confirmação',
+                html: ('Deseja realmente remover a grade ' + item.codigo + '?'),
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Não',
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                allowEscapeKey: false,
+                preConfirm: () => {
+                    return new Promise(() => {
+                        me.isLoading = true;
+                        submit(route('admin.curso.grade.delete'), {'id': item.id}, 'DELETE').then(
+                            data => {
+                                if(data.success){
+                                    me.$emit('showMessage', data.message)
+                                    me.getData();
+                                }else{
+                                    me.isLoading = false
+                                }
+                            }
+                        ).then(() => {
+                            this.isLoading = false;
                         }).catch(error => {
                             me.$emit('showError', error)
                             me.isLoading = false;
