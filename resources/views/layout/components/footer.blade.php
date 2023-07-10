@@ -17,7 +17,7 @@
                     </li>
 
                     <li class="list-inline-item">
-                        <a class="text-muted text-italic" href="<?php echo env('APP_URL'); ?>" title="Versão do sistema" target="_blank"> Versão: 23/06/2022 - 15:00:00  </a>
+                        <a class="text-muted text-italic" href="<?php echo env('APP_URL'); ?>" title="Versão do sistema" target="_blank"> Versão: 06/2023  </a>
                     </li>
                 </ul>
             </div>
