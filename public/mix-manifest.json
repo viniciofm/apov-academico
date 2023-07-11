@@ -1,0 +1,18 @@
+{
+    "/dist/js/empresa/main.js": "/dist/js/empresa/main.js",
+    "/dist/js/instituicao/main.js": "/dist/js/instituicao/main.js",
+    "/dist/js/professor/main.js": "/dist/js/professor/main.js",
+    "/dist/js/curso/main.js": "/dist/js/curso/main.js",
+    "/dist/js/turma/main.js": "/dist/js/turma/main.js",
+    "/dist/js/matricula/main.js": "/dist/js/matricula/main.js",
+    "/dist/js/aluno/main.js": "/dist/js/aluno/main.js",
+    "/dist/js/usuario/main.js": "/dist/js/usuario/main.js",
+    "/dist/js/perfil/aluno/main.js": "/dist/js/perfil/aluno/main.js",
+    "/dist/js/perfil/professor/main.js": "/dist/js/perfil/professor/main.js",
+    "/dist/js/perfil/empresa/main.js": "/dist/js/perfil/empresa/main.js",
+    "/dist/js/perfil/empresa_aluno/main.js": "/dist/js/perfil/empresa_aluno/main.js",
+    "/dist/css/app.css": "/dist/css/app.css",
+    "/js/app.js": "/js/app.js",
+    "/js/bootstrap.js": "/js/bootstrap.js",
+    "/js/pace.min.js": "/js/pace.min.js"
+}
