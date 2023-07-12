@@ -14,7 +14,6 @@ use Modules\Teacher\Entities\Professor;
 
 class User extends Authenticatable
 {
-    use App\Notifications\ResetPassword;
     use HasApiTokens, HasFactory, Notifiable;
 
     use UsesUuid;
