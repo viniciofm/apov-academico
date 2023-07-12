@@ -2,6 +2,7 @@
 
 namespace Modules\User\Entities;
 
+use App\Notifications\ResetPassword;
 use App\Scopes\BlockedScope;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,7 @@ use Modules\Teacher\Entities\Professor;
 
 class User extends Authenticatable
 {
+    use App\Notifications\ResetPassword;
     use HasApiTokens, HasFactory, Notifiable;
 
     use UsesUuid;
@@ -100,5 +102,15 @@ class User extends Authenticatable
         parent::boot();
 
         static::addGlobalScope(new BlockedScope());
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token, $this->username()));
     }
 }

@@ -10,7 +10,7 @@
             </div>
             <div class="col-5 text-end">
                 <p class="mb-0">
-                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/viniciofm" target="_blank" class="text-muted">Desenvolvido para APOV, por Vinício F. Mendes</a>
+                    <i class="fa-brands fa-rebel"></i> {{now()->year}} - <a href="https://github.com/viniciofm" target="_blank" class="text-muted">Desenvolvido por Vinício F. Mendes</a>
                 </p>
             </div>
         </div>
