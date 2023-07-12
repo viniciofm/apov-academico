@@ -13,6 +13,7 @@ use Modules\Course\Http\Services\ReportService;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Student\Entities\Matricula;
 use Modules\Student\Http\Services\MatriculaService;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
@@ -31,10 +32,10 @@ class ReportController extends Controller
     }
 
     /**
-     * @param  TurmaDisciplina  $turmaDisciplina
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @param  Request  $request
+     * @return StreamedResponse
      */
-    public function exportData(Request $request)
+    public function exportData(Request $request): StreamedResponse
     {
         $request = $request->all();
         $data = $this->matriculaService->get([

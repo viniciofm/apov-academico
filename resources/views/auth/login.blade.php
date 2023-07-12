@@ -3,8 +3,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Modern, flexible and responsive Bootstrap 5 admin &amp; dashboard template">
-    <meta name="author" content="Bootlab">
+    <meta name="description" content="Jovem Aprendiz - Sistema Acadêmico">
+    <meta name="author" content="viniciofm">
 
     <title>{{__('login')}} | APOV</title>
 

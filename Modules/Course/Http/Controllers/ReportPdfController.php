@@ -11,6 +11,7 @@ use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Services\ReportService;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Student\Entities\Matricula;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportPdfController extends Controller
 {
@@ -30,9 +31,9 @@ class ReportPdfController extends Controller
 
     /**
      * @param  TurmaDisciplina  $turmaDisciplina
-     * @return Application|Factory|View
+     * @return StreamedResponse
      */
-    public function diarioClasse(TurmaDisciplina $turmaDisciplina)
+    public function diarioClasse(TurmaDisciplina $turmaDisciplina): StreamedResponse
     {
         $pdf = \PDF::LoadView('modules.report.pdf.diarioClasse', $this->reportService->getDataTurmaDisciplina($turmaDisciplina));
         $pdf->setPaper('a4')
@@ -102,9 +103,9 @@ class ReportPdfController extends Controller
 
     /**
      * @param  Matricula  $matricula
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return StreamedResponse
      */
-    public function boletim(Matricula $matricula)
+    public function boletim(Matricula $matricula): StreamedResponse
     {
         $pdf = \PDF::LoadView('modules.report.pdf.boletim', $this->reportService->getDataTurmaDisciplina(null, $matricula));
         $pdf->setPaper('a4')
