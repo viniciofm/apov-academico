@@ -53,7 +53,6 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from(env('MAIL_FROM_ADDRESS'), 'AppName')
             ->subject(trans('general.reset_password_subject'))
             ->greeting(trans('general.reset_password_greeting', ['username' => $this->username]))
             ->line(trans('general.reset_password_line1'))
