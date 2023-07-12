@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware(['auth']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::prefix('api')->name('api.')->namespace('App\Http\Controllers')->middleware(['auth'])->group(function() {
     Route::get('/cidades/get', 'ApiController@getCidades')->name('cidades.get');
     Route::get('/generos/get', 'ApiController@getGeneros')->name('generos.get');
