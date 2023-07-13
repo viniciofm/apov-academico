@@ -53,10 +53,11 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(trans('general.reset_password_subject'))
-            ->greeting(trans('general.reset_password_greeting', ['username' => $this->username]))
-            ->line(trans('general.reset_password_line1'))
-            ->action(trans('general.reset_password'), url('password/reset', $this->token))
-            ->line(trans('general.reset_password_line2'));
+            ->subject('Redefinição de Senha')
+            ->greeting('Olá, ' . $this->username)
+            ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para a sua conta.')
+            ->action('Redefinir Senha', url('password/reset', $this->token))
+            ->line('Esse link de redefinição de senha expirará em ' . config('auth.passwords.'.config('auth.defaults.passwords').'.expire') . ' minuto.')
+            ->line('Se você não solicitou uma redefinição de senha, não é necessário realizar nenhuma ação adicional.');
     }
 }
