@@ -57,7 +57,7 @@ class ResetPassword extends Notification
             ->greeting('Olá, ' . $this->username)
             ->line('Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para a sua conta.')
             ->action('Redefinir Senha', url('password/reset', $this->token))
-            ->line('Esse link de redefinição de senha expirará em ' . config('auth.passwords.'.config('auth.defaults.passwords').'.expire') . ' minuto.')
+            ->line('Esse link de redefinição de senha expirará em ' . config('auth.passwords.'.config('auth.defaults.passwords').'.expire') . ' minutos.')
             ->line('Se você não solicitou uma redefinição de senha, não é necessário realizar nenhuma ação adicional.');
     }
 }
