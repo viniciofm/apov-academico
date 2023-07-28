@@ -88,6 +88,7 @@ export default {
             'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'warning'},
             'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'},
+            'aprovado' : {codigo: 'aprovado', nome: 'Aprovado', color: 'success'},
             'reprovado' : {codigo: 'reprovado', nome: 'Reprovado', color: 'danger'},
             'reprovado_falta' : {codigo: 'reprovado_falta', nome: 'Reprovado por Falta', color: 'danger'},
         },
