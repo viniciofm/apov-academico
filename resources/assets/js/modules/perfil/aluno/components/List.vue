@@ -32,7 +32,7 @@
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.aluno.matricula }}
+                                        {{ item.aluno.matricula.toString().padStart(4, '0') }}
                                     </td>
                                     <td scope="col">
                                         {{ item.curso.nome }}

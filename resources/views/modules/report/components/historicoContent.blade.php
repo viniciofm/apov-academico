@@ -117,7 +117,7 @@
                     @if(Auth::user()->tipo_usuario->nome == 'admin')
                         <div class="row mt-4">
                             <div style="text-align: right;margin-top: 60px;" class="col-md-12">
-                                {{ setlocale(LC_ALL, 'pt_BR.UTF-8') }}
+                                <?php setlocale(LC_ALL, 'pt_BR.UTF-8'); ?>
                                 {{ Illuminate\Support\Facades\Auth::user()->instituicao->endereco->cidade->nome }},
                                     {{ now()->format('d') }} de {{  now()->locale('pt-BR')->translatedFormat('F') }} de {{ now()->format('Y') }}.
                             </div>

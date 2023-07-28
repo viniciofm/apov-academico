@@ -19,7 +19,7 @@ class AulaRequestValidator extends AbstractGenericFormRequest
             'turma_disciplina_id' => 'required|uuid|exists:turma_disciplinas,id',
             'data' => 'required|string',
             'conteudo' => 'required|string|max:500',
-            'numero_aulas' => 'sometimes|int|max:3',
+            'numero_aulas' => 'sometimes|int|max:4',
         ];
     }
 

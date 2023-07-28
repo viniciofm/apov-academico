@@ -23,15 +23,12 @@
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.aluno.matricula }}
+                                        {{ item.aluno.matricula.toString().padStart(4, '0') }}
                                     </td>
                                     <td scope="col">
                                         {{ item.aluno.usuario.nome }}
                                     </td>
                                     <td scope="col" v-html="translaterStatus(item.status)"></td>
-                                    <td scope="col" class="text-center">
-                                        -
-                                    </td>
                                 </tr>
                             </template>
 
@@ -62,7 +59,7 @@ export default {
     data: () => ({
         search: {},
         dataPaginate: {},
-        columns: ['Matrícula', 'Aluno', 'Status na Matrícula', 'Ações'],
+        columns: ['Matrícula', 'Aluno', 'Status na Matrícula'],
         isLoading: false,
         routeCreate:'turma.alunos',
         turma: {},

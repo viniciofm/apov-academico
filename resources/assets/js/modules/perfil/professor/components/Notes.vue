@@ -13,8 +13,8 @@
 
                         <Table :columns="columns">
                             <tr v-for="(item, index) of payload.turma_disciplina.matriculas_ativas_turma" :key="item.id">
-                                <td scope="col" class="text-center">
-                                    {{ item.matricula.aluno.matricula }}
+                                <td scope="col">
+                                    {{ item.matricula.aluno.matricula.toString().padStart(4, '0') }}
                                 </td>
                                 <td scope="col">
                                     {{ item.matricula.aluno.usuario.nome }}

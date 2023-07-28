@@ -23,7 +23,7 @@
                             <template v-slot:table-body>
                                 <tr v-for="(item, index) of dataPaginate.data" :key="item.id">
                                     <td scope="col">
-                                        {{ item.matricula.aluno.matricula }}
+                                        {{ item.matricula.aluno.matricula.toString().padStart(4, '0') }}
                                     </td>
                                     <td scope="col">
                                         {{ item.matricula.aluno.usuario.nome }}
@@ -68,6 +68,7 @@ export default {
             'matriculado' : {codigo: 'matriculado', nome: 'Matriculado', color: 'info'},
             'cancelado' : {codigo: 'cancelado', nome: 'Cancelado', color: 'warning'},
             'concluido' : {codigo: 'concluido', nome: 'Concluído', color: 'success'},
+            'aprovado' : {codigo: 'aprovado', nome: 'Aprovadoo', color: 'success'},
             'reprovado' : {codigo: 'reprovado', nome: 'Reprovado', color: 'danger'},
             'reprovado_falta' : {codigo: 'reprovado_falta', nome: 'Reprovado por Falta', color: 'danger'},
         },

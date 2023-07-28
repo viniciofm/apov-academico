@@ -25,10 +25,10 @@
 
                         <Table :columns="columns">
                             <tr v-for="(item, index) of alunos" :key="item.id">
-                                <td scope="col" class="text-center">
+                                <td scope="col">
                                     {{ item.matricula }}
                                 </td>
-                                <td scope="col" class="text-center">
+                                <td scope="col">
                                     {{ item.nome }}
                                 </td>
                                 <td scope="col" class="text-center">

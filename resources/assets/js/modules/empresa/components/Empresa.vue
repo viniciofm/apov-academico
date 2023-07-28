@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="logomarca">Logomarca*</label>
+                            <label for="logomarca">Logomarca</label>
                             <input v-if="!empresa_acesso" type="file" name="logomarca" id="logomarca" ref="image"
                                    v-validate="'ext:png,jpg,jpeg'"
                                    v-on:change="handleFileUpload()"
