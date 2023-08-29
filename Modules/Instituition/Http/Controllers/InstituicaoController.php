@@ -2,13 +2,12 @@
 
 namespace Modules\Instituition\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Modules\Instituition\Http\Requests\InstituicaoRequestValidator;
 use Modules\Instituition\Http\Services\InstituicaoService;
-use Modules\User\Http\Services\EnderecoService;
 
 class InstituicaoController extends Controller
 {
@@ -26,7 +25,7 @@ class InstituicaoController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function edit()
     {
@@ -56,7 +55,7 @@ class InstituicaoController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function getByUser()
     {

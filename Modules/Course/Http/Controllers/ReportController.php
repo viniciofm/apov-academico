@@ -2,10 +2,10 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Routing\Controller;
 use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Services\ReportService;
 use Modules\Student\Entities\Matricula;

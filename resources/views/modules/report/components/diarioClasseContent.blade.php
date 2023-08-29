@@ -10,7 +10,7 @@
                     <h5>Curso: {{ $turmaDisciplina->turma->grade->curso->nome }} </h5>
                     <h5>Turma: {{ $turmaDisciplina->turma->codigo }} </h5>
                     <h5>Sigla - Disciplina: {{ $turmaDisciplina->disciplina->sigla . ' - ' . $turmaDisciplina->disciplina->nome }} </h5>
-                    <h5>Professor: {{ $turmaDisciplina->professor->usuario->nome }} </h5>
+                    <h5>Professor: {{ $turmaDisciplina->professor ? $turmaDisciplina->professor->usuario->nome : '-' }} </h5>
                 </div>
 
                 @if(count($turmaDisciplina->aulas))

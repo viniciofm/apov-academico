@@ -3,7 +3,9 @@
 namespace Modules\Company\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +43,7 @@ class EmpresaController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -70,14 +72,14 @@ class EmpresaController extends Controller
      */
     public function store(EmpresaRequestValidator $request)
     {
-        $r = $request->all();
-        //validar cadastro
-        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa');
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all();
+            //validar cadastro
+            $canRegister = $this->userService->canRegisterCadastro($r, 'empresa');
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->create($request);
 
             if (!$data) {
@@ -133,15 +135,15 @@ class EmpresaController extends Controller
      */
     public function update(EmpresaRequestValidator $request, $id)
     {
-        $r = $request->all();
-        //validar atualização
-        $registro = $this->service->find($id);
-        $canRegister = $this->userService->canRegisterCadastro($r, 'empresa', $registro->user_id);
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all();
+            //validar atualização
+            $registro = $this->service->find($id);
+            $canRegister = $this->userService->canRegisterCadastro($r, 'empresa', $registro->user_id);
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->update($id, $request);
 
             if (!$data) {
@@ -179,7 +181,7 @@ class EmpresaController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function indexEmpresa()
     {
@@ -188,7 +190,7 @@ class EmpresaController extends Controller
 
     /**
      * @param  Empresa  $empresa
-     * @return void
+     * @return JsonResponse
      */
     public function editEmpresa()
     {
@@ -204,7 +206,7 @@ class EmpresaController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function alunos()
     {

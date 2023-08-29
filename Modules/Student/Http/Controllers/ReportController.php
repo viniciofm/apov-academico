@@ -2,16 +2,10 @@
 
 namespace Modules\Student\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Services\ReportService;
-use Modules\Course\Http\Services\TurmaDisciplinaService;
-use Modules\Student\Entities\Matricula;
 use Modules\Student\Http\Services\MatriculaService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

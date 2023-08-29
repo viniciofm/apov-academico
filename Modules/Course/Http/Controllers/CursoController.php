@@ -2,13 +2,13 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
 use Modules\Course\Http\Requests\CursoRequestValidator;
 use Modules\Course\Http\Services\CboService;

@@ -2,12 +2,10 @@
 
 namespace Modules\User\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\User\Entities\User;
 use Modules\User\Http\Requests\PasswordRequestValidator;
 use Modules\User\Http\Requests\UserRequestValidator;
 use Modules\User\Http\Services\UserService;
@@ -42,14 +40,14 @@ class UserController extends Controller
      */
     public function store(UserRequestValidator $request)
     {
-        $r = $request->all();
-        //validar cadastro
-        $canRegister = $this->service->canRegisterCadastro($r, 'admin');
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all();
+            //validar cadastro
+            $canRegister = $this->service->canRegisterCadastro($r, 'admin');
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->createUserAdmin($request);
 
             if (!$data) {
@@ -72,15 +70,15 @@ class UserController extends Controller
      */
     public function update(UserRequestValidator $request, $id)
     {
-        $r = $request->all();
-        //validar atualização
-        $registro = $this->service->find($id);
-        $canRegister = $this->service->canRegisterCadastro($r, $registro->tipo_usuario->nome, $registro->id);
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all();
+            //validar atualização
+            $registro = $this->service->find($id);
+            $canRegister = $this->service->canRegisterCadastro($r, $registro->tipo_usuario->nome, $registro->id);
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->updateUserAdmin($id, $request);
 
             if (!$data) {
@@ -160,8 +158,9 @@ class UserController extends Controller
      */
     public function block(string $user,bool $block) : JsonResponse
     {
-        $user = $this->service->find($user);
         try{
+            $user = $this->service->find($user);
+
             $data = $this->service->blockObject($user, $block);
             if (!$data) {
                 throw new \Exception('Não foi possível '.($block ? 'bloquear':'desbloquear').' o usuário');

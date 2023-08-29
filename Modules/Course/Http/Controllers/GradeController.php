@@ -2,15 +2,12 @@
 
 namespace Modules\Course\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Course\Entities\Curso;
 use Modules\Course\Entities\Grade;
-use Modules\Course\Http\Requests\CursoRequestValidator;
 use Modules\Course\Http\Requests\GradeRequestValidator;
-use Modules\Course\Http\Services\CursoService;
 use Modules\Course\Http\Services\GradeService;
 use Modules\User\Http\Services\UserService;
 
@@ -46,7 +43,7 @@ class GradeController extends Controller
             //validar cadastro
             $canRegister = $this->service->canRegisterCadastro($request->get('codigo'));
             if (!$canRegister){
-                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+                throw new \Exception('i os dados informados: Os dados já encontram-se registrados na instituição!');
             }
             $data = $this->service->create($request->all());
 
@@ -73,7 +70,7 @@ class GradeController extends Controller
             //validar atualização
             $canRegister = $this->service->canRegisterCadastro($request->get('codigo'), $id);
             if (!$canRegister){
-                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
             }
             $data = $this->service->update($id, $request->all());
 

@@ -2,10 +2,9 @@
 
 namespace Modules\Student\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Student\Entities\Aluno;
 use Modules\Student\Http\Requests\AlunoRequestValidator;
 use Modules\Student\Http\Services\AlunoService;
@@ -48,14 +47,14 @@ class AlunoController extends Controller
      */
     public function store(AlunoRequestValidator $request)
     {
-        $r = $request->all()['usuario'];
-        //validar cadastro
-        $canRegister = $this->userService->canRegisterCadastro($r, 'aluno');
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all()['usuario'];
+            //validar cadastro
+            $canRegister = $this->userService->canRegisterCadastro($r, 'aluno');
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->create($request);
 
             if (!$data) {
@@ -78,15 +77,15 @@ class AlunoController extends Controller
      */
     public function update(AlunoRequestValidator $request, $id)
     {
-        $r = $request->all()['usuario'];
-        //validar atualização
-        $registro = $this->service->find($id);
-        $canRegister = $this->userService->canRegisterCadastro($r, 'aluno', $registro->user_id);
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all()['usuario'];
+            //validar atualização
+            $registro = $this->service->find($id);
+            $canRegister = $this->userService->canRegisterCadastro($r, 'aluno', $registro->user_id);
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->update($id, $request);
 
             if (!$data) {
@@ -154,7 +153,7 @@ class AlunoController extends Controller
      */
     public function active(Aluno $aluno,bool $active) : JsonResponse
     {
-        try{
+        try {
             $data = $this->service->activeObject($aluno, $active);
             if (!$data) {
                 throw new \Exception('Não foi possível '.($active?'ativar':'desativar').' o aluno');

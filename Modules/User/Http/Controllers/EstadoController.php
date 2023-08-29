@@ -2,9 +2,9 @@
 
 namespace Modules\User\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 
 class EstadoController extends Controller
 {

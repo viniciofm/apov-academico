@@ -2,15 +2,15 @@
 
 namespace Modules\Teacher\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\Company\Http\Requests\EmpresaRequestValidator;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
 use Modules\Teacher\Entities\Professor;
-use Modules\Teacher\Http\Repositories\ProfessorRepository;
 use Modules\Teacher\Http\Requests\ProfessorRequestValidator;
 use Modules\Teacher\Http\Services\ProfessorService;
 use Modules\User\Http\Services\UserService;
@@ -44,7 +44,7 @@ class ProfessorController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -58,14 +58,14 @@ class ProfessorController extends Controller
      */
     public function store(ProfessorRequestValidator $request)
     {
-        $r = $request->all()['usuario'];
-        //validar cadastro
-        $canRegister = $this->userService->canRegisterCadastro($r, 'professor');
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all()['usuario'];
+            //validar cadastro
+            $canRegister = $this->userService->canRegisterCadastro($r, 'professor');
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->create($request);
 
             if (!$data) {
@@ -88,15 +88,15 @@ class ProfessorController extends Controller
      */
     public function update(ProfessorRequestValidator $request, $id)
     {
-        $r = $request->all()['usuario'];
-        //validar atualização
-        $registro = $this->service->find($id);
-        $canRegister = $this->userService->canRegisterCadastro($r, 'professor', $registro->user_id);
-        if (!$canRegister){
-            throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
-        }
-
         try {
+            $r = $request->all()['usuario'];
+            //validar atualização
+            $registro = $this->service->find($id);
+            $canRegister = $this->userService->canRegisterCadastro($r, 'professor', $registro->user_id);
+            if (!$canRegister){
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
+            }
+
             $data = $this->service->update($id, $request);
 
             if (!$data) {
@@ -182,7 +182,7 @@ class ProfessorController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function myDisciplines()
     {

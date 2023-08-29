@@ -2,14 +2,11 @@
 
 namespace Modules\Course\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\Course\Entities\Turma;
 use Modules\Course\Entities\TurmaDisciplina;
 use Modules\Course\Http\Requests\TurmaDisciplinaProfessorRequestValidator;
-use Modules\Course\Http\Requests\TurmaRequestValidator;
 use Modules\Course\Http\Services\TurmaDisciplinaService;
 
 class TurmaDisciplinaController extends Controller

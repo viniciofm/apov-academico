@@ -2,17 +2,12 @@
 
 namespace Modules\Course\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Modules\Course\Entities\Curso;
-use Modules\Course\Entities\Disciplina;
 use Modules\Course\Entities\Grade;
 use Modules\Course\Entities\Turma;
-use Modules\Course\Http\Requests\DisciplinaRequestValidator;
 use Modules\Course\Http\Requests\TurmaRequestValidator;
-use Modules\Course\Http\Services\DisciplinaService;
 use Modules\Course\Http\Services\TurmaService;
 use Modules\User\Http\Services\UserService;
 
@@ -56,7 +51,7 @@ class TurmaController extends Controller
             //validar cadastro
             $canRegister = $this->service->canRegisterCadastro($request->get('codigo'));
             if (!$canRegister){
-                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
             }
             $data = $this->service->create($request->all());
 
@@ -83,7 +78,7 @@ class TurmaController extends Controller
             //validar atualização
             $canRegister = $this->service->canRegisterCadastro($request->get('codigo'), $id);
             if (!$canRegister){
-                throw new \Exception('Verfique os dados informados: Os dados já encontram-se registrados na instituição!');
+                throw new \Exception('Verifique os dados informados: Os dados já encontram-se registrados na instituição!');
             }
             $data = $this->service->update($id, $request->all());
 
