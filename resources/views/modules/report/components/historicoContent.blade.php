@@ -83,7 +83,7 @@
                             </thead>
 
                             <tbody>
-                            @foreach($matriculasTurma as $matriculaTurma)
+                            @foreach($matriculasTurma->sortBy('turmaDisciplina.disciplina.nome') as $matriculaTurma)
                                 <tr class="{{ !isset($isPDF) && in_array($matriculaTurma->status, ['reprovado', 'reprovado_falta']) ? 'text-danger' : '' }}">
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->sigla }} </td>
                                     <td> {{ $matriculaTurma->turmaDisciplina->disciplina->nome }} </td>
