@@ -70,13 +70,28 @@
         <div class="wrapper">
             <div class="main">
                 <nav class="navbar navbar-expand navbar-theme">
-                    <a class="sidebar-toggle d-flex me-2">
+                    <div class="sidebar-toggle d-flex me-2">
                         <nav id="sidebar" class="sidebar text-center">
-                            <a class="text-center" href="{{ env('APP_URL') }}">
-                                <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 10px 20px 10px 20px; max-width: 140px" />
-                            </a>
+                            @if(empty($currentUser->instituicao->logomarca_secundaria))
+                                <a class="text-center" href="{{ env('APP_URL') }}">
+                                    <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 10px 20px 10px 20px; max-width: 140px; max-height: 120px;" />
+                                </a>
+                            @else
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <a class="text-center" href="{{ env('APP_URL') }}">
+                                            <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 15px 10px 15px 10px; max-width: 120px; max-height: 100px;" />
+                                        </a>
+                                    </div>
+                                    <div class="col-md-5" style="margin-left: 30px;">
+                                        <a class="text-center" href="{{ env('APP_URL') }}">
+                                            <img src="{{ asset($currentUser->instituicao->logomarca_secundaria) }}" class="logoProfile" style="margin: 15px 10px 15px 10px; max-width: 120px; max-height: 100px;" />
+                                        </a>
+                                    </div>
+                                </div>
+                            @endif
                         </nav>
-                    </a>
+                    </div>
 
                     <div class="navbar-collapse collapse">
                         <ul class="navbar-nav ms-auto">

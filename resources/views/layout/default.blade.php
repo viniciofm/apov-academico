@@ -70,9 +70,25 @@
     <body class="antialiased">
         <div class="wrapper">
             <nav id="sidebar" class="sidebar text-center">
-                <a class="text-center" href="{{ env('APP_URL') }}">
-                    <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 10px 20px 10px 20px; max-width: 160px" />
-                </a>
+
+                @if(empty($currentUser->instituicao->logomarca_secundaria))
+                    <a class="text-center" href="{{ env('APP_URL') }}">
+                        <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 10px 20px 10px 20px; max-width: 110px; max-height: 100px;" />
+                    </a>
+                @else
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="text-center" href="{{ env('APP_URL') }}">
+                                <img src="{{ asset($currentUser->instituicao->logomarca) }}" class="logoProfile" style="margin: 15px 10px 15px 10px; max-width: 100px; max-height: 100px;" />
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="text-center" href="{{ env('APP_URL') }}">
+                                <img src="{{ asset($currentUser->instituicao->logomarca_secundaria) }}" class="logoProfile" style="margin: 15px 10px 15px 10px; max-width: 100px; max-height: 100px;" />
+                            </a>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="sidebar-content">
                     <div class="sidebar-user">

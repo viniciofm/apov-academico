@@ -64,7 +64,10 @@ class InstituicaoService extends Service
 
             //save image
             if ($request->hasFile('logomarca')) {
-                $attributes['logomarca'] = $this->saveLogoMarca($request, $instituicao);
+                $attributes['logomarca'] = $this->saveLogoMarca($request, 'logomarca', $instituicao);
+            }
+            if ($request->hasFile('logomarca_secundaria')) {
+                $attributes['logomarca_secundaria'] = $this->saveLogoMarca($request, 'logomarca_secundaria', $instituicao);
             }
             //atualiza instituicao
             $instituicao =  $this->repository->update($id ,$attributes);
@@ -77,16 +80,16 @@ class InstituicaoService extends Service
         return null;
     }
 
-    public function saveLogoMarca($request, $instituicao = NULL){
+    public function saveLogoMarca($request, $attribute, $instituicao = NULL){
         //save image
-        if ($request->hasFile('logomarca')) {
+        if ($request->hasFile($attribute)) {
             $name = sprintf('%d%d%s', date('Y'), date('n') < 6 ? 1 : 2, bin2hex(random_bytes(6)));
-            $extension = pathinfo($request->file('logomarca')->getClientOriginalName(), PATHINFO_EXTENSION);
-            if ($instituicao && $instituicao->logomarca) {
-                Storage::disk('public')->delete(explode(env('APP_URL').Storage::url(''),$instituicao->logomarca)[1]);
+            $extension = pathinfo($request->file($attribute)->getClientOriginalName(), PATHINFO_EXTENSION);
+            if ($instituicao && $instituicao[$attribute]) {
+                Storage::disk('public')->delete(explode(env('APP_URL').Storage::url(''),$instituicao[$attribute])[1]);
             }
 
-            $fileSaved = Storage::disk('public')->putFileAs('files/instituicao', $request->file('logomarca'), $name . '.' . $extension);
+            $fileSaved = Storage::disk('public')->putFileAs('files/instituicao', $request->file($attribute), $name . '.' . $extension);
 
             return Storage::disk('public')->url($fileSaved);
         }

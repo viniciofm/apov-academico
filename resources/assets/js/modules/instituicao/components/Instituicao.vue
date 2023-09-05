@@ -69,14 +69,26 @@
 
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                             <label for="logomarca">Logomarca*</label>
-                            <input type="file" name="logomarca" id="logomarca" ref="image"
+                            <input type="file" name="logomarca" id="logomarca" ref="logomarca"
                                    v-validate="'ext:png,jpg,jpeg'"
-                                   v-on:change="handleFileUpload()"
+                                   v-on:change="handleFileUpload('logomarca')"
                                    class="form-control custom-file-input"
                                    data-vv-as="'Logomarca'">
                             <small class="form-text d-block text-muted">Extensões suportadas: <strong>jpg, jpeg ou png</strong></small>
                             <div v-show="errors.has('logomarca')" class="text-danger" style="">{{ errors.first('logomarca') }}</div>
                             <div v-if="payload.old_logomarca">Imagem anterior: <span class="badge rounded-pill bg-success"><a class="text-white" :href="payload.old_logomarca" target="_blank">Clique para visualizar</a></span></div>
+                        </div>
+
+                        <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                            <label for="logomarca_secundaria">Logo Auxiliar</label>
+                            <input type="file" name="logomarca_secundaria" id="logomarca_secundaria" ref="logomarca_secundaria"
+                                   v-validate="'ext:png,jpg,jpeg'"
+                                   v-on:change="handleFileUpload('logomarca_secundaria')"
+                                   class="form-control custom-file-input"
+                                   data-vv-as="'Logo Auxiliar'">
+                            <small class="form-text d-block text-muted">Extensões suportadas: <strong>jpg, jpeg ou png</strong></small>
+                            <div v-show="errors.has('logomarca_secundaria')" class="text-danger" style="">{{ errors.first('logomarca_secundaria') }}</div>
+                            <div v-if="payload.old_logomarca_secundaria">Imagem anterior: <span class="badge rounded-pill bg-success"><a class="text-white" :href="payload.old_logomarca_secundaria" target="_blank">Clique para visualizar</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -138,6 +150,7 @@ export default {
             'cpf_cnpj': '',
             'tipo_documento': '',
             'logomarca': '',
+            'logomarca_secundaria': '',
             'endereco': {
                 'id': null,
                 'rua': '',
@@ -148,7 +161,8 @@ export default {
                 'cidade_id': null,
                 'estado_id': null
             },
-            old_logomarca: ''
+            old_logomarca: '',
+            old_logomarca_secundaria: ''
         },
         isLoading: false,
     }),
@@ -166,8 +180,8 @@ export default {
         Loading
     },
     methods: {
-        handleFileUpload() {
-            this.payload.logomarca = this.$refs.image.files[0];
+        handleFileUpload(attribute) {
+            this.payload[attribute] = this.$refs[attribute].files[0];
         },
         save(){
             this.$validator.validateAll().then(
@@ -179,6 +193,8 @@ export default {
 
                         if (this.payload.logomarca && this.payload.old_logomarca != this.payload.logomarca)
                             formData.append('logomarca', this.payload.logomarca);
+                        if (this.payload.logomarca_secundaria && this.payload.old_logomarca_secundaria != this.payload.logomarca_secundaria)
+                            formData.append('logomarca_secundaria', this.payload.logomarca_secundaria);
                         formData.append('nome', this.payload.nome);
                         formData.append('email', this.payload.email);
                         formData.append('responsavel', this.payload.responsavel);
@@ -239,6 +255,7 @@ export default {
                 data => {
                     this.payload = data;
                     this.payload.old_logomarca = data.logomarca;
+                    this.payload.old_logomarca_secundaria = data.logomarca_secundaria;
                     if(!data.endereco){
                         this.payload.endereco = {'estado_id' : '', 'cidade_id' : ''};
                     }

@@ -19,7 +19,7 @@
                             <h5 style="padding: 6px 0px; background: #999999;">Frequência</h5>
                         </div>
                         <div class="">
-                            <table class="table table-bordered table-sm" style="font-size:0.8rem;">
+                            <table id="table_frequencia" class="table table-bordered table-sm" style="{{ count($turmaDisciplina->aulas) < 40 ? 'font-size:0.8rem;' : 'font-size:0.6rem;' }}">
                                 <thead>
                                     <tr class="text-uppercase fw-bolder">
                                         <td>Matrícula</td>
@@ -124,3 +124,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    #table_frequencia tr td {
+        padding: 1px;
+    }
+</style>

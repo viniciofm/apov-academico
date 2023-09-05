@@ -32,6 +32,7 @@ class Instituicao extends Model
         'cpf_cnpj',
         'tipo_documento',
         'logomarca',
+        'logomarca_secundaria',
         'endereco_id'
     ];
 
