@@ -42,6 +42,8 @@ class TurmaDisciplinaRepository extends Repository
             }
         }
 
+        $query->select('turma_disciplinas.*');
+
         if ($paginate) {
             return $query->paginate(
                 $perPage,
