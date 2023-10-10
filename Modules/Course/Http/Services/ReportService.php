@@ -20,7 +20,7 @@ class ReportService extends Service
         if (!empty($turmaDisciplina)) {
             $matriculasTurma = $turmaDisciplina->matriculasTurma->sortBy('matricula.aluno.usuario.nome');
             $matricula = null;
-        }elseif(!empty($matricula)){
+        } elseif(!empty($matricula)) {
             $disciplinasMatricula = $matricula->disciplinasMatricula->where('matricula_id', $matricula->id);
 
             foreach($disciplinasMatricula as $disciplinaMatricula){

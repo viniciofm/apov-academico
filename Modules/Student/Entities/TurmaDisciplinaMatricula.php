@@ -33,7 +33,7 @@ class TurmaDisciplinaMatricula extends Model
         'matricula_id',
         'nota_final',
         'status',
-        'fatas',
+        'faltas',
         'frequencia'
     ];
 
