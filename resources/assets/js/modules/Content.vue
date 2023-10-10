@@ -12,7 +12,6 @@ export default {
     async created() {},
     methods: {
         showError(error) {
-            console.log(error)
             var errors = '';
             if (!error.response.data.errors && error.response.data.message != null)
                 errors += error.response.data.message;

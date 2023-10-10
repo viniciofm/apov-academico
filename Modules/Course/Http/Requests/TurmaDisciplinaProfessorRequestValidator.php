@@ -15,9 +15,15 @@ class TurmaDisciplinaProfessorRequestValidator extends AbstractGenericFormReques
      */
     public function rules() : array
     {
+        if (!empty($this->request->get('professor_id'))) {
+            $professorIdRule = 'required|uuid|exists:professores,id';
+        } else {
+            $professorIdRule = 'present|string|nullable';
+        }
+
         return [
             'turma_disciplina_id' => 'required|uuid|exists:turma_disciplinas,id',
-            'professor_id' => 'required|uuid|exists:professores,id',
+            'professor_id'        => $professorIdRule,
         ];
     }
 

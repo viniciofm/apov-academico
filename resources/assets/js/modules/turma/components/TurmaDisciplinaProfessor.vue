@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
-                            <label for="aluno">Professor*</label>
+                            <label for="aluno">Professor</label>
                             <multiselect v-model="payload.professor"
                                          :options="professores"
                                          :searchable="true"
@@ -14,7 +14,7 @@
                                          deselect-label="Desmarcar"
                                          select-label="Selecionar"
                                          selected-label="Selecionado"
-                                         v-validate="'required'"
+                                         v-validate="''"
                                          data-vv-as="'Professor"
                                          name="professor"
                                          id="professor"
@@ -108,14 +108,14 @@ export default {
             });
         },
         save(){
+            let me = this;
+
             this.$validator.validateAll().then(
                 res => {
                     if (res) {
-                        let me = this
-
                         let formData = new FormData();
 
-                        formData.append('professor_id', me.payload.professor.id);
+                        formData.append('professor_id', me.payload.professor ? me.payload.professor.id : '');
                         formData.append('turma_disciplina_id', me.turmaDisciplina.id);
 
                         let url = route('admin.turma.disciplina.update-professor', me.turmaDisciplina.id);

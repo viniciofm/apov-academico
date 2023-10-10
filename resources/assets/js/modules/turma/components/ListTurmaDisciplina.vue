@@ -69,7 +69,7 @@
 
         <modal-default :id_modal="'modalTurmaDisciplinaProfessor'" :title="'Professor para a disciplina '+(turmaDisciplina.disciplina ? turmaDisciplina.disciplina.sigla : '')" ref="modalTurmaDisciplinaProfessor" tabIndex="-1" id="modalTurmaDisciplinaProfessor" size='medium'>
             <div slot="modal-body">
-                <turma-disciplina-professor :turma="turma" @getData="getData" :turma-disciplina="turmaDisciplina" v-on:close="closeTheModalProfessor"></turma-disciplina-professor>
+                <turma-disciplina-professor @showError="showError" :turma="turma" @getData="getData" :turma-disciplina="turmaDisciplina" v-on:close="closeTheModalProfessor"></turma-disciplina-professor>
             </div>
         </modal-default>
 
@@ -121,6 +121,9 @@ export default {
     },
 
     methods: {
+        showError(error) {
+            this.$emit('showError', error)
+        },
         getRoute(rota, id){
             return route(rota, id)
         },
