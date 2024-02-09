@@ -34,6 +34,8 @@ class TurmaDisciplinaRepository extends Repository
     ) {
         $query = $this->entity->with($with)
             ->join('disciplinas as disc', 'disc.id', '=', 'turma_disciplinas.disciplina_id')
+            ->join('turmas as t', 't.id', '=', 'turma_disciplinas.turma_id')
+            ->whereNull('t.deleted_at')
             ->orderBy('disc.nome','ASC');
         if ($search)
         {

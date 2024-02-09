@@ -35,7 +35,7 @@
                                     <td scope="col">
                                         {{ moment(item.data).format('DD/MM/YYYY') }}
                                     </td>
-                                    <td scope="col">
+                                    <td sco34pe="col">
                                         {{ item.conteudo }}
                                     </td>
                                     <td scope="col" class="text-center">

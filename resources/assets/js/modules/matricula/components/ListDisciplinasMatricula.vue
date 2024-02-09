@@ -13,6 +13,7 @@
                             :allow-search="false"
                             :routeCreate="routeCreate"
                             :textCreate="textCreate"
+                            @getData="getDisciplinasMatricula"
                             :withFilters="false">
                             <template v-slot:header-card>
                                 <div class="col-md-6" v-if="payload.matricula.aluno">
