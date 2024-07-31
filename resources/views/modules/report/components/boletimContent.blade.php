@@ -31,7 +31,7 @@
                                                 <thead>
                                                 <tr class="text-uppercase fw-bolder">
                                                     @foreach($discMatricula->turmaDisciplina->aulas as $aula)
-                                                        <td> {!! $aula->data->format('d/<\b\r>m') !!} </td>
+                                                        <td> {!! $aula->data->format('d/<\b\r>m/<\b\r>y') !!} </td>
                                                     @endforeach
                                                 </tr>
                                                 </thead>

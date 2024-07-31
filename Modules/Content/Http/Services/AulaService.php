@@ -130,11 +130,11 @@ class AulaService extends Service
             }
         }
 
-        if (count($faltas)){
-            //atualizar frequência e situação dos alunos na turma pelas presenças/faltas
-            $this->updateFrequenciaAlunos($turmaDisciplina);
-            TurmaDisciplinaService::updateStatusAlunos($turmaDisciplina);
-        }
+        // if (count($faltas)){
+        //atualizar frequência e situação dos alunos na turma pelas presenças/faltas
+        $this->updateFrequenciaAlunos($turmaDisciplina);
+        TurmaDisciplinaService::updateStatusAlunos($turmaDisciplina);
+        // }
 
         return true;
     }
